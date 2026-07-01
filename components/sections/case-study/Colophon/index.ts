@@ -1,0 +1,1 @@
+export { Colophon } from "./Colophon";

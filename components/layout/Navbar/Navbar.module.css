@@ -1,0 +1,182 @@
+/* Navbar Component
+   Reference: styles.css lines 111-169 */
+
+.navbar {
+    position: fixed;
+    top: var(--spacing-nav-top);
+    left: var(--spacing-nav-side);
+    right: var(--spacing-nav-side);
+    width: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: var(--z-nav);
+    transition: z-index 0s;
+    /* Local foreground token. Flips to white when an
+       [data-nav-theme="dark"] section crosses the navbar's y-band. The
+       indirection matters because GSAP writes inline `background-color`
+       on the hamburger lines during the close animation; inline styles
+       beat class selectors, so we point GSAP at this variable instead
+       and let the cascade decide the actual color. */
+    --nav-fg: var(--color-primary-text);
+}
+
+.navbar.menuOpen {
+    z-index: calc(var(--z-nav) + 1);
+}
+
+.navLeft {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 25px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.hamburgerMenu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    width: 24px;
+    height: 25px;
+    pointer-events: none;
+}
+
+.hamburgerLine {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: var(--nav-fg);
+    transform-origin: center center;
+    transition: background-color 0.3s var(--ease-out-expo);
+}
+
+/* Accent middle line stays at literal accent purple in both light and
+   dark navbar states — accent purple reads on both backdrops. */
+.hamburgerLineAccent {
+    background-color: var(--color-accent-purple);
+}
+
+.navTextContainer {
+    display: grid;
+    grid-template-areas: "stack";
+    align-items: center;
+    overflow: hidden;
+    margin-top: 2px; /* Slight alignment adjustment */
+}
+
+.navTextItem {
+    grid-area: stack;
+    display: flex;
+    font-family: var(--font-navbar);
+    font-size: var(--font-size-nav);
+    font-weight: 400;
+    text-transform: uppercase;
+    line-height: normal;
+    white-space: nowrap;
+}
+
+.navTextMenu {
+    color: var(--nav-fg);
+    transition: color 0.3s var(--ease-out-expo);
+}
+
+.navTextClose {
+    color: var(--color-background); /* White when on teal overlay */
+    visibility: hidden; /* Start hidden */
+}
+
+.navChar {
+    display: inline-block;
+}
+
+/* ============================================
+   BRAND MARK (MA) - Center of navbar
+   Revealed via scroll animation from Hero
+   ============================================ */
+
+.navCenterWrapper {
+    display: flex;
+    align-items: center;
+}
+
+.navCenter {
+    /* position: absolute;
+    left: 50%;
+    transform: translateX(-50%); */
+    display: flex;
+    align-items: center;
+    font-family: var(--font-primary);
+    font-weight: 700;
+    font-size: clamp(2rem, 3.5vw, 52px);
+    color: var(--nav-fg);
+    transition: color 0.3s var(--ease-out-expo);
+    line-height: 0.85;
+    /* On home the Hero's scroll timeline reveals the brand by tweening
+       inline opacity 0 → 1. Off-home routes have no Hero, so the brand
+       must be visible by default. */
+    opacity: 1;
+    pointer-events: none;
+    letter-spacing: -6px;
+}
+
+.navCenter[data-on-home="true"] {
+    opacity: 0;
+}
+.navCenter::after{
+    content: ".";
+    color: var(--color-accent-purple);
+    position: absolute;
+    right: -10px;
+}
+
+.navCenter :global(#navbar-brand-a) {
+    color: var(--color-accent-purple);
+}
+
+.brandLetter {
+    display: inline-block;
+}
+
+.brandSpacer {
+    width: 0.1em;
+}
+
+.navContact {
+    font-family: var(--font-navbar);
+    font-size: var(--font-size-nav);
+    font-weight: 400;
+    color: var(--color-primary-text);
+    text-decoration: none;
+    text-transform: uppercase;
+    line-height: normal;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.navContact:hover {
+    color: var(--color-accent-purple);
+}
+
+@media screen and (max-width: 1024px) {
+    .navCenter {
+        font-size: clamp(2rem, 5vw, 52px);
+    }
+}
+
+/* ============================================
+   DARK SECTION OVERRIDE
+   Driven by the IntersectionObserver in Navbar.tsx — sets
+   data-nav-theme="dark" on the navbar element while any
+   [data-nav-theme="dark"] section is crossing the navbar's y-band.
+   One variable flip propagates to every glyph that uses --nav-fg.
+   Accent middle line + "A" letter + "." dot stay at accent purple
+   in both states (they read on both backdrops).
+   ============================================ */
+.navbar[data-nav-theme="dark"] {
+    --nav-fg: #fff;
+}

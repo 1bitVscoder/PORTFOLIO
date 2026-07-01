@@ -1,0 +1,12 @@
+.stage {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-transition, 300);
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Effects inherit pointer-events: none unless they explicitly opt in. */
+.stage * {
+  pointer-events: none;
+}

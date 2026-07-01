@@ -1,0 +1,115 @@
+/* ============================================================
+   CASE STUDY · OUTCOMES — massive numbers grid.
+   ============================================================ */
+
+.outcomes {
+    padding: clamp(80px, 12vh, 140px) var(--spacing-nav-side);
+    min-height: 100vh;
+    width: 100%;
+}
+
+.head {
+    max-width: var(--canvas-max-width);
+    margin: 0 auto clamp(40px, 5vw, 64px);
+}
+
+.eyebrow {
+    /* margin: 0 0 clamp(20px, 3vw, 36px); */
+}
+
+.title {
+    composes: caseStudyTitle from '../title.module.css';
+    margin: 0;
+    max-width: 14ch;
+}
+
+.titleAccent {
+    color: var(--color-accent-purple);
+}
+
+/* ---------- GRID — 4-up bordered ---------- */
+.grid {
+    max-width: var(--canvas-max-width);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: 2px solid var(--color-primary-text);
+    border-radius: var(--radius-portrait);
+    overflow: hidden;
+    background: var(--color-background);
+}
+
+.metric {
+    padding: clamp(32px, 3vw, 48px);
+    border-right: 2px solid var(--color-primary-text);
+    display: flex;
+    flex-direction: column;
+    min-height: 320px;
+}
+
+.metric:last-child {
+    border-right: 0;
+}
+
+.value {
+    font-family: var(--font-primary);
+    font-weight: 700;
+    font-size: clamp(72px, 9vw, 160px);
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+    color: var(--color-primary-text);
+}
+
+.value sup {
+    font-size: 0.32em;
+    vertical-align: top;
+    margin-left: 6px;
+    color: var(--color-accent-purple);
+}
+
+.label {
+    margin-top: auto;
+    font-family: var(--font-navbar);
+    font-size: 14px;
+    color: var(--color-gray-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.label b {
+    display: block;
+    color: var(--color-primary-text);
+    font-weight: 400;
+    margin-bottom: 6px;
+    font-family: var(--font-primary);
+    text-transform: uppercase;
+    font-size: 18px;
+    letter-spacing: 0;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 1100px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .metric:nth-child(2) {
+        border-right: 0;
+    }
+    .metric:nth-child(1),
+    .metric:nth-child(2) {
+        border-bottom: 2px solid var(--color-primary-text);
+    }
+}
+
+@media (max-width: 640px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+    .metric {
+        border-right: 0;
+        border-bottom: 2px solid var(--color-primary-text);
+    }
+    .metric:last-child {
+        border-bottom: 0;
+    }
+}

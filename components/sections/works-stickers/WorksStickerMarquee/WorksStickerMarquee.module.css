@@ -1,0 +1,110 @@
+/* WorksStickerMarquee
+ *
+ * Title-only horizontal ticker for a single sticker row.
+ * CSS keyframe animation, paused via the `paused` prop (no scroll coupling).
+ * Theme-aware via design tokens (--color-primary-text + --color-background).
+ */
+
+.viewport {
+    position: relative;
+    height: clamp(72px, 11vh, 120px);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    mask-image: linear-gradient(to right,
+            transparent 0,
+            #000 5%,
+            #000 95%,
+            transparent 100%);
+    -webkit-mask-image: linear-gradient(to right,
+            transparent 0,
+            #000 5%,
+            #000 95%,
+            transparent 100%);
+}
+
+.track {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    animation: worksStickerMarqueeScroll var(--marquee-dur, 28s) linear infinite;
+    will-change: transform;
+}
+
+.track.paused {
+    animation-play-state: paused;
+}
+
+.copy {
+    flex: 0 0 50%;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+}
+
+.unit {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+}
+
+@keyframes worksStickerMarqueeScroll {
+    from { transform: translate3d(0, 0, 0); }
+    to   { transform: translate3d(-50%, 0, 0); }
+}
+
+.chunk {
+    display: inline-flex;
+    align-items: center;
+    font-size: clamp(48px, 7vw, 108px);
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    text-transform: lowercase;
+    color: var(--color-primary-text);
+    transition:
+        color 0.4s var(--ease-out-quart, ease),
+        -webkit-text-stroke 0.4s var(--ease-out-quart, ease);
+}
+
+.chunk.outline {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--color-primary-text);
+}
+
+/* Inverted (parent sticker flooded with accent → marquee renders white). */
+.inverted .chunk {
+    color: #fff;
+}
+.inverted .chunk.outline {
+    color: transparent;
+    -webkit-text-stroke: 1.5px #fff;
+}
+
+.star {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: clamp(28px, 4vw, 44px);
+    height: clamp(28px, 4vw, 44px);
+    flex-shrink: 0;
+    color: var(--color-primary-text);
+    transition:
+        color 0.4s var(--ease-out-quart, ease),
+        transform 0.5s var(--ease-out-expo, ease);
+}
+
+.star svg {
+    width: 75%;
+    height: 75%;
+}
+
+.inverted .star {
+    /* The inner StarIcon imports SkillsBar.module.css which sets
+       color: var(--color-accent-purple) on the SVG itself — that beats
+       any color we put on this wrapper. Redefining the variable here
+       scope-locally cascades into the SVG so it picks up white when
+       its sticker is flooded with the project accent on hover. */
+    --color-accent-purple: #fff;
+    transform: scale(1.05);
+}

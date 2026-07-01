@@ -1,0 +1,1 @@
+export { AboutPageView } from "./AboutPageView";

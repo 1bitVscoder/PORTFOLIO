@@ -1,0 +1,15 @@
+.root {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  /* Reduced-motion fallback animates this. */
+  opacity: 1;
+}
+
+.disc {
+  position: absolute;
+  border-radius: 50%;
+  transform-origin: center center;
+  will-change: transform;
+  /* JS sets background, left, top, width, height per-instance. */
+}

@@ -1,0 +1,50 @@
+.wrapper {
+  position: relative;
+  z-index: var(--z-above);
+}
+
+.section {
+  /* Sized to one viewport so the pinned read fills the screen exactly, with
+     no empty bottom runway left over. Mirrors Archive's section sizing. */
+  min-height: 100vh;
+  padding: 150px 8%;
+  display: flex;
+  flex-direction: column;
+  /* Center the statement in the pinned viewport so it reads as the focal
+     block instead of clinging to the top edge. */
+  justify-content: center;
+  position: relative;
+  contain: content;
+}
+
+.plusIcon {
+  font-size: 2rem;
+  color: var(--color-accent-purple);
+  margin-bottom: 20px;
+  font-weight: 300;
+}
+
+/* Meta-label styling now lives in the shared <MetaLabel> component. */
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .section {
+    padding: 120px 6%;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 100px 5%;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 80px 4%;
+  }
+
+  .plusIcon {
+    font-size: 1.5rem;
+  }
+}

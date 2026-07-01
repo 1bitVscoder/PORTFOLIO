@@ -1,0 +1,171 @@
+/* ============================================================
+   CASE STUDY · NEXT CASE — funky-card style call-out for the
+   following case study. Inverts to ink-on-white on hover.
+   ============================================================ */
+
+.next {
+    border-top: 2px solid var(--color-primary-text);
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+}
+
+.link {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+    color: var(--color-primary-text);
+    transition:
+        background var(--duration-slow) var(--ease-out-expo),
+        color var(--duration-slow) var(--ease-out-expo);
+    position: relative;
+    text-decoration: none;
+}
+
+.link:hover {
+    background: var(--color-primary-text);
+    color: var(--color-background);
+}
+
+.left {
+    padding: clamp(60px, 10vh, 140px) var(--spacing-nav-side);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0;
+    font-family: var(--font-navbar);
+    font-size: var(--font-size-tagline);
+    color: inherit;
+}
+
+.eyebrow .starIcon {
+    width: 1.2em;
+    height: 1.2em;
+    flex-shrink: 0;
+}
+
+.title {
+    margin: 0;
+    font-family: var(--font-primary);
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 0.86;
+    letter-spacing: -0.045em;
+    font-size: clamp(56px, 9vw, 160px);
+    color: inherit;
+}
+
+.titleAccent {
+    color: var(--color-accent-purple);
+    transition: color var(--duration-slow) var(--ease-out-expo);
+}
+
+.link:hover .titleAccent {
+    color: var(--color-accent-gold);
+}
+
+.metaPills {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 20px;
+    border: 2px solid currentColor;
+    border-radius: 999px;
+    background: transparent;
+    color: inherit;
+    font-family: var(--font-navbar);
+    font-size: clamp(13px, 1vw, 16px);
+    line-height: 1;
+    transition:
+        background var(--duration-slow) var(--ease-out-expo),
+        color var(--duration-slow) var(--ease-out-expo),
+        border-color var(--duration-slow) var(--ease-out-expo);
+}
+
+.pillSolid {
+    background: var(--color-primary-text);
+    color: var(--color-background);
+    border-color: var(--color-primary-text);
+}
+
+.link:hover .pill {
+    background: transparent;
+    color: var(--color-background);
+    border-color: var(--color-background);
+}
+
+/* ---------- IMAGE PANEL ---------- */
+.imageWrap {
+    position: relative;
+    overflow: hidden;
+    background: #fff0f5;
+    border-left: 2px solid var(--color-primary-text);
+}
+
+.image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    transform: scale(1.02);
+    filter: grayscale(0.5);
+    transition:
+        transform 1.2s var(--ease-out-expo),
+        filter var(--duration-slow) var(--ease-out-expo);
+}
+
+.link:hover .image {
+    transform: scale(1.06);
+    filter: grayscale(0);
+}
+
+.badge {
+    position: absolute;
+    top: 8%;
+    right: 8%;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: clamp(110px, 11vw, 150px);
+    height: clamp(110px, 11vw, 150px);
+    border-radius: 50%;
+    background: var(--color-accent-purple);
+    color: var(--color-background);
+    box-shadow: 5px 5px 0 var(--color-primary-text);
+    font-family: var(--font-navbar);
+    font-size: clamp(13px, 1vw, 15px);
+    line-height: 1.15;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    transform: rotate(8deg);
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 1100px) {
+    .link {
+        grid-template-columns: 1fr;
+    }
+    .imageWrap {
+        border-left: 0;
+        border-top: 2px solid var(--color-primary-text);
+        aspect-ratio: 16 / 10;
+        min-height: 340px;
+    }
+}

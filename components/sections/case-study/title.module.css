@@ -1,0 +1,9 @@
+.caseStudyTitle {
+    font-family: var(--font-primary);
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 0.86;
+    letter-spacing: -0.04em;
+    font-size: clamp(48px, 8vw, 140px);
+    color: var(--color-primary-text);
+}

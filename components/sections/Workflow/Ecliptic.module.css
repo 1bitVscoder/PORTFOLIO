@@ -1,0 +1,225 @@
+/* ============================================================
+   WORKFLOW · ECLIPTIC renderer
+   The solar system seen near edge-on: nested flattened oval orbits, one
+   ✦ sun at the centre, a meridian pointer at the front (bottom). Bodies
+   revolve on scroll with front/back depth; the active step locks at the
+   front and reads as big PP Neue Montreal type in the centre. Geometry is
+   driven imperatively by useEclipticDriver. Accent palette (--wf-*) comes
+   from styles/variables.css.
+   ============================================================ */
+
+.ecliptic {
+  position: relative;
+  --wf-live-accent: var(--wf-teal);
+  --wf-faint: color-mix(in srgb, var(--color-primary-text) 12%, transparent);
+
+  background: transparent;
+  color: var(--color-primary-text);
+}
+
+.viewport {
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: transparent;
+}
+
+/* ---- header ---- */
+.head {
+  position: absolute;
+  inset: clamp(84px, 11vh, 116px) clamp(28px, 5vw, 80px) auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  z-index: 6;
+}
+.readout {
+  font-family: var(--font-navbar);
+  font-size: 12px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+.readout em {
+  font-style: normal;
+  color: var(--wf-live-accent);
+}
+
+/* ---- schematic ---- */
+.schematic {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+.ring {
+  fill: none;
+  stroke: var(--wf-faint);
+  stroke-width: 1;
+}
+.meridian {
+  stroke: var(--color-text-muted);
+  stroke-width: 1.5;
+}
+.pointer {
+  fill: var(--wf-live-accent);
+  transition: fill 0.4s var(--ease-out-expo);
+}
+
+/* ---- central ✦ sun ---- */
+.sunGlow {
+  fill: var(--wf-live-accent);
+  opacity: 0.12;
+  transition: fill 0.5s var(--ease-out-expo);
+}
+.sun {
+  fill: none;
+  stroke: var(--wf-live-accent);
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+  transition: stroke 0.5s var(--ease-out-expo);
+}
+
+/* ---- planets ---- */
+.planet {
+  --p-accent: var(--wf-teal);
+}
+.planetBody {
+  fill: var(--color-background);
+  stroke: var(--p-accent);
+  stroke-width: 2.4;
+  transition: fill 0.4s var(--ease-out-expo), r 0.4s var(--ease-out-expo);
+}
+.planetHalo {
+  fill: var(--p-accent);
+  opacity: 0;
+  transition: opacity 0.45s var(--ease-out-expo);
+}
+.pActive .planetBody {
+  fill: var(--p-accent);
+}
+.pActive .planetHalo {
+  opacity: 0.22;
+}
+
+/* ---- centred detail (over the sun) ---- */
+.detailWrap {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(34ch, 62vw);
+  height: 15em;
+  z-index: 4;
+  text-align: center;
+}
+.detailWrap::before {
+  content: '';
+  position: absolute;
+  inset: -14vh -12vw;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    52% 56% at 50% 50%,
+    var(--color-background) 0%,
+    var(--color-background) 36%,
+    color-mix(in srgb, var(--color-background) 68%, transparent) 62%,
+    transparent 82%
+  );
+}
+.detail {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s var(--ease-out-expo), transform 0.5s var(--ease-out-expo);
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.detail.isActive {
+  opacity: 1;
+  transform: none;
+}
+.detailKicker {
+  font-family: var(--font-navbar);
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  margin-bottom: clamp(8px, 1vw, 12px);
+}
+.detailName {
+  margin: 0 0 clamp(8px, 1vw, 12px);
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: clamp(40px, 5.4vw, 76px);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.detailTitle {
+  margin: 0 0 clamp(10px, 1.2vw, 16px);
+  font-family: var(--font-primary);
+  font-size: clamp(20px, 2.3vw, 30px);
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  color: var(--color-primary-text);
+}
+.detailCopy {
+  margin: 0 auto;
+  max-width: 34ch;
+  font-size: clamp(13px, 1vw, 16px);
+  line-height: 1.55;
+  color: var(--color-text-muted-strong);
+  text-wrap: pretty;
+}
+.em {
+  font-weight: 600;
+  color: var(--accent);
+}
+
+@media (max-width: 640px) {
+  .detailName {
+    font-size: clamp(26px, 8vw, 44px);
+  }
+  .detailWrap {
+    width: min(30ch, 84vw);
+  }
+}
+
+/* ---- reduced-motion / static fallback ---- */
+.isStatic .viewport {
+  height: auto;
+  padding: 12vh 0 8vh;
+}
+.isStatic .schematic {
+  position: relative;
+  height: 52vh;
+}
+.isStatic .detailWrap {
+  position: relative;
+  left: auto;
+  top: auto;
+  transform: none;
+  width: auto;
+  height: auto;
+  margin: 2.5rem clamp(28px, 5vw, 80px) 0;
+  display: grid;
+  gap: 2.4rem;
+  text-align: left;
+}
+.isStatic .detail {
+  position: relative;
+  inset: auto;
+  opacity: 1;
+  transform: none;
+  align-items: flex-start;
+}

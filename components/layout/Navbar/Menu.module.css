@@ -1,0 +1,497 @@
+/* Menu Component - Full-screen overlay navigation */
+
+.menu {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-nav);
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.menu.isOpen {
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* Overlay with clipPath animation */
+.overlay {
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-accent-purple);
+    clip-path: inset(0% 0% 100% 0%);
+    /* Performance: contain and GPU acceleration */
+    contain: strict;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+}
+
+/* Menu content wrapper - two column layout */
+.menuContent {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: var(--spacing-nav-side);
+    padding-top: calc(var(--spacing-nav-top) + 60px);
+}
+
+/* Navigation container - left side */
+.nav {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.linkList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.linkItem {
+    position: relative;
+}
+
+/* Mask container for reveal animation */
+.linkMask {
+    overflow: hidden;
+    padding: 0.5vw 0;
+}
+
+.link {
+    display: flex;
+    align-items: baseline;
+    gap: clamp(12px, 2vw, 24px);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Link number (01, 02, etc.) */
+.linkNumber {
+    font-family: var(--font-primary);
+    font-size: clamp(12px, 1.2vw, 16px);
+    font-weight: 600;
+    color: var(--color-text-muted);
+    transition: color 0.4s ease;
+}
+
+.linkItem:hover .linkNumber {
+    color: var(--color-text-muted-strong);
+}
+
+/* Inner wrapper for the text - this is what animates */
+.linkInner {
+    display: block;
+    position: relative;
+}
+
+/* Base layer - dark navy text (becomes the "ghost" peeking from top) */
+.linkText {
+    display: block;
+    font-family: var(--font-primary);
+    font-size: var(--font-size-menu);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: var(--color-primary-text);
+}
+
+/* Fill layer - white text that reveals from bottom on hover */
+.linkFill {
+    position: absolute;
+    inset: 0;
+    display: block;
+    font-family: var(--font-primary);
+    font-size: var(--font-size-menu);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: var(--color-background);
+    /* Start fully clipped (hidden) - inset from bottom 100% */
+    clip-path: inset(100% 0 0 0);
+    transition: clip-path 0.4s var(--ease-out-expo);
+}
+
+/* Hover: white layer fills up from bottom, revealing ~60% */
+.linkItem:hover .linkFill {
+    /* Reveal from bottom: top 40% clipped, bottom 60% visible */
+    clip-path: inset(40% -2% 0 0);
+}
+
+/* Link description - positioned absolutely to prevent layout shift */
+.linkDesc {
+    position: absolute;
+    left: calc(clamp(12px, 2vw, 24px) + clamp(24px, 3vw, 40px));
+    bottom: -1.2em;
+    font-family: var(--font-primary);
+    font-size: clamp(10px, 1vw, 14px);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-muted-strong);
+    margin: 0;
+    opacity: 0;
+    transform: translateY(-5px);
+    transition: opacity 0.4s var(--ease-out-expo),
+                transform 0.4s var(--ease-out-expo);
+    pointer-events: none;
+}
+
+.linkItem:hover .linkDesc {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Focus styles */
+.link:focus-visible {
+    outline: 2px solid var(--color-accent-purple);
+    outline-offset: 8px;
+}
+
+/* ===== Social Section - Right Side ===== */
+.socialSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding-bottom: 60px;
+    gap: 40px;
+    text-align: right;
+}
+
+.socialGroup {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 16px;
+}
+
+.locationGroup {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 16px;
+    max-width: 320px;
+}
+
+.socialLabel {
+    font-family: var(--font-navbar);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    /* Match the menu nav links' base text (.linkText uses --color-primary-text)
+       so the "Social Presence" / "Location" labels read as the same family of
+       text against the purple overlay. */
+    color: var(--color-primary-text);
+}
+
+.socialList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.socialItem {
+    overflow: hidden;
+}
+
+.socialLink {
+    display: inline-block;
+    position: relative;
+    font-family: var(--font-primary);
+    font-size: clamp(16px, 2vw, 20px);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    overflow: hidden;
+}
+
+/* Base text layer - white, visible by default */
+.socialTextBase {
+    display: flex;
+    color: var(--color-background);
+}
+
+/* Clone text layer - teal, positioned below, reveals on hover */
+.socialTextClone {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    color: var(--color-accent-teal);
+}
+
+/* Individual character for stagger animation */
+.socialChar {
+    display: inline-block;
+    transition: transform 0.4s var(--ease-out-expo);
+}
+
+/* Clone characters start below */
+.socialTextClone .socialChar {
+    transform: translateY(100%);
+}
+
+/* On hover: base text moves up, clone text moves into place */
+.socialLink:hover .socialTextBase .socialChar {
+    transform: translateY(-100%);
+}
+
+.socialLink:hover .socialTextClone .socialChar {
+    transform: translateY(0);
+}
+
+/* Focus states */
+.socialLink:focus-visible {
+    outline: 2px solid var(--color-accent-teal);
+    outline-offset: 8px;
+}
+
+.socialLink:focus-visible .socialTextBase .socialChar {
+    transform: translateY(-100%);
+}
+
+.socialLink:focus-visible .socialTextClone .socialChar {
+    transform: translateY(0);
+}
+
+.locationText {
+    font-family: var(--font-primary);
+    font-size: clamp(14px, 1.5vw, 18px);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1.4;
+    color: var(--color-background);
+    margin: 0;
+    text-align: right;
+}
+
+/* Back button */
+.backButton {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 80px;
+    height: 80px;
+    border: 2px solid var(--color-accent-teal);
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+.backButton:hover {
+    border-color: var(--color-background);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.backButton:focus-visible {
+    outline: 2px solid var(--color-background);
+    outline-offset: 4px;
+}
+
+.backArrow {
+    color: var(--color-accent-teal);
+    transition: color 0.3s ease;
+}
+
+.backButton:hover .backArrow {
+    color: var(--color-background);
+}
+
+.backText {
+    position: relative;
+    font-family: var(--font-navbar);
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    overflow: hidden;
+    height: 1.2em;
+}
+
+.backTextBase {
+    display: flex;
+    color: var(--color-accent-teal);
+    transition: color 0.3s ease;
+}
+
+.backTextClone {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    color: var(--color-background);
+}
+
+.backChar {
+    display: inline-block;
+    transition: transform 0.4s var(--ease-out-expo);
+}
+
+.backTextClone .backChar {
+    transform: translateY(100%);
+}
+
+/* Hover effect */
+.backButton:hover .backTextBase .backChar {
+    transform: translateY(-100%);
+}
+
+.backButton:hover .backTextClone .backChar {
+    transform: translateY(0);
+}
+
+.backButton:hover .backTextBase {
+    color: var(--color-background);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .linkDesc {
+        display: none;
+    }
+
+    .linkMask {
+        padding: 1vw 0;
+    }
+
+    .socialSection {
+        gap: 30px;
+        padding-bottom: 40px;
+    }
+
+    .backButton {
+        width: 70px;
+        height: 70px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Stack layout on mobile */
+    .menuContent {
+        flex-direction: column;
+        justify-content: flex-start;
+        padding-top: 100px;
+        overflow-y: auto;
+    }
+
+    .nav {
+        flex: none;
+        align-items: flex-start;
+    }
+
+    .linkMask {
+        padding: 1.5vw 0;
+    }
+
+    .linkNumber {
+        display: none;
+    }
+
+    .link {
+        gap: 0;
+    }
+
+    /* Social section stacks below nav links */
+    .socialSection {
+        align-items: flex-start;
+        text-align: left;
+        padding-bottom: 40px;
+        margin-top: 40px;
+        gap: 24px;
+    }
+
+    .socialGroup {
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .locationGroup {
+        align-items: flex-start;
+        gap: 12px;
+        max-width: 100%;
+    }
+
+    .locationText {
+        text-align: left;
+    }
+
+    .socialList {
+        align-items: flex-start;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 12px 24px;
+    }
+
+    .backButton {
+        align-self: flex-start;
+        width: 60px;
+        height: 60px;
+        margin-top: 10px;
+    }
+
+    .backArrow {
+        width: 20px;
+        height: 20px;
+    }
+
+    .backText {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .menuContent {
+        padding: 16px;
+        padding-top: 80px;
+    }
+
+    .linkMask {
+        padding: 2vw 0;
+    }
+
+    .socialSection {
+        margin-top: 32px;
+        gap: 20px;
+    }
+
+    .socialLink {
+        font-size: 14px;
+    }
+
+    .locationText {
+        font-size: 12px;
+    }
+
+    .backButton {
+        width: 56px;
+        height: 56px;
+    }
+}
+
+/* PERF: hint compositor only while menu is open */
+.menu.isOpen .overlay,
+.menu.isOpen .linkInner { will-change: clip-path; }
+.menu.isOpen .linkNumber,
+.menu.isOpen .socialSection,
+.menu.isOpen .socialLabel,
+.menu.isOpen .locationText,
+.menu.isOpen .backButton { will-change: opacity, transform; }

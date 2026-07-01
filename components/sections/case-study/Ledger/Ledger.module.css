@@ -1,0 +1,80 @@
+/* ============================================================
+   CASE STUDY · LEDGER — 5-column vitals strip between the
+   cinematic hero and the editorial reading column.
+   ============================================================ */
+
+.ledger {
+    border-top: 2px solid var(--color-primary-text);
+    border-bottom: 2px solid var(--color-primary-text);
+    padding: clamp(28px, 4vw, 44px) var(--spacing-nav-side);
+}
+
+.inner {
+    max-width: var(--canvas-max-width);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 24px;
+}
+
+.cell {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    margin: 0 0 12px;
+    font-family: var(--font-navbar);
+    font-size: 13px;
+    color: var(--color-gray-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.value {
+    margin: 0;
+    font-family: var(--font-primary);
+    font-weight: 700;
+    font-size: clamp(22px, 2.4vw, 36px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--color-primary-text);
+}
+
+.descriptor {
+    display: block;
+    margin-top: 8px;
+    font-family: var(--font-navbar);
+    font-size: 13px;
+    color: var(--color-gray-dark);
+    letter-spacing: 0;
+    text-transform: none;
+    font-weight: 400;
+}
+
+/* ---------- responsive ----------
+   Collapse to 2 columns; the 5th cell spans both columns so the
+   row reads as 2 / 2 / 1.
+*/
+@media (max-width: 1100px) {
+    .inner {
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 28px;
+    }
+
+    .cell:nth-child(5) {
+        grid-column: span 2;
+    }
+}
+
+@media (max-width: 480px) {
+    .inner {
+        grid-template-columns: 1fr;
+    }
+
+    .cell:nth-child(5) {
+        grid-column: auto;
+    }
+}

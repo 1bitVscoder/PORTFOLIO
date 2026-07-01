@@ -1,0 +1,67 @@
+/* ABOUT PAGE · Intro — editorial reading column + marginalia. */
+
+.intro {
+  padding: clamp(64px, 10vh, 120px) var(--spacing-nav-side);
+  display: grid;
+  gap: clamp(20px, 3vw, 48px);
+  grid-template-columns:
+    [page-start] 1fr
+    [margin-start] minmax(160px, 220px)
+    [col-start] minmax(0, var(--read-col)) [col-end]
+    minmax(160px, 220px) [margin-end]
+    1fr [page-end];
+}
+
+.margin { grid-column: margin-start / col-start; margin: 0; }
+.marginInner {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  font-family: var(--font-navbar);
+  font-size: 14px;
+  color: var(--color-gray-dark);
+}
+.eyebrow { margin: 0 0 18px; }
+.fact b {
+  display: block;
+  color: var(--color-primary-text);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.col {
+  grid-column: col-start / col-end;
+  max-width: var(--read-col);
+  font-family: var(--font-primary);
+  font-weight: 400;
+  font-size: clamp(17px, 1.2vw, 20px);
+  line-height: 1.55;
+  color: var(--color-primary-text);
+}
+.col > p { margin: 0 0 1.4em; }
+.col > p:last-child { margin-bottom: 0; }
+.col > p strong { font-weight: 700; color: var(--color-accent-purple); }
+
+.lede {
+  font-size: clamp(22px, 1.9vw, 30px);
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  margin: 0 0 1.4em;
+}
+.lede strong { font-weight: 700; }
+
+@media (max-width: 1100px) {
+  .intro { grid-template-columns: 1fr; gap: 24px; }
+  .margin, .col {
+    grid-column: 1;
+    max-width: var(--read-col);
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+  .marginInner { flex-direction: row; flex-wrap: wrap; gap: 32px; }
+  .eyebrow { flex-basis: 100%; margin: 0 0 4px; }
+  .fact { min-width: 160px; }
+}

@@ -1,0 +1,105 @@
+/* Custom Cursor Styles
+   - White base color for proper inversion via mix-blend-mode: difference
+   - Over white background → appears dark
+   - Over dark text → appears light (inverted)
+   - Smooth animations via GSAP
+   - Colorful trailing spheres that burst into main cursor
+*/
+
+.cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    background-color: #FFFFFF;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: var(--z-cursor);
+    will-change: transform;
+
+    /* PERF: GSAP applies xPercent/yPercent: -50 per frame, so the CSS
+       `translate(-50%, -50%)` was overwritten on the first tween — but until
+       then it caused a one-frame snap. translate3d(0,0,0) keeps the layer
+       GPU-promoted without conflicting with GSAP's transform authority. */
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+/* Wrapper for isolation - enables clean blend mode for inversion */
+.cursorWrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: var(--z-cursor);
+    /* PERF: Use exclusion instead of difference - similar visual, better performance */
+    mix-blend-mode: exclusion;
+
+    /* Performance: isolate blend mode calculations */
+    isolation: isolate;
+    contain: layout style paint;
+}
+
+/* Trail container - no blend mode so colors stay vibrant */
+.trailContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: calc(var(--z-cursor) - 1);
+
+    /* Performance containment */
+    contain: layout style;
+}
+
+/* Individual trail spheres - funky colorful orbs */
+.trailSphere {
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    pointer-events: none;
+    will-change: transform;
+    transform: translate(-50%, -50%) translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+
+    /* PERF: Minimal glow. box-shadow blur composites every transform tick on
+       Firefox; with 4 trail spheres animating at 60fps, 4px was visibly
+       coloring frame budget. 2px keeps the glow perceptible at half the cost. */
+    box-shadow: 0 0 2px currentColor;
+
+    /* Performance containment */
+    contain: layout style;
+}
+
+/* Responsive: Hide custom cursor on touch devices */
+@media (hover: none) and (pointer: coarse) {
+    .cursor,
+    .cursorWrapper,
+    .trailContainer,
+    .trailSphere {
+        display: none !important;
+    }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    .cursor,
+    .cursorWrapper,
+    .trailContainer,
+    .trailSphere {
+        transition: none !important;
+    }
+
+    /* Hide trail entirely for reduced motion */
+    .trailSphere {
+        display: none !important;
+    }
+}

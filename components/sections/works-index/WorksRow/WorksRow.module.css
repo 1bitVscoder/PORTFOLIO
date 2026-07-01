@@ -1,0 +1,100 @@
+/* WorksRow
+ *
+ * One row of the Works Index — number gutter, marquee, meta column.
+ *
+ * Owns hover state for the row's own surface (background flood, meta colour).
+ * Marquee state (paused / inverted) is OWNED BY WorksRowMarquee via props —
+ * never reach into another module's class names from here.
+ *
+ * Dim-other-rows: when `data-dim="true"` is set by the parent container,
+ * the row drops opacity. Cleaner than parent-side `[class*='WorksRow_row']`
+ * substring matching against generated CSS-module names.
+ */
+
+.row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 80px 1fr 220px;
+    gap: 24px;
+    align-items: center;
+    padding: 0;
+    border-bottom: 1px solid rgba(27, 32, 40, 0.18);
+    color: inherit;
+    text-decoration: none;
+    cursor: none;
+    transition:
+        background-color 0.5s var(--ease-out-quart, ease),
+        opacity 0.4s var(--ease-out-quart, ease);
+}
+
+.row:focus-visible {
+    outline: 2px solid var(--row-accent, var(--color-primary-text));
+    outline-offset: -4px;
+}
+
+/* Parent-driven dimming when another row is hovered. */
+.row[data-dim='true'] {
+    opacity: 0.45;
+}
+
+.num {
+    padding: 0 0 0 4px;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    color: rgba(27, 32, 40, 0.5);
+    font-variant-numeric: tabular-nums;
+    transition: color 0.35s var(--ease-out-quart, ease);
+}
+
+.meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    text-align: right;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(27, 32, 40, 0.5);
+    padding-right: 4px;
+    transition: color 0.4s var(--ease-out-quart, ease);
+}
+
+.discipline {
+    color: var(--color-primary-text);
+    font-weight: 500;
+}
+
+.year {
+    font-variant-numeric: tabular-nums;
+}
+
+.arrow {
+    margin-top: 4px;
+    width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    color: var(--row-accent, var(--color-primary-text));
+    transition: width 0.5s var(--ease-out-expo, ease);
+}
+
+.row:hover .arrow {
+    width: 110px;
+}
+
+/* ---------------- Hover state — flood-fill the row ----------------- */
+
+.row.isHover {
+    background: var(--row-accent, var(--color-primary-text));
+}
+
+.row.isHover .num,
+.row.isHover .discipline,
+.row.isHover .year,
+.row.isHover .arrow {
+    color: #fff;
+}
+
+.row.isHover .meta {
+    color: rgba(255, 255, 255, 0.7);
+}

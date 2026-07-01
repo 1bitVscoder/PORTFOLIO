@@ -1,0 +1,119 @@
+/* WorksRowMarquee
+ *
+ * Infinite horizontal title ticker for a single Works Index row.
+ * Pure CSS keyframe animation — no JS rAF loops, no scroll-velocity coupling.
+ *
+ * All state (paused, inverted) is owned by this module — driven via props.
+ * Parent components NEVER reach into these class names from outside (avoids
+ * the brittle `:global([class*='...'])` substring trap).
+ */
+
+.viewport {
+    position: relative;
+    height: clamp(96px, 14vh, 160px);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    mask-image: linear-gradient(to right,
+        transparent 0,
+        #000 4%,
+        #000 96%,
+        transparent 100%);
+    -webkit-mask-image: linear-gradient(to right,
+        transparent 0,
+        #000 4%,
+        #000 96%,
+        transparent 100%);
+}
+
+.track {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    animation: worksRowMarqueeScroll var(--marquee-dur, 28s) linear infinite;
+    will-change: transform;
+}
+
+/* Paused state — owned by this module, toggled via prop. */
+.track.paused {
+    animation-play-state: paused;
+}
+
+/* Each copy carries exactly 50% of the track width — keyframe end value
+ * matches layout regardless of glyph metrics. */
+.copy {
+    flex: 0 0 50%;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+@keyframes worksRowMarqueeScroll {
+    from { transform: translate3d(0, 0, 0); }
+    to   { transform: translate3d(-50%, 0, 0); }
+}
+
+.chunk {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    font-size: clamp(48px, 7.2vw, 120px);
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    text-transform: lowercase;
+    color: var(--color-primary-text);
+    transition: color 0.4s var(--ease-out-quart, ease), -webkit-text-stroke 0.4s var(--ease-out-quart, ease);
+}
+
+/* Outline variant — even-indexed rows use this for rhythm. */
+.chunk.outline {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--color-primary-text);
+}
+
+/* Inverted (parent flooded with accent → marquee renders white). */
+.inverted .chunk {
+    color: #fff;
+}
+.inverted .chunk.outline {
+    color: transparent;
+    -webkit-text-stroke: 1.5px #fff;
+}
+
+.star {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: clamp(28px, 3.6vw, 44px);
+    height: clamp(28px, 3.6vw, 44px);
+    flex-shrink: 0;
+    color: var(--color-primary-text);
+    transition:
+        color 0.4s var(--ease-out-quart, ease),
+        transform 0.5s var(--ease-out-expo, ease);
+}
+
+.star svg {
+    width: 100%;
+    height: 100%;
+}
+
+.inverted .star {
+    color: #fff;
+    transform: scale(1.05);
+}
+
+.tag {
+    font-size: clamp(16px, 1.6vw, 24px);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: rgba(27, 32, 40, 0.5);
+    align-self: center;
+    transition: color 0.4s var(--ease-out-quart, ease);
+}
+
+.inverted .tag {
+    color: rgba(255, 255, 255, 0.8);
+}

@@ -1,0 +1,23 @@
+/* ============================================================
+   Per-word masks used by useWordLineReveal and useScrubbedActsReveal.
+   Each word is wrapped in an overflow:hidden mask so its inner span
+   can slide up from yPercent:110 → 0 without affecting wrap behaviour.
+
+   Consumers that need italic glyph overhang past the word box (e.g.
+   Pull's accented "respects") should opt in locally — see Pull's
+   .act2/.act3 overrides in Pull.module.css. Applying the overhang
+   globally here regresses the seven other case-study sections that
+   rely on hard clipping at the word edge.
+   ============================================================ */
+
+.word {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+}
+
+.wordInner {
+    display: inline-block;
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+}

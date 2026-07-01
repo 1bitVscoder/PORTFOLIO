@@ -1,0 +1,114 @@
+.root {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.curtain {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  will-change: transform;
+  /* GSAP owns `transform`. Mixing a CSS-rule translate (e.g. translateY(-101%))
+   * with gsap.set({ yPercent: -101 }) makes GSAP parse the CSS-derived
+   * translate as a px baseline and then add its own percent on top — the
+   * two values compound and the curtain ends up at -202% instead of -101%.
+   * useGSAP fires in a layout effect, so the initial gsap.set runs before
+   * the first paint and no off-screen flash is possible. */
+}
+
+/* Marker classes. We need CSS Modules to export the names `cur1`/`cur2`/
+ * `cur3` so JS can query the three curtains (`.${styles.cur1}` etc.).
+ * CSS-loader drops truly-empty rules from the export map, so each needs at
+ * least one declaration. We use the `composes` shorthand style of repeating
+ * the curtain layout; the values match the parent and have no visual
+ * effect. Position is set exclusively by GSAP — see the comment on
+ * `.curtain` above for why no transform lives here. */
+.cur1 { position: absolute; }
+.cur2 { position: absolute; }
+.cur3 { position: absolute; }
+
+.track {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  font-family: var(--font-navbar), "Doppio One", Georgia, serif;
+  font-size: clamp(120px, 22vw, 320px);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  will-change: transform;
+}
+
+.track .word {
+  padding: 0 0.18em;
+}
+
+/* Four-pointed star separator between repeated words — same shape the
+ * SkillsBar marquee uses on the home hero. Inherits the curtain's
+ * ghost tone via currentColor so it fades with the marquee text and
+ * doesn't stamp loud accents across the panel. */
+.star {
+  flex-shrink: 0;
+  width: clamp(48px, 9vw, 140px);
+  height: clamp(48px, 9vw, 140px);
+  margin: 0 0.12em;
+  align-self: center;
+  color: currentColor;
+}
+
+/* Continuous scroll. Direction set per curtain so the three layers feel
+ * independent without us having to manage three GSAP tickers that would
+ * get killed on phase-change unmount. */
+.trackScrollLeft {
+  animation: scrollLeft 14s linear infinite;
+}
+.trackScrollRight {
+  animation: scrollRight 18s linear infinite;
+}
+.trackScrollLeftFast {
+  animation: scrollLeft 11s linear infinite;
+}
+
+@keyframes scrollLeft {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-25%); }
+}
+@keyframes scrollRight {
+  from { transform: translateX(-25%); }
+  to   { transform: translateX(0); }
+}
+
+/* Ink curtains: paper-tinted text. Accent curtain: ink-tinted text. */
+.inkText  { color: rgba(244, 240, 232, 0.1); }
+.paperText { color: rgba(27, 32, 40, 0.13); }
+
+.label {
+  position: absolute;
+  font-family: var(--font-sans, "PP Neue Montreal", sans-serif);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+.labelTL { top: 28px; left: 32px; }
+.labelBL { bottom: 28px; left: 32px; }
+.labelTR { top: 28px; right: 32px; }
+.labelBR { bottom: 28px; right: 32px; }
+
+/* Ink curtains use paper-coloured labels; accent uses ink. */
+.labelOnInk    { color: #f4f0e8; }
+.labelOnAccent { color: #1b2028; }
+
+@media (prefers-reduced-motion: reduce) {
+  .trackScrollLeft,
+  .trackScrollRight,
+  .trackScrollLeftFast {
+    animation: none;
+  }
+}

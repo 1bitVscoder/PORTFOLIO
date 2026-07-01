@@ -1,0 +1,95 @@
+/* ============================================
+   CSS VARIABLES - Design Tokens from Figma
+   Migrated from reference styles.css
+   ============================================ */
+
+:root {
+    /* Colors */
+    --color-background: #FFFFFF;
+    --color-primary-text: #1b2028;
+    --color-accent-purple: #62B6CB;
+    --color-accent-gold: #FFB800;
+    --color-black: #000000;
+    --color-gray-dark: #4C4C4C;
+    --color-accent-teal: #62B6CB;
+    --color-grid-line: #E5E5E5;
+    --color-text-muted: rgba(27, 32, 40, 0.5);
+    --color-text-muted-strong: rgba(27, 32, 40, 0.8);
+
+    /* Workflow section — brand accent palette (mirrors the accentPalette in
+       data/design-tokens.json). Brand accents, so identical in light + dark.
+       --wf-gold is intentionally OUTSIDE the cycling accentPalette: the final
+       workflow step always mirrors the live site accent (one of the four
+       below), so the step before it uses gold to guarantee no adjacent repeat. */
+    --wf-teal: var(--color-accent-teal);
+    --wf-red: #da3036;
+    --wf-orange: #ff990a;
+    --wf-green: #93b99e;
+    --wf-gold: var(--color-accent-gold);
+
+    /* Highlight bar painted behind body-strong text — 78%–96% slice of the
+       line-box. Vision title uses a narrower 78%–90% variant kept inline. */
+    --highlight-strong: linear-gradient(
+        transparent 78%,
+        var(--color-accent-purple) 78%,
+        var(--color-accent-purple) 96%,
+        transparent 96%
+    );
+
+    /* Typography - Font Families */
+    --font-primary: 'PP Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-navbar: 'Doppio One', sans-serif;
+
+    /* Typography - Font Sizes (Fluid) */
+    --font-size-hero: clamp(48px, 16vw, 24vw);
+    --font-size-nav: clamp(14px, 1.5vw, 20px);
+    --font-size-tagline: clamp(14px, 1.5vw, 20px);
+    --font-size-works: 12px;
+    --font-size-skills: clamp(16px, 2.5vw, 31px);
+    --font-size-menu: clamp(48px, 12vw, 140px);
+
+    /* Spacing - Fluid */
+    --spacing-nav-top: clamp(16px, 3vw, 33px);
+    --spacing-nav-side: clamp(20px, 5vw, 74px);
+
+    /* Dimensions */
+    --canvas-max-width: 1512px;
+    --canvas-min-height: 100vh;
+
+    /* Border Radius - Fluid */
+    --radius-portrait: clamp(20px, 3vw, 42px);
+
+    /* Editorial */
+    --read-col: 64ch;
+    --paper: #F4F1EB;
+
+    /* Animation - Easing */
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+    --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+
+    /* Animation - Durations */
+    --duration-fast: 0.2s;
+    --duration-normal: 0.4s;
+    --duration-slow: 0.8s;
+    --duration-slower: 1.2s;
+
+    /* Z-Index Scale */
+    --z-base: 1;
+    --z-above: 10;
+    --z-nav: 100;
+    --z-modal: 200;
+    --z-transition: 300;
+    --z-cursor: 9999;
+}
+
+/* Dark theme overrides */
+:root[data-theme="dark"] {
+    --color-background: #171717;
+    --color-primary-text: #ffffff;
+    --color-grid-line: #2A2A2A;
+    --color-gray-dark: #B3B3B3;
+    --color-text-muted: rgba(255, 255, 255, 0.5);
+    --color-text-muted-strong: rgba(255, 255, 255, 0.8);
+    --paper: #1F1C17;
+}

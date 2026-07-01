@@ -1,0 +1,304 @@
+.section {
+    position: relative;
+    width: 100%;
+    margin-top: -35vh; /* Pull up to reduce gap after Philosophy */
+    z-index: var(--z-above);
+}
+
+/* Base meta-label styling lives in the shared <MetaLabel> component; this
+   only positions it. Lives inside the first project's projectSticky
+   (Tasktrox). That element is pinned by GSAP ScrollTrigger (position:fixed)
+   for the full 250vh scroll of the first project, so absolute positioning
+   inside it acts like a viewport-fixed overlay while Tasktrox is on screen,
+   and naturally disappears when the next project pins. */
+.metaLabel {
+    position: absolute;
+    top: clamp(80px, 9vw, 110px); /* sits below navbar (top ≈ 16–33px + brand ~52px) */
+    left: var(--spacing-nav-side); /* matches navbar MENU gutter */
+    z-index: 20;
+    font-family: var(--font-navbar);
+    pointer-events: none; /* keeps TransitionLink click target intact */
+}
+
+@media (max-width: 768px) {
+    .metaLabel {
+        top: clamp(70px, 14vw, 90px);
+        left: var(--spacing-nav-side);
+    }
+}
+
+.spacer {
+    height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 14px;
+    opacity: 0.5;
+    font-weight: 600;
+    font-family: var(--font-primary);
+    color: var(--color-primary-text);
+}
+
+.projectSection {
+    height: 250vh; /* Long scroll for drama */
+    position: relative;
+    width: 100%;
+}
+
+.projectSticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    perspective: 1000px; /* For 3D rotation effects */
+    contain: layout style;
+    color: inherit;
+    text-decoration: none;
+}
+
+a.projectSticky {
+    cursor: pointer;
+}
+
+/* Open-state click gate. The gate is armed only when JS sets `data-split-gated`
+   on the #projects container (motion allowed) — so no-JS / reduced-motion keeps
+   cards clickable via the default rule above. While armed, a card is inert until
+   its split has opened (`data-open="true"`, set from the timeline progress). */
+[data-split-gated="true"] a.projectSticky {
+    pointer-events: none;
+    cursor: default;
+}
+
+[data-split-gated="true"] a.projectSticky[data-open="true"] {
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+/* THE SPLIT TEXT */
+.titleWrapper {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    pointer-events: none;
+    contain: layout style;
+}
+
+/* The text layers */
+.textTop, .textBottom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    overflow: hidden;
+    background-color: transparent;
+}
+
+/* We need a solid backing for the text layers to hide the image initially */
+.textBacking {
+    position: absolute;
+    width: 120%; /* Wider to cover rotation gaps */
+    height: 60%;
+    background-color: transparent;
+    z-index: -1;
+    transition: background-color 0.5s ease;
+}
+
+.textTop .textBacking { bottom: 0; }
+.textBottom .textBacking { top: 0; }
+
+.textTop {
+    /* Bottom edge extended 1px past 50% so the upper layer always covers any
+       clip-path rasterization gap at the join with .textBottom. Asymmetric on
+       purpose: z-index 12 > .textBottom's 11 means the 1px overlap is invisible
+       (same glyphs, same color, same position). Closes the resolution-dependent
+       seam visible on 2K/4K and some 1080p displays in the idle state. */
+    clip-path: polygon(0 0, 100% 0, 100% calc(50% + 1px), 0 calc(50% + 1px));
+    z-index: 12;
+    transform-origin: center 50%; /* Pivot from the cut line */
+}
+
+.textBottom {
+    clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
+    z-index: 11;
+    transform-origin: center 50%; /* Pivot from the cut line */
+}
+
+.textContent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16vw;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--color-primary-text);
+    white-space: nowrap;
+    letter-spacing: -0.04em;
+    line-height: 0.8;
+    font-family: var(--font-primary);
+}
+
+/* THE IMAGE */
+/* Frame sized to the image; it's the badge's positioning context so the badge
+   tracks the image corner. Deliberately NO z-index / transform: that keeps it
+   out of the stacking order, so the image (z5) still sits under the title (z10)
+   while the badge (z20) sits above both, exactly as before the frame existed. */
+.cardFrame {
+    position: relative;
+    width: min(80vw, 76vh * 3 / 2);
+    aspect-ratio: 3 / 2; /* fixed ratio so cover crops consistently across screens */
+}
+
+.imageCard {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 5;
+    transform: scale(0.125) rotate(-10deg); /* Start small and crooked */
+    opacity: 0;
+    border-radius: var(--radius-portrait);
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+}
+
+.projectImgWrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform: scale(1.15); /* parallax start; GSAP eases to 1.0 at rest */
+}
+
+/* FUNKY BADGE */
+.funkyBadge {
+    position: absolute;
+    /* Offsets are relative to .cardFrame (the image box). Negative values let
+       the badge straddle the image's top-right corner — matching the desktop
+       look it had when positioned against the sticky container. */
+    top: -3%;
+    right: -6%;
+    width: clamp(100px, 12vw, 150px);
+    height: clamp(100px, 12vw, 150px);
+    background: var(--color-accent-gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+    z-index: 20;
+    transform: scale(0);
+    box-shadow: 5px 5px 0px var(--color-primary-text);
+    color: var(--color-primary-text);
+    text-align: center;
+    line-height: 1.2;
+    font-family: var(--font-navbar);
+}
+
+/* INFO */
+.projectMeta {
+    position: absolute;
+    bottom: 50px;
+    display: flex;
+    gap: 20px;
+    z-index: 20;
+    font-family: var(--font-navbar);
+    font-size: 18px;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.pill {
+    padding: 10px 20px;
+    border: 2px solid var(--color-primary-text);
+    border-radius: 50px;
+    background-color: var(--color-background);
+}
+
+/* Mobile: the pills run oversized on phones (18px text + 10/20 padding ≈ a
+   68px-tall capsule that eats half the viewport width). Scale the meta type
+   down and tighten the pill padding + gap so the two pills sit compactly under
+   the card. Placed AFTER the base .pill / .projectMeta rules so it wins on
+   source order — a media query adds no specificity, so an earlier-placed block
+   would lose to these single-class base rules. */
+@media (max-width: 768px) {
+    .projectMeta {
+        font-size: 13px;
+        gap: 10px;
+    }
+
+    .pill {
+        padding: 7px 14px;
+        border-width: 1.5px;
+    }
+
+    /* The badge's clamp floors at 100px, which is ~1/3 of the 80vw image on a
+       phone — too heavy. Scale it (and its text) down so it reads as a corner
+       sticker. Position is inherited from the base rule, now correctly anchored
+       to the image via .cardFrame. */
+    .funkyBadge {
+        width: 76px;
+        height: 76px;
+        font-size: 11px;
+    }
+}
+
+/* ============================================================
+   PROJECTS → ARCHIVE PINNED-OVERLAP HANDOFF (last card only)
+   See .planning/projects-archive-handoff/PLAN.md
+   ============================================================ */
+
+/* GSAP owns the pin for the last card (pinSpacing:true, extended into the
+   Archive). CSS sticky would otherwise release at this section's bottom and
+   fight the extended pin — disable it so GSAP is the sole pin mechanism. */
+.projectSection[data-last='true'] .projectSticky {
+    position: relative;
+}
+
+/* When the Archive overlaps the held card, collapse the trailing spacer so
+   there is no dead gap at the seam. The attribute is only set by the effect
+   when the handoff is active (JS on, motion allowed), so the default/static
+   layout keeps its 50vh spacer. */
+.section[data-overlap-active='true'] .spacer {
+    height: 0;
+}
+
+/* Give the last card a longer pin runway so its split plays over the same
+   scroll distance as the other cards (their 250vh sections split over ~1.5vh)
+   AND still finishes before the Archive overlaps. Pre-overlap runway =
+   height − 55vh overlap − 100vh viewport ≈ 165vh, comfortably above
+   SPLIT_RUNWAY_VH (1.4) in Projects.tsx. Gated to the active handoff so the
+   static / reduced-motion fallback keeps the normal 250vh. */
+.section[data-overlap-active='true'] .projectSection[data-last='true'] {
+    height: 320vh;
+}
+
+/* No-JS fallback. The image, badge and meta start hidden and are revealed by
+   the GSAP scroll timeline; with JS disabled that timeline never runs, so the
+   card would render with those elements invisible. Reveal them at their resting
+   end-state in CSS so the card reads as a normal static layout. `scripting:
+   none` matches only when scripting is unavailable, so the JS-on path keeps its
+   hidden initial state and animates in with no flash. */
+@media (scripting: none) {
+    .imageCard {
+        opacity: 1;
+        transform: none;
+    }
+
+    .funkyBadge {
+        transform: scale(1);
+    }
+
+    .projectMeta {
+        opacity: 1;
+        transform: none;
+    }
+}

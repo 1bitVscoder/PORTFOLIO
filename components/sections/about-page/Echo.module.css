@@ -1,0 +1,168 @@
+/* ABOUT PAGE · Hero variant — "Echo".
+   Stacked masthead: a solid centre word with sliced, outlined echo rows above
+   and below. Band heights + text offsets are ported from the Figma layers as em
+   ratios of the masthead size (246.667px in the source), so every slice lines up
+   regardless of the rendered font size. */
+
+.hero {
+  position: relative;
+  z-index: var(--z-above);
+  box-sizing: border-box;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: clamp(96px, 13vh, 150px) 0 0;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  padding: 0 var(--spacing-nav-side);
+}
+/* Back button — matches the case-study Hero: a circular outlined arrow that
+   inverts on hover. */
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+  height: calc(2px * 2 + 9px * 2 + clamp(13px, 1vw, 16px));
+  border: 2px solid var(--color-primary-text);
+  border-radius: 999px;
+  background: var(--color-background);
+  color: var(--color-primary-text);
+  text-decoration: none;
+  font-family: var(--font-navbar);
+  font-size: clamp(14px, 1.05vw, 17px);
+  line-height: 1;
+  transition:
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.28s ease,
+    color 0.28s ease,
+    border-color 0.28s ease;
+  will-change: transform;
+}
+.backLink:hover {
+  transform: translateX(-2px) scale(1.03);
+  background: var(--color-primary-text);
+  color: var(--color-background);
+}
+
+/* Centres the stack in the space left under the chrome. */
+.stage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 0;
+}
+
+/* The masthead. `font-size` is the em base every slice is measured against; the
+   word fills the viewport and stays nowrap. The preferred `16.5vw` scales it
+   with width; the `27vh` ceiling caps it by height instead of a fixed px, since
+   on wide displays (e.g. 2560x1440) this stack is height-limited — the whole
+   stack is ~3.07em tall, so 27vh keeps it inside the stage at any resolution
+   while still scaling up far past the old 247px cap that left big side margins. */
+.stack {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.0324em;
+  width: 100%;
+  font-family: var(--font-primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: normal;
+  letter-spacing: -0.01em;
+  font-size: clamp(44px, 16.5vw, 27vh);
+}
+
+/* Occlusion groups — the three top echoes and the three bottom echoes each live
+   in one of these. The group tiles its rows exactly like `.stack` (same gap, no
+   padding) so the masthead is pixel-identical at rest, but `overflow: hidden`
+   clips anything that crosses the group's inner edge (flush with the solid
+   word's near edge). That is what hides each echo the instant it slides into the
+   solid word during the scroll-merge, so an echo is never drawn over the solid
+   text. Kept un-positioned on purpose: the merge translate measures `offsetTop`
+   against `.hero`, and giving the group a position would reset that reference. */
+.echoGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.0324em;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Per-row cell — the on-load "expand from solid" animates these (clip-path +
+   y), one per echo layer, so each layer emerges as its own element (the exact
+   reverse of the scroll-merge). The slide is clipped by the GROUP's
+   `overflow: hidden` (which spans band→solid), so the cell needs none itself.
+   Deliberately NO `will-change: transform` and no positioning: either would make
+   the cell a containing block and so the inner row's `offsetParent`, which would
+   zero `row.offsetTop` and break the scroll-merge's slide formula. After the
+   load animation the inline clip-path + transform are cleared (and the merge is
+   refreshed) so the cell is fully inert and the row measures against `.hero`. */
+.echoCell {
+  width: 100%;
+}
+
+/* Echo rows — each clips the full word to a thin band; the text inside is
+   absolutely placed so the same glyph slice repeats across the rows. */
+.echoRow {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+.echoRow[data-band="top"] { height: 0.373em; }
+.echoRow[data-band="bottom"] { height: 0.3365em; }
+
+.echoText {
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  white-space: nowrap;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: clamp(1px, 0.0095em, 2.5px) currentColor;
+}
+.echoRow[data-band="top"] .echoText { top: -0.2108em; }
+.echoRow[data-band="bottom"] .echoText { top: -0.6405em; }
+
+/* Solid centre word — the only filled row, full glyph height. */
+.solid {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 0.75em;
+}
+.solidText {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -0.227em;
+  text-align: center;
+  white-space: nowrap;
+}
+.solidInk { color: var(--color-primary-text); }
+.solidAccent { color: var(--color-accent-purple); }
+
+/* Stroke tone for the echo rows (currentColor feeds -webkit-text-stroke). */
+.ink { color: var(--color-primary-text); }
+.accent { color: var(--color-accent-purple); }

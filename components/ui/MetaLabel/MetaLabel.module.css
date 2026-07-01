@@ -1,0 +1,35 @@
+/* Shared section meta-label: brand ✦ + short uppercase tracked label.
+   The single source of truth for the eyebrow pattern used across the home
+   sections, the case-study sections, and the Workflow section. Section-
+   specific layout (position, margins, transitions) is layered on via the
+   `className` prop, which only adds non-conflicting properties. */
+.metaLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: var(--color-accent-purple);
+}
+
+.starIcon {
+  width: 1.2em;
+  height: 1.2em;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .metaLabel {
+    font-size: 0.7rem;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .starIcon {
+    width: 1em;
+    height: 1em;
+  }
+}

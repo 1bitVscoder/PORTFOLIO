@@ -1,0 +1,481 @@
+{
+  "about": {
+    "label": "About",
+    "verbs": [
+      "Design it.",
+      "Build it.",
+      "Optimize it.",
+      "Ship it."
+    ],
+    "lede": "Zenith Soumya builds next-gen IoT systems, optimized Java/DSA engines, and agentic AI full-stack applications.",
+    "meta": [
+      "Computer Science & Engineering",
+      "IoT & AI Systems",
+      "Currently optimizing loops"
+    ],
+    "bio": [
+      "I am **Zenith Soumya**, a computer science student at ITER College, IoT specialist, and AI engineer who builds robust systems from physical devices to full-stack web applications.",
+      "I am obsessed with **Data Structures and Algorithms** in Java, designing optimized code and high-performance backend pipelines. I specialize in weaponizing agentic AI, building smart IoT systems, and offline-first mobile apps.",
+      "The goal is simple: **write code that runs at peak execution.** Fast, optimized, and built to solve real-world problems without cloud dependencies when possible."
+    ],
+    "_cvNote": "Unified credentials for Zenith Soumya. B.Tech Computer Science & Engineering student at ITER College.",
+    "experience": [
+      {
+        "role": "IoT & AI Developer",
+        "org": "Self-Initiated & Academic Projects",
+        "kind": "Project-based",
+        "period": "2024 → Present",
+        "summary": "Building smart hardware systems, integrating Groq & Gemini APIs, and optimizing algorithmic solutions.",
+        "points": [
+          "Engineered interactive web platforms integrated with fast AI models (Groq API)",
+          "Developed mobile apps with Flutter & Dart using offline-first caching architectures",
+          "Designed and built smart micro-controller circuits for custom IoT workloads",
+          "Implemented complex data structures and algorithms in Java to minimize CPU bottlenecks"
+        ],
+        "tags": [
+          "Java",
+          "Flutter",
+          "Groq API",
+          "Python",
+          "IoT"
+        ],
+        "placeholder": false
+      }
+    ],
+    "credentials": [
+      {
+        "period": "2025 → 2029",
+        "credential": "B.Tech, Computer Science & Engineering",
+        "institution": "ITER College · Bhubaneswar",
+        "kind": "Degree",
+        "status": "In progress",
+        "points": [
+          "Advanced Data Structures & Algorithms in Java",
+          "IoT System Architecture and Microcontrollers",
+          "Artificial Intelligence and Machine Learning integration",
+          "Database Management Systems & SQL optimization"
+        ]
+      }
+    ],
+    "certifications": [
+      {
+        "name": "B.Tech, Computer Science & Engineering",
+        "issuer": "ITER College · SOA University",
+        "year": "In progress",
+        "placeholder": false
+      }
+    ],
+    "education": [
+      {
+        "credential": "B.Tech, Computer Science & Engineering",
+        "institution": "ITER College · Bhubaneswar",
+        "period": "2025 → 2029",
+        "points": [
+          "Advanced Data Structures & Algorithms in Java",
+          "IoT System Architecture and Microcontrollers",
+          "Artificial Intelligence and Machine Learning integration",
+          "Database Management Systems & SQL optimization"
+        ],
+        "placeholder": false
+      }
+    ]
+  },
+  "hero": {
+    "firstName": "ZENITH",
+    "lastName": "SOUMYA",
+    "title": "IoT & AI Developer",
+    "tagline": [
+      "don't",
+      "just",
+      "sit",
+      "there,",
+      "move",
+      "the",
+      "cursor",
+      "twin!"
+    ],
+    "taglineHidden": [
+      "i",
+      "write",
+      "code",
+      "that",
+      "outruns",
+      "your",
+      "network",
+      "lag",
+      "and",
+      "design",
+      "systems",
+      "that",
+      "never",
+      "sleep."
+    ]
+  },
+  "skills": {
+    "marqueeItems": [
+      "JAVA / DSA",
+      "AI WEAPONIZER",
+      "FLUTTER GLADIATOR",
+      "SYSTEM DESIGN",
+      "IoT ARCHITECTURE",
+      "FULL STACK"
+    ],
+    "separator": "✦"
+  },
+  "welcomeScreen": {
+    "greetings": [
+      "Hello",
+      "Hola",
+      "Bonjour",
+      "Hallo",
+      "नमस्ते",
+      "안녕하세요"
+    ],
+    "initials": {
+      "first": "Z",
+      "last": "S"
+    },
+    "greetingDuration": 400,
+    "totalGreetingTime": 2400
+  },
+  "ui": {
+    "buttons": {
+      "menu": "Menu",
+      "close": "Close",
+      "back": "Back"
+    }
+  },
+  "philosophy": {
+    "label": "Approach & Vision",
+    "statement": "CPU cycles aren't free, and waiting is for humans. I build optimized, offline-first systems that run at peak performance.",
+    "highlights": [
+      "cycles",
+      "humans",
+      "offline-first",
+      "performance"
+    ]
+  },
+  "workflow": {
+    "label": "How I work",
+    "stops": [
+      {
+        "name": "Analyze",
+        "title": "Evaluate complexity.",
+        "copy": "I analyze the algorithmic constraints first. If a solution isn't O(1) or O(log n), i take it as a personal insult.",
+        "emphasis": "complexity",
+        "accent": "teal"
+      },
+      {
+        "name": "Design",
+        "title": "Figma to hardware.",
+        "copy": "I map out micro-controller interactions and clean layouts. If the physical or visual telemetry doesn't flow naturally, it gets discarded.",
+        "emphasis": "telemetry",
+        "accent": "orange"
+      },
+      {
+        "name": "Build",
+        "title": "Optimized execution.",
+        "copy": "Whether it's React/Next.js frontends talking to Groq/Gemini, or Flutter apps utilizing SQLite caches, everything is typed, responsive, and fast.",
+        "emphasis": "fast",
+        "accent": "gold"
+      },
+      {
+        "name": "Refine",
+        "title": "Kill the latency.",
+        "copy": "Sweating the details: caching queries, closing resource leaks, and ensuring animations stay pinned at a solid 60fps.",
+        "emphasis": "60fps",
+        "accent": "teal"
+      }
+    ]
+  },
+  "services": {
+    "label": "Services & Toolkit",
+    "headline": {
+      "lead": "One developer,",
+      "accent": "four stacks."
+    },
+    "intro": "Developing modern software requires mastering every level of the pipeline, from physical IoT hardware to smooth frontend interfaces.",
+    "faces": [
+      {
+        "word": "INTELLIGENCE.",
+        "rail": "INTELLIGENCE",
+        "label": "AI & Agentic Systems",
+        "copy": "<b>AI & Agentic Systems.</b> Integrating Gemini, OpenAI, and Groq APIs. Building prompt routing, retrieval pipelines, and agentic workflows that act autonomously to execute user tasks.",
+        "tools": [
+          "Gemini API",
+          "Groq API",
+          "Python",
+          "LangChain",
+          "OpenAI"
+        ]
+      },
+      {
+        "word": "DEVICES.",
+        "rail": "DEVICES",
+        "label": "IoT & Smart Systems",
+        "copy": "<b>IoT & Hardware.</b> Microcontrollers, sensor integration, ESP32/Arduino, and localized communication channels. Designing systems that bridge physical inputs with cloud intelligence.",
+        "tools": [
+          "ESP32",
+          "Arduino",
+          "Raspberry Pi",
+          "C++",
+          "MQTT",
+          "I2C"
+        ]
+      },
+      {
+        "word": "APPLICATIONS.",
+        "rail": "APPLICATIONS",
+        "label": "Web & Mobile Stacks",
+        "copy": "<b>Applications.</b> Dynamic web apps with React and Next.js, and mobile solutions in Flutter/Dart. Focused on local database state, responsive animations, and fast load times.",
+        "tools": [
+          "React",
+          "Next.js",
+          "Flutter",
+          "Dart",
+          "Tailwind",
+          "TypeScript"
+        ]
+      },
+      {
+        "word": "BACKEND.",
+        "rail": "BACKEND",
+        "label": "Databases & Core Logic",
+        "copy": "<b>Backend & DSA.</b> High-performance Java programs, SQL databases, Node.js endpoints, and local caching strategies designed to minimize network dependencies and overhead.",
+        "tools": [
+          "Java",
+          "Node.js",
+          "PostgreSQL",
+          "SQLite",
+          "Supabase",
+          "Git"
+        ]
+      }
+    ]
+  },
+  "projects": {
+    "label": "Selected Works",
+    "items": [
+      {
+        "id": "furina",
+        "title": "FURINA",
+        "image": "/images/projects/furina.png",
+        "year": "2024",
+        "category": "FEATURED · FULL-STACK APP",
+        "badge": "WITNESS<br>POWER",
+        "themeColor": "#00E5FF",
+        "badgeColor": "#00E5FF",
+        "badgeTextColor": "#0d0d0d",
+        "badgeShadowColor": "#0d0d0d",
+        "featured": true
+      },
+      {
+        "id": "recipe",
+        "title": "RECIPE FINDER",
+        "image": "/images/projects/recipe.png",
+        "year": "2024",
+        "category": "WEB APP · AI PANTRY CHEF",
+        "badge": "WITNESS<br>POWER",
+        "themeColor": "#ff990a",
+        "badgeColor": "#ff990a",
+        "badgeTextColor": "#0d0d0d",
+        "badgeShadowColor": "#0d0d0d",
+        "featured": false
+      },
+      {
+        "id": "flowstate",
+        "title": "FLOWSTATE",
+        "image": "/images/projects/flowstate.png",
+        "year": "2024",
+        "category": "MOBILE APP · HABIT RPG",
+        "badge": "WITNESS<br>POWER",
+        "themeColor": "#a8dadc",
+        "badgeColor": "#a8dadc",
+        "badgeTextColor": "#0d0d0d",
+        "badgeShadowColor": "#0d0d0d",
+        "featured": false
+      },
+      {
+        "id": "lumina",
+        "title": "LUMINA",
+        "image": "/images/projects/lumina.png",
+        "year": "2024",
+        "category": "MOBILE APP · COMPANION AI",
+        "badge": "WITNESS<br>POWER",
+        "themeColor": "#A855F7",
+        "badgeColor": "#A855F7",
+        "badgeTextColor": "#0d0d0d",
+        "badgeShadowColor": "#0d0d0d",
+        "featured": false
+      },
+      {
+        "id": "nutrilens",
+        "title": "NUTRILENS",
+        "image": "/images/projects/nutrilens.png",
+        "year": "2025",
+        "category": "PWA · AI NUTRITION TRACKER",
+        "badge": "WITNESS<br>POWER",
+        "themeColor": "#93b99e",
+        "badgeColor": "#93b99e",
+        "badgeTextColor": "#0d0d0d",
+        "badgeShadowColor": "#0d0d0d",
+        "featured": true
+      },
+      {
+        "id": "cartsnap",
+        "title": "CARTSNAP",
+        "image": "/images/projects/cartsnap.png",
+        "year": "2024",
+        "category": "MOBILE POS APPLICATION",
+        "badge": "WITNESS<br>POWER",
+        "themeColor": "#E8963A",
+        "badgeColor": "#E8963A",
+        "badgeTextColor": "#0d0d0d",
+        "badgeShadowColor": "#0d0d0d",
+        "featured": true
+      },
+      {
+        "id": "freellmapi",
+        "title": "FREELLMAPI",
+        "image": "/images/projects/freellmapi.png",
+        "year": "2026",
+        "category": "DEVTOOL · API PROXY ROUTER",
+        "badge": "WITNESS<br>POWER",
+        "themeColor": "#da3036",
+        "badgeColor": "#da3036",
+        "badgeTextColor": "#0d0d0d",
+        "badgeShadowColor": "#0d0d0d",
+        "featured": false
+      }
+    ]
+  },
+  "archive": {
+    "label": "The Archive",
+    "statement": "What's above is just a selection. The full index holds every project I've designed, built, and optimized.",
+    "highlights": [
+      "index",
+      "built",
+      "optimized"
+    ],
+    "metaLeft": "Every cycle counted",
+    "metaRight": "Every line compiled",
+    "cta": "See all my work",
+    "ctaHref": "/work2"
+  },
+  "contact": {
+    "row1": {
+      "greeting": "Hey,",
+      "recipient": "Zenith",
+      "afterName": "! My name is",
+      "between": "and I am from",
+      "nameLabel": "Your Name",
+      "countryLabel": "Country"
+    },
+    "row2": {
+      "lead": "Let's connect about",
+      "options": [
+        "Collaborating on a Project",
+        "Freelance / Contract",
+        "Hiring me"
+      ]
+    },
+    "row3": {
+      "lead": "We can talk in more detail at",
+      "emailLabel": "your email",
+      "phoneLabel": "your number",
+      "options": [
+        "WhatsApp",
+        "Email"
+      ],
+      "defaultSelected": "Email"
+    },
+    "row4": {
+      "lead": "In short,",
+      "label": "Type your message"
+    },
+    "submit": "Send message",
+    "fallback": {
+      "label": "Or just write me at",
+      "email": "soumyaranjanjana2023@gmail.com"
+    }
+  },
+  "worksIndex": {
+    "topBar": {
+      "mark": "Z / S",
+      "breadcrumb": "Index of Works · 2024 → 2026",
+      "lastRevised": "2026 · 06"
+    },
+    "intro": {
+      "eyebrow": "Index of Work",
+      "headline": "works.",
+      "lede": "<b>An index of selected projects, built and optimized, not just mocked up.</b> Hover any one to lock its accent and pause its ticker. Click to step inside."
+    },
+    "legend": {
+      "number": "№",
+      "project": "Project · in motion",
+      "meta": "Discipline · Year"
+    },
+    "end": {
+      "left": "End of index.",
+      "right": "Last revised"
+    },
+    "projects": [
+      {
+        "id": "furina",
+        "title": "furina court",
+        "discipline": "Full-Stack · Groq AI Engine",
+        "year": 2024,
+        "accent": "#00E5FF",
+        "marqueeDurationSec": 24
+      },
+      {
+        "id": "recipe",
+        "title": "recipe finder",
+        "discipline": "Web Application · Gemini API",
+        "year": 2024,
+        "accent": "#ff990a",
+        "marqueeDurationSec": 27
+      },
+      {
+        "id": "flowstate",
+        "title": "flowstate",
+        "discipline": "Mobile Architecture · Habit RPG",
+        "year": 2024,
+        "accent": "#a8dadc",
+        "marqueeDurationSec": 28
+      },
+      {
+        "id": "lumina",
+        "title": "lumina AI",
+        "discipline": "Mobile App · Companion AI",
+        "year": 2024,
+        "accent": "#A855F7",
+        "marqueeDurationSec": 26
+      },
+      {
+        "id": "nutrilens",
+        "title": "nutrilens",
+        "discipline": "PWA · AI Nutrition Tracker",
+        "year": 2025,
+        "accent": "#93b99e",
+        "marqueeDurationSec": 25
+      },
+      {
+        "id": "freellmapi",
+        "title": "FreeLLMAPI",
+        "discipline": "Developer Tool · API Proxy",
+        "year": 2026,
+        "accent": "#da3036",
+        "marqueeDurationSec": 23
+      },
+      {
+        "id": "cartsnap",
+        "title": "cartsnap",
+        "discipline": "Mobile POS · Offline-First",
+        "year": 2024,
+        "accent": "#E8963A",
+        "marqueeDurationSec": 29
+      }
+    ]
+  }
+}

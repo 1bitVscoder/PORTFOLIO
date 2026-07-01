@@ -1,0 +1,1 @@
+export { WorksStickersPage } from './WorksStickersPage';

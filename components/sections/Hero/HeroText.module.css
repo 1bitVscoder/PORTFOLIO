@@ -1,0 +1,355 @@
+/* HeroText Component - Text and Arm Section
+   Reference: styles.css lines 173-251 */
+
+.textAndArm {
+    position: relative;
+    padding-top: clamp(80px, 10vw, 121px);
+    padding-left: var(--spacing-nav-side);
+    padding-right: var(--spacing-nav-side);
+    z-index: 5;
+}
+
+/* Hero Text Base Styles */
+.heroText {
+    font-family: var(--font-primary);
+    font-weight: 700;
+    font-size: var(--font-size-hero);
+    line-height: 0.85;
+    margin: 0;
+    padding: 0;
+}
+
+/* MOHED Text */
+.heroTextMohed {
+    color: var(--color-primary-text);
+    display: block;
+    perspective: 1000px;
+}
+
+/* Individual letter for stagger animation */
+.letter {
+    display: inline-block;
+    transform-style: preserve-3d;
+}
+
+/* ============================================
+   PORTAL ANIMATION SYSTEM
+   Each letter is a masked window for the infinite loop effect
+   ============================================ */
+
+/* The clipping mask - acts as the "window frame" */
+.portalMask {
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    /* Ensure the mask tightly wraps the letter */
+    vertical-align: baseline;
+    /* No pointer cursor: the portal is a hover flourish, not a link. Inherit
+       the body's `cursor: none` so only the custom cursor shows, not a hand. */
+}
+
+/* The inner letter that moves within the mask */
+.portalLetter {
+    display: inline-block;
+    position: relative;
+    /* will-change for GPU acceleration during animation */
+    will-change: transform;
+    /* Ensure smooth sub-pixel rendering */
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ABBAS Text */
+.heroTextAbbas {
+    display: block;
+    text-align: right;
+    margin-top: clamp(10px, 2vw, 20px);
+    transform-origin: center bottom;
+    perspective: 1000px;
+}
+
+/* Individual ABBAS letter for stagger animation */
+.abbasLetter {
+    display: inline-block;
+    transform-style: preserve-3d;
+    transform-origin: center bottom;
+    will-change: transform, opacity;
+}
+
+/* Text Color Utilities */
+.textPurple {
+    color: var(--color-accent-purple);
+}
+
+.textDark {
+    color: var(--color-primary-text);
+}
+
+/* ============================================
+   TAGLINE SPOTLIGHT SYSTEM
+   CSS Grid stacking with clip-path reveal
+   Inspired by spotlight.html reference
+   ============================================ */
+
+/* Container for both tagline layers - CSS Grid for perfect stacking */
+.taglineContainer {
+    /* Own the spotlight radius locally so the reveal layers never inherit a
+       stray `--spotlight-size` left on <html> by the CustomCursor spotlight
+       (which would strand the hidden tagline visible on a fresh remount). The
+       hover handlers override this inline; this is the at-rest default. */
+    --spotlight-size: 0px;
+    display: grid;
+    /* Removed place-items: end to allow stretch (default) so layers align perfectly */
+    position: relative;
+    margin-top: -40px;
+    max-width: clamp(280px, 28vw, 420px);
+    margin-left: auto;
+    margin-right: 0;
+    /* Hide default cursor in spotlight zone */
+    cursor: none;
+    /* Allow spotlight background to bleed out */
+    overflow: visible;
+    contain: layout style;
+}
+
+/* LAYER 0: BACKGROUND SPOTLIGHT (UNBOUNDED) */
+/* Physically large div to allow clip-path to move outside text bounds */
+.spotlightBg {
+    position: absolute;
+    /* Negative values to expand "canvas" beyond container */
+    top: -500px;
+    left: -500px;
+    width: 2000px;
+    height: 2000px;
+    background-color: var(--color-accent-purple);
+    z-index: 2; /* Between Base (1) and Reveal (3) */
+    pointer-events: none;
+
+    /*
+       The clip-path center needs to be offset by the top/left shift.
+       Since we shifted -500px, (0,0) of container is at (500, 500) of this div.
+       So we add 500px to the coordinates.
+    */
+    --offset: 500px;
+    clip-path: circle(var(--spotlight-size, 0px) at calc(var(--spotlight-x, 50%) + var(--offset)) calc(var(--spotlight-y, 50%) + var(--offset)));
+
+    /* PERF: Remove transition - let GSAP ticker handle smooth updates */
+    /* transition: clip-path 0.05s linear; */
+
+    contain: layout style;
+}
+
+/* Base tagline styles (shared) */
+.tagline,
+.taglineHidden {
+    font-family: var(--font-primary);
+    font-weight: 700;
+    font-size: var(--font-size-tagline);
+    text-align: right;
+    text-transform: uppercase;
+    line-height: 1.4;
+    perspective: 800px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    /* Ensure texts align to bottom if heights differ */
+    align-content: flex-end;
+    gap: 0.25em;
+    margin: 0;
+    padding: 0;
+    /* Both layers sit in the exact same grid cell */
+    grid-area: 1 / 1;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* LAYER 1: BOTTOM (DEFAULT) - Dark text on transparent */
+.tagline {
+    color: var(--color-primary-text);
+    background-color: transparent;
+    z-index: 1; /* Below spotlight background */
+    position: relative;
+}
+
+/* LAYER 2: TOP (REVEAL) - Light text on accent background */
+.taglineHidden {
+    /* Text color inside the spotlight circle */
+    color: var(--color-background);
+    /* BACKGROUND REMOVED - handled by .spotlightBg */
+    background-color: transparent;
+    z-index: 3; /* Topmost layer */
+    /* THE MASK LOGIC - clip into circle shape */
+    /* Uses standard coordinates relative to container */
+    clip-path: circle(var(--spotlight-size, 0px) at var(--spotlight-x, 50%) var(--spotlight-y, 50%));
+    /* Disable pointer events so hover passes through */
+    pointer-events: none;
+    user-select: none;
+    /* PERF: Remove transition - let GSAP ticker handle smooth updates */
+    /* transition: clip-path 0.05s linear; */
+}
+
+/* PERF: only promote spotlight layers while user hovers tagline */
+.taglineContainer.spotlightActive .spotlightBg,
+.taglineContainer.spotlightActive .taglineHidden {
+    will-change: clip-path;
+}
+
+/* Individual tagline word for stagger animation */
+.taglineWord {
+    display: inline-block;
+    transform-style: preserve-3d;
+    transform-origin: center bottom;
+}
+
+/* Forced line break inside the flex-wrap tagline.
+   Fills the row so following words flow to the next line — lets us
+   author balanced 2-line breaks that align across both layers. */
+.lineBreak {
+    flex-basis: 100%;
+    width: 100%;
+    height: 0;
+}
+
+/* Responsive adjustments for MacBook 14" and similar screens */
+@media (min-width: 1200px) and (max-width: 1600px) {
+    .taglineContainer {
+        margin-top: -40px;
+        max-width: 380px;
+    }
+}
+
+/* Larger desktop adjustments */
+@media (min-width: 1600px) {
+    .taglineContainer {
+        /* margin-top: clamp(10px, 2vw, 20px); */
+        max-width: 420px;
+    }
+}
+
+/* ============================================
+   SHORT DESKTOP VIEWPORT
+   Reduce spacing when viewport height is limited
+   (e.g. 1366x768, 1280x800 laptops)
+   ============================================ */
+
+@media (min-width: 1025px) and (max-height: 850px) {
+    .textAndArm {
+        padding-top: clamp(50px, 7vw, 80px);
+    }
+
+    .taglineContainer {
+        margin-top: -40px;
+    }
+}
+
+/* ============================================
+   TABLET RESPONSIVE LAYOUT (Portrait/Small Landscape)
+   Strategy: Balanced Stagger
+   ============================================ */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .textAndArm {
+        padding-top: 100px;
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+
+    .heroText {
+        /* Slightly smaller than full desktop to fit portrait aspect ratios */
+        font-size: clamp(80px, 18vw, 20vw);
+        line-height: 0.82;
+    }
+
+    .heroTextAbbas {
+        margin-top: 20px;
+    }
+
+    .taglineContainer {
+        /* Match .heroTextAbbas (20px) at this breakpoint */
+        margin-top: 20px;
+        max-width: 340px;
+    }
+
+    .tagline,
+    .taglineHidden {
+        font-size: 18px;
+    }
+}
+
+/* ============================================
+   MOBILE RESPONSIVE LAYOUT
+   Strategy: Maximized Vertical Stack
+   ============================================ */
+
+@media (max-width: 768px) {
+    .textAndArm {
+        /* Use Flexbox for vertical centering */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        /* Height adjustment: 100vh minus safe area/skills bar allowance */
+        min-height: 85vh;
+        /* Reset padding since we are using flex center */
+        padding-top: 0;
+        padding-left: 20px;
+        padding-right: 20px;
+        /* Ensure it sits above background but allows interaction */
+        pointer-events: none; /* Let clicks pass through to background if needed */
+    }
+
+    /* Re-enable pointer events for text elements */
+    .heroText, .taglineContainer {
+        pointer-events: auto;
+        margin: 0 auto;
+    }
+
+    .heroText {
+        /* Maximize font size to fill width (~90%) without wrapping */
+        font-size: 18vw;
+        line-height: 0.85;
+        white-space: nowrap;
+    }
+
+    .heroTextMohed {
+        /* Ensure it sticks to the left */
+        text-align: center;
+        margin-bottom: 0;
+    }
+
+    .heroTextAbbas {
+        /* Tighten vertical gap */
+        margin-top: 10px;
+        /* Ensure it sticks to the right */
+        text-align: center;
+    }
+
+    .taglineContainer {
+        /* Match .heroTextAbbas (10px) at this breakpoint */
+        margin-top: 10px;
+        /* Allow full width for better wrapping */
+        max-width: 100%;
+        /* Disable spotlight on mobile (no hover) */
+        cursor: auto;
+    }
+
+    .tagline,
+    .taglineHidden {
+        /* Align left to contrast with the right-aligned 'ABBAS' above */
+        text-align: left;
+        justify-content: flex-start;
+        /* Increase readability size */
+        font-size: clamp(16px, 4vw, 20px);
+        line-height: 1.5;
+    }
+
+    .tagline {
+        display: none;
+    }
+
+    /* Show the hidden tagline on mobile since no hover is possible */
+    .taglineHidden {
+        display: flex;
+        clip-path: none;
+        color: var(--color-primary-text);
+    }
+}

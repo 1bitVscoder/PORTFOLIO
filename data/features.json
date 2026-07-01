@@ -1,0 +1,62 @@
+{
+  "customCursor": {
+    "enabled": true,
+    "hideOnTouch": true,
+    "trail": {
+      "count": 4,
+      "sizes": [28, 20, 14, 8],
+      "lerpFactors": [0.12, 0.09, 0.06, 0.04],
+      "colors": {
+        "primary": "var(--color-primary-text)",
+        "secondary": "#ffb224",
+        "tertiary": "#388e4a"
+      }
+    },
+    "burst": {
+      "enabled": true,
+      "scale": 1.8,
+      "duration": 0.4
+    }
+  },
+  "interactiveBackground": {
+    "enabled": true,
+    "grid": {
+      "spacing": 24,
+      "plusSignSize": 10,
+      "strokeWidth": 1
+    },
+    "physics": {
+      "mouseRadius": 120,
+      "repulsionStrength": 0.6,
+      "returnStrength": 0.06,
+      "friction": 0.9,
+      "maxVelocity": 8
+    }
+  },
+  "welcomeScreen": {
+    "enabled": true,
+    "skipOnReturn": true,
+    "storageKey": "portfolio_hasLoaded"
+  },
+  "smoothScroll": {
+    "enabled": true,
+    "lerp": 0.1,
+    "duration": 1.2,
+    "smoothWheel": true
+  },
+  "menu": {
+    "enabled": true,
+    "animateOnHover": true,
+    "showDescriptions": true
+  },
+  "accentColorRotation": {
+    "enabled": true,
+    "defaultColorIndex": 0,
+    "cssVariableName": "--color-accent-purple"
+  },
+  "backToTop": {
+    "enabled": true,
+    "scrollThreshold": 400,
+    "scrollDuration": 1.2
+  }
+}

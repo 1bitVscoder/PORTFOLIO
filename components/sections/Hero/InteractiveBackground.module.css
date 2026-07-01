@@ -1,0 +1,49 @@
+/* InteractiveBackground
+ *
+ * Single fullscreen WebGL canvas. The fragment shader draws both the plus grid
+ * and the cursor displacement procedurally — no DOM mask, no follower canvas.
+ *
+ * Fallback: when WebGL is unavailable, prefers-reduced-motion is set, or the
+ * device is coarse-pointer / small-screen, the component swaps the canvas for
+ * a CSS-masked static grid via a state flag.
+ */
+
+.root {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.glCanvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    /* Canvas updates are driven by GSAP ticker — no compositor hint needed beyond this. */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* Fallback static grid — identical to V2's Layer 1. */
+.staticGrid {
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-accent-purple);
+    opacity: 0.22;
+    transition: background-color 0.4s var(--ease-out-quart, ease-out);
+
+    --_plus-svg: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='11.5' y='7' width='1' height='10' fill='black'/%3E%3Crect x='7' y='11.5' width='10' height='1' fill='black'/%3E%3C/svg%3E");
+
+    -webkit-mask-image: var(--_plus-svg);
+            mask-image: var(--_plus-svg);
+    -webkit-mask-size: var(--plus-grid-spacing, 24px) var(--plus-grid-spacing, 24px);
+            mask-size: var(--plus-grid-spacing, 24px) var(--plus-grid-spacing, 24px);
+    -webkit-mask-repeat: repeat;
+            mask-repeat: repeat;
+    -webkit-mask-position: 0 0;
+            mask-position: 0 0;
+}

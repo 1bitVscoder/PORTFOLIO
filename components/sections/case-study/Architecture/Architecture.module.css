@@ -1,0 +1,199 @@
+/* ============================================================
+   CASE STUDY · ARCHITECTURE — layered system diagram + facts.
+   Mirrors Outcomes' bordered-grid language; the layer stack
+   reads top-to-bottom like a real architecture diagram.
+   ============================================================ */
+
+.architecture {
+    padding: clamp(80px, 12vh, 140px) var(--spacing-nav-side);
+    width: 100%;
+}
+
+.head {
+    max-width: var(--canvas-max-width);
+    margin: 0 auto clamp(40px, 5vw, 64px);
+}
+
+.title {
+    composes: caseStudyTitle from '../title.module.css';
+    margin: 0;
+    max-width: 14ch;
+}
+
+.titleAccent {
+    color: var(--color-accent-purple);
+}
+
+.intro {
+    margin: clamp(24px, 3vw, 36px) 0 0;
+    max-width: 64ch;
+    font-family: var(--font-primary);
+    font-size: clamp(17px, 1.4vw, 21px);
+    line-height: 1.5;
+    color: var(--color-gray-dark);
+}
+
+.intro b {
+    color: var(--color-primary-text);
+    font-weight: 500;
+}
+
+/* ---------- LAYER STACK ---------- */
+.stack {
+    max-width: var(--canvas-max-width);
+    margin: 0 auto;
+    border: 2px solid var(--color-primary-text);
+    border-radius: var(--radius-portrait);
+    overflow: hidden;
+    background: var(--color-background);
+}
+
+.layer {
+    display: grid;
+    grid-template-columns: minmax(220px, 0.85fr) 1.15fr;
+    gap: clamp(20px, 3vw, 48px);
+    padding: clamp(28px, 3vw, 44px);
+    border-bottom: 2px solid var(--color-primary-text);
+    align-items: start;
+}
+
+.layer:last-child {
+    border-bottom: 0;
+}
+
+.layerHead {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.layerName {
+    font-family: var(--font-primary);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: clamp(28px, 3vw, 44px);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    color: var(--color-primary-text);
+}
+
+.chips {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.chip {
+    font-family: var(--font-navbar);
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    padding: 6px 12px;
+    border: 1.5px solid var(--color-primary-text);
+    border-radius: 999px;
+    color: var(--color-primary-text);
+    white-space: nowrap;
+}
+
+.detail {
+    margin: 0;
+    font-family: var(--font-primary);
+    font-size: clamp(15px, 1.2vw, 18px);
+    line-height: 1.55;
+    color: var(--color-gray-dark);
+    align-self: center;
+}
+
+/* ---------- FACTS STRIP ---------- */
+.facts {
+    max-width: var(--canvas-max-width);
+    margin: clamp(28px, 3vw, 40px) auto 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: 2px solid var(--color-primary-text);
+    border-radius: var(--radius-portrait);
+    overflow: hidden;
+    background: var(--color-background);
+}
+
+.fact {
+    padding: clamp(24px, 2.4vw, 36px);
+    border-right: 2px solid var(--color-primary-text);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-height: 200px;
+}
+
+.fact:last-child {
+    border-right: 0;
+}
+
+.value {
+    font-family: var(--font-primary);
+    font-weight: 700;
+    font-size: clamp(56px, 6vw, 104px);
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+    color: var(--color-primary-text);
+}
+
+.value sup {
+    font-size: 0.32em;
+    vertical-align: top;
+    margin-left: 4px;
+    color: var(--color-accent-purple);
+}
+
+.factLabel {
+    margin-top: auto;
+    font-family: var(--font-navbar);
+    font-size: 13px;
+    color: var(--color-gray-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.factLabel b {
+    display: block;
+    color: var(--color-primary-text);
+    font-weight: 400;
+    margin-bottom: 6px;
+    font-family: var(--font-primary);
+    text-transform: uppercase;
+    font-size: 16px;
+    letter-spacing: 0;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 900px) {
+    .layer {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    .facts {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .fact:nth-child(2) {
+        border-right: 0;
+    }
+    .fact:nth-child(1),
+    .fact:nth-child(2) {
+        border-bottom: 2px solid var(--color-primary-text);
+    }
+}
+
+@media (max-width: 560px) {
+    .facts {
+        grid-template-columns: 1fr;
+    }
+    .fact {
+        border-right: 0;
+        border-bottom: 2px solid var(--color-primary-text);
+    }
+    .fact:last-child {
+        border-bottom: 0;
+    }
+}

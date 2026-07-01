@@ -1,0 +1,75 @@
+.statementText {
+  font-size: clamp(2.5rem, 6.5vw, 7rem);
+  font-weight: 900;
+  line-height: 1;
+  text-transform: uppercase;
+  max-width: 1400px;
+  letter-spacing: -0.02em;
+  color: var(--color-primary-text);
+}
+
+.word {
+  display: inline-block;
+  opacity: 0.15;
+}
+
+.highlight {
+  /* Color animated by GSAP - no CSS transition to prevent conflicts */
+  color: var(--color-primary-text);
+}
+
+/* ============================================
+   PORTAL ANIMATION SYSTEM FOR HIGHLIGHTS
+   Each highlight letter is a masked window
+   ============================================ */
+
+/* Highlight word container - wraps the letter spans */
+.highlightWord {
+  display: inline-block;
+  opacity: 0; /* Hidden until stagger animation */
+}
+
+/* The clipping mask - acts as the "window frame" */
+.portalMask {
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+  vertical-align: bottom;
+  /* No pointer cursor: these highlight letters are a scroll/hover flourish,
+     not links. Inherit the body's `cursor: none` so no hand cursor appears. */
+}
+
+/* The inner letter that moves within the mask. Color is driven by the
+ * --highlight-color custom property which is written ONCE per scrub frame on
+ * the .highlightWord ancestor (see RevealText.tsx) instead of writing
+ * el.style.color per letter — N×M inline-style writes per frame collapse to N
+ * CSS-var writes. */
+.portalLetter {
+  display: inline-block;
+  position: relative;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  color: var(--highlight-color, var(--color-primary-text));
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .statementText {
+    font-size: clamp(2rem, 10vw, 5.5rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .statementText {
+    font-size: clamp(1.75rem, 9vw, 5rem);
+    line-height: 1.1;
+  }
+}
+
+@media (max-width: 480px) {
+  .statementText {
+    font-size: clamp(1.5rem, 12vw, 3.5rem);
+    line-height: 1.15;
+  }
+}

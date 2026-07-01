@@ -1,0 +1,49 @@
+.toggle {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 150;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1.5px solid var(--color-primary-text);
+    background-color: var(--color-background);
+    color: var(--color-primary-text);
+
+    cursor: pointer;
+
+    transition:
+        background-color var(--duration-normal) var(--ease-out-quart),
+        color var(--duration-normal) var(--ease-out-quart),
+        border-color var(--duration-normal) var(--ease-out-quart),
+        transform var(--duration-fast) var(--ease-out-quart),
+        opacity var(--duration-fast) var(--ease-out-quart);
+}
+
+.toggle:hover {
+    transform: scale(1.1);
+}
+
+.toggle:active {
+    transform: scale(0.95);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .toggle {
+        transition: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .toggle {
+        bottom: 16px;
+        right: 16px;
+        width: 40px;
+        height: 40px;
+    }
+}

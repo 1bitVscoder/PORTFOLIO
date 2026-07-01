@@ -1,0 +1,250 @@
+/* ============================================================
+   CASE STUDY · TOGGLE — Gallery ↔ List view of all screens.
+   Signature interactive section with cursor-following hover
+   preview in list mode.
+   ============================================================ */
+
+.toggle {
+    padding: clamp(80px, 12vh, 140px) var(--spacing-nav-side);
+}
+
+/* ---------- HEAD ROW — eyebrow/h2 left, mode toggle right ---------- */
+.controls {
+    max-width: var(--canvas-max-width);
+    margin: 0 auto clamp(36px, 4vw, 56px);
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+.title {
+    composes: caseStudyTitle from '../title.module.css';
+    margin: 0;
+}
+
+.titleAccent {
+    color: var(--color-accent-purple);
+}
+
+/* ---------- TOGGLE PILL ---------- */
+.modes {
+    display: inline-flex;
+    background: var(--color-background);
+    border: 2px solid var(--color-primary-text);
+    border-radius: 999px;
+    padding: 4px;
+    font-family: var(--font-navbar);
+    font-size: 14px;
+}
+
+.modeBtn {
+    border: 0;
+    background: transparent;
+    padding: 10px 22px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    color: var(--color-primary-text);
+    transition:
+        background var(--duration-normal) var(--ease-out-expo),
+        color var(--duration-normal) var(--ease-out-expo);
+}
+
+.modeBtn[aria-checked='true'] {
+    background: var(--color-primary-text);
+    color: var(--color-background);
+}
+
+/* ---------- GALLERY VIEW — asymmetric 12-col magazine grid ---------- */
+.gallery {
+    max-width: var(--canvas-max-width);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 24px;
+}
+
+.gallery figure {
+    margin: 0;
+    position: relative;
+}
+
+.frame {
+    border-radius: var(--radius-portrait);
+    overflow: hidden;
+    box-shadow: 0 18px 50px -20px rgba(27, 32, 40, 0.18);
+}
+
+.frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    aspect-ratio: 4 / 3;
+    display: block;
+}
+
+.gallery figure:nth-child(1) { grid-column: span 7; }
+.gallery figure:nth-child(2) {
+    grid-column: span 5;
+    margin-top: clamp(40px, 6vw, 100px);
+}
+.gallery figure:nth-child(3) { grid-column: span 5; }
+.gallery figure:nth-child(4) {
+    grid-column: span 7;
+    margin-top: clamp(40px, 6vw, 100px);
+}
+.gallery figure:nth-child(5) { grid-column: span 12; }
+.gallery figure:nth-child(5) .frame img { aspect-ratio: 21 / 9; }
+
+.caption {
+    margin-top: 14px;
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-navbar);
+    font-size: 13px;
+    color: var(--color-gray-dark);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+/* ---------- LIST VIEW — bordered rows ---------- */
+.list {
+    max-width: var(--canvas-max-width);
+    margin: 0 auto;
+    border-top: 2px solid var(--color-primary-text);
+}
+
+.row {
+    display: grid;
+    grid-template-columns: 60px 1fr 1fr auto;
+    align-items: center;
+    gap: 24px;
+    padding: 20px 0;
+    border-bottom: 2px solid var(--color-primary-text);
+    transition: background var(--duration-normal) var(--ease-out-expo);
+    cursor: pointer;
+}
+
+.row:hover {
+    background: var(--paper);
+}
+
+.rowN {
+    font-family: var(--font-navbar);
+    font-size: 14px;
+    color: var(--color-gray-dark);
+    letter-spacing: 0.06em;
+}
+
+.rowName {
+    font-family: var(--font-primary);
+    font-weight: 700;
+    font-size: clamp(22px, 2vw, 32px);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--color-primary-text);
+}
+
+.rowDesc {
+    font-family: var(--font-primary);
+    font-size: 16px;
+    color: var(--color-gray-dark);
+}
+
+.rowMeta {
+    font-family: var(--font-navbar);
+    font-size: 13px;
+    color: var(--color-gray-dark);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+/* ---------- HOVER-PREVIEW THUMB (list mode) ----------
+   `.preview` is a fixed-position window with a single shared stack
+   inside. `left`/`top` are spring-tweened by gsap.quickTo on cursor
+   move; `transform: scale()` toggles visibility; the inner
+   `.previewSlider` exposes one card at a time via translateY. */
+.preview {
+    position: fixed;
+    pointer-events: none;
+    z-index: 80;
+    width: 360px;
+    height: 260px;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.35);
+    transform: translate(-50%, -50%) scale(0);
+    transition-property: transform;
+    transition-duration: 0.45s;
+    transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.previewVisible {
+    transform: translate(-50%, -50%) scale(1);
+    will-change: transform;
+}
+
+.previewSlider {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.previewCard {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.previewCard img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .preview {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0;
+        transition-property: opacity;
+        transition-duration: 0.2s;
+        transition-timing-function: linear;
+    }
+    .previewVisible {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    .previewSlider {
+        transition: none;
+    }
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 1100px) {
+    .gallery figure {
+        grid-column: span 12 !important;
+        margin-top: 0 !important;
+    }
+}
+
+@media (max-width: 640px) {
+    .row {
+        grid-template-columns: 40px 1fr auto;
+    }
+    .rowDesc {
+        display: none;
+    }
+    .preview {
+        display: none;
+    }
+}

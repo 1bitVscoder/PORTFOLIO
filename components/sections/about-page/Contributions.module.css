@@ -1,0 +1,133 @@
+/* ABOUT PAGE · Contributions — GitHub heatmap + accent snake. */
+
+.section {
+  padding: clamp(140px, 22vh, 280px) var(--spacing-nav-side);
+
+  /* The snake is the primary text colour, so it reads as ink crawling across
+     the grid. */
+  --snake: var(--color-primary-text);
+
+  /* Accent contribution scale, mixed over the page background so it tracks
+     light/dark automatically. We reference the CSS variable the accent provider
+     keeps in sync on the DOM (NOT a React-rendered inline style) so server and
+     client markup match — no hydration mismatch. */
+  --cell-0: var(--color-grid-line);
+  --cell-1: color-mix(in srgb, var(--color-accent-purple) 72%, var(--color-background));
+  --cell-2: color-mix(in srgb, var(--color-accent-purple) 88%, var(--color-background));
+  --cell-3: var(--color-accent-purple);
+  --cell-4: color-mix(in srgb, var(--color-accent-purple) 100%, #000 22%);
+}
+.inner { max-width: var(--canvas-max-width); margin: 0 auto; }
+
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: clamp(20px, 3vh, 32px);
+  margin-bottom: clamp(20px, 3vh, 36px);
+  border-bottom: 2px solid var(--color-primary-text);
+}
+.eyebrow { margin: 0; }
+.count {
+  font-family: var(--font-navbar);
+  font-size: clamp(13px, 1.2vw, 16px);
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── grid ── */
+.gridWrap { width: 100%; }
+.grid {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible; /* let the bite-pulse scale spill past the viewBox edge */
+}
+
+.cell {
+  fill: var(--cell-0);
+  transition: fill 0.45s var(--ease-out-quart);
+}
+.cell[data-level="1"] { fill: var(--cell-1); }
+.cell[data-level="2"] { fill: var(--cell-2); }
+.cell[data-level="3"] { fill: var(--cell-3); }
+.cell[data-level="4"] { fill: var(--cell-4); }
+
+/* Consumed: drains back to empty (the transition above animates the colour). */
+.cell[data-eaten="true"] { fill: var(--cell-0); }
+
+/* The instant of the bite — a hard accent flash with no transition; removing
+   the class a beat later lets the cell transition down to the eaten colour. */
+.biting {
+  fill: var(--snake) !important;
+  transition: none !important;
+}
+
+/* ── snake ── */
+.seg {
+  fill: var(--snake);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+/* Head reads a touch brighter with a soft accent halo. */
+.seg:first-child {
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--snake) 70%, transparent));
+}
+
+/* ── footer: legend + controls ── */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: clamp(20px, 3vh, 32px);
+}
+
+.legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-navbar);
+  font-size: clamp(11px, 1vw, 13px);
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+.legendLabel { margin: 0 2px; }
+.legendCell {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  background: var(--cell-0);
+}
+.legendCell[data-level="1"] { background: var(--cell-1); }
+.legendCell[data-level="2"] { background: var(--cell-2); }
+.legendCell[data-level="3"] { background: var(--cell-3); }
+.legendCell[data-level="4"] { background: var(--cell-4); }
+
+.controls { display: inline-flex; align-items: center; gap: 10px; }
+
+/* The GitHub link — solid accent pill. */
+.cta {
+  font-family: var(--font-navbar);
+  font-size: clamp(12px, 1.1vw, 15px);
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 999px;
+  border: 1px solid var(--color-accent-purple);
+  background: var(--color-accent-purple);
+  color: var(--color-background);
+  transition: transform 0.25s var(--ease-out-expo), background 0.25s ease,
+    color 0.25s ease, border-color 0.25s ease;
+}
+.cta:hover {
+  transform: translateY(-2px);
+  color: var(--color-background);
+}
+
+@media (max-width: 560px) {
+  .footer { flex-direction: column; align-items: flex-start; }
+}

@@ -1,0 +1,127 @@
+/* WorksPreview
+ *
+ * Cursor-following hero-image preview. Ports the case-study Toggle
+ * list-mode preview pattern (components/sections/case-study/Toggle/) so
+ * row→row hover produces a slide between mounted cards, not a re-mount.
+ *
+ * Invariants:
+ *   • `.preview` is fixed-positioned, with `left` / `top` tweened by GSAP
+ *     quickTo on mousemove. Show / hide is owned by `transform: scale()`
+ *     — the two never collide.
+ *   • All cards mount once inside `.slider`; only `transform: translateY()`
+ *     on `.slider` switches between them.
+ *   • Accent border + badge follow the active card via `--preview-accent`.
+ */
+
+.preview {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: clamp(280px, 24vw, 360px);
+    height: clamp(200px, 17vw, 260px);
+    border-radius: 18px;
+    overflow: hidden;
+    border: 2px solid var(--preview-accent, var(--color-primary-text));
+    background: var(--color-background);
+    box-shadow:
+        6px 8px 0 0 var(--color-primary-text),
+        0 30px 60px -20px var(--preview-shadow, rgba(27, 32, 40, 0.35));
+    pointer-events: none;
+    z-index: calc(var(--z-cursor, 9999) - 1);
+    /* Hidden state — collapsed scale around the cursor. GSAP writes only
+     * left/top; this transform property is exclusively ours. */
+    transform: translate(-50%, -50%) scale(0);
+    transition:
+        transform 0.45s cubic-bezier(0.76, 0, 0.24, 1),
+        border-color 0.4s var(--ease-out-quart, ease);
+    will-change: transform;
+}
+
+.preview.visible {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Inner slider — translates Y to expose one card. Cards are stacked
+ * vertically inside the overflow-hidden window. */
+.slider {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.55s cubic-bezier(0.76, 0, 0.24, 1);
+    will-change: transform;
+}
+
+.card {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-background);
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+}
+
+.badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--preview-accent, var(--color-accent-purple));
+    color: #fff;
+    border: 1.5px solid var(--color-primary-text);
+    box-shadow: 3px 3px 0 0 var(--color-primary-text);
+    font-family: var(--font-navbar, 'Doppio One', serif);
+    font-size: 10px;
+    line-height: 1.15;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-align: center;
+    transform: rotate(8deg);
+    transition:
+        background-color 0.45s var(--ease-out-quart, ease),
+        transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.preview.visible .badge {
+    transform: rotate(8deg) scale(1.05);
+}
+
+/* Dark mode — bump shadow alpha so it's visible on #171717. */
+:global(:root[data-theme='dark']) .preview {
+    --preview-shadow: rgba(0, 0, 0, 0.6);
+}
+
+/* Coarse pointer — no hover concept. */
+@media (hover: none), (pointer: coarse) {
+    .preview {
+        display: none;
+    }
+}
+
+/* Reduced motion — opacity fade in/out instead of scale, no slide. */
+@media (prefers-reduced-motion: reduce) {
+    .preview {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0;
+        transition: opacity 0.2s linear;
+    }
+    .preview.visible {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    .slider {
+        transition: none;
+    }
+}

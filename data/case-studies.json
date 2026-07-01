@@ -1,0 +1,1459 @@
+{
+  "furina": {
+    "hero": {
+      "title": "FURINA",
+      "lede": "A wild, interactive universe deployed on Vercel. Engineered with advanced state control, custom routes, and the Groq API because standard LLMs are too slow, and waiting is for humans.",
+      "image": "/images/projects/furina.png",
+      "alt": "Furina Court Interactive UI",
+      "pills": [
+        "Full-Stack · AI App",
+        "Node.js · Groq API · Vercel"
+      ],
+      "badge": "Witness\nPower",
+      "backHref": "/"
+    },
+    "ledger": {
+      "entries": [
+        {
+          "label": "Client",
+          "primary": "Furina Court",
+          "secondary": "Self-initiated project"
+        },
+        {
+          "label": "Year",
+          "primary": "2024",
+          "secondary": "Live on Vercel"
+        },
+        {
+          "label": "Role",
+          "primary": "Developer",
+          "secondary": "Full-stack & AI"
+        },
+        {
+          "label": "Stack",
+          "primary": "Node · Python",
+          "secondary": "Groq API · Vercel"
+        },
+        {
+          "label": "Status",
+          "primary": "Live",
+          "secondary": "Publicly accessible"
+        }
+      ]
+    },
+    "context": {
+      "label": "Context",
+      "facts": [
+        "**Role**AI Engineer & Full-Stack Developer",
+        "**Stack**Node.js · Python · Groq API · Vercel",
+        "**Team**1 engineer (me)"
+      ],
+      "body": [
+        "**Furina Court started** as an experiment to bypass the sluggish response times of standard Large Language Models. I wanted an AI companion that could respond almost instantly, wrapped in a wild, custom-animated universe.",
+        "The project required engineering a highly responsive middle-layer. By integrating the Groq API, I achieved sub-second inference times, shifting the user experience from 'waiting' to 'interacting'.",
+        "I designed the interface with fluid layout animations, making the virtual playground feel alive. From route handling to state management, the architecture is tuned for immediate, lag-free updates."
+      ]
+    },
+    "vision": {
+      "label": "The Vision",
+      "titleLine1": "An AI universe",
+      "titleLine2": "that feels",
+      "titleAccent": "instant.",
+      "body": [
+        "Standard LLMs take seconds to compile tokens. By utilizing Groq's high-speed LPU inference, Furina Court delivers text chunks back to the client at extreme speed. Latency is treated as a bug.",
+        "The custom routes handle user contexts and fast state caching. No loading indicators or spinning wheels — just immediate response."
+      ]
+    },
+    "product": {
+      "label": "The Product",
+      "titleLine1": "Speed first,",
+      "titleLine2": "style",
+      "titleAccent": "always.",
+      "body": [
+        "The frontend design embraces fluid motion. User queries spawn instant animations that slide and snap into view, keeping the user locked into the interface.",
+        "Behind it, a clean Node and Python service routes inputs, manages prompt injection, and stream-pipes tokens directly to the client view."
+      ]
+    },
+    "dashboard": {
+      "badge": "In production",
+      "figcaption": "FURINA full system architecture overview.",
+      "image": "/images/projects/furina_dashboard.png",
+      "alt": "FURINA system diagram overview"
+    },
+    "toggle": {
+      "label": "Telemetry",
+      "titleLine1": "Interactive",
+      "titleAccent": "theatre chat.",
+      "screens": [
+        {
+          "num": "01",
+          "name": "Fontaine Theatre Chat",
+          "image": "/images/projects/furina_screen1.png",
+          "color": "teal",
+          "description": "Demonstrating the Fontaine Theatre Chat functionality built into the core stack.",
+          "meta": "Next.js · Llama 3"
+        },
+        {
+          "num": "02",
+          "name": "Model selection sidebar",
+          "image": "/images/projects/furina_screen2.png",
+          "color": "orange",
+          "description": "Demonstrating the Model selection sidebar functionality built into the core stack.",
+          "meta": "System Routing"
+        },
+        {
+          "num": "03",
+          "name": "Ambient sound player",
+          "image": "/images/projects/furina_screen3.png",
+          "color": "purple",
+          "description": "Demonstrating the Ambient sound player functionality built into the core stack.",
+          "meta": "Fluid audio toggle"
+        }
+      ]
+    },
+    "architecture": {
+      "label": "Architecture",
+      "titleLine1": "Under the",
+      "titleAccent": "hood.",
+      "intro": "Behind the UI, Furina Court utilizes a fast Node.js gateway and Groq API stream pipelines to feed real-time conversational states to the frontend.",
+      "layers": [
+        {
+          "name": "Client",
+          "tech": [
+            "React",
+            "Vite",
+            "Tailwind"
+          ],
+          "detail": "Responsive web client featuring custom spring animations and real-time state listeners."
+        },
+        {
+          "name": "Gateway",
+          "tech": [
+            "Node.js",
+            "Express"
+          ],
+          "detail": "REST API managing prompt templates, rate-limiting, and streaming response chunks."
+        },
+        {
+          "name": "AI Model",
+          "tech": [
+            "Groq LPU",
+            "Llama 3"
+          ],
+          "detail": "Ultra-fast inference engine delivering conversational outputs under 300ms."
+        }
+      ],
+      "facts": [
+        {
+          "value": "300ms",
+          "title": "Inference",
+          "caption": "average latency"
+        },
+        {
+          "value": "1",
+          "title": "Developer",
+          "caption": "built end to end"
+        },
+        {
+          "value": "100%",
+          "title": "Responsive",
+          "caption": "fluid layout"
+        }
+      ]
+    },
+    "outcomes": {
+      "label": "Outcome",
+      "titleLine1": "Metrics of",
+      "titleLine2": "speed and",
+      "titleAccent": "flow.",
+      "metrics": [
+        {
+          "value": "10",
+          "unit": "x",
+          "title": "Faster",
+          "caption": "than standard LLM endpoints"
+        },
+        {
+          "value": "0",
+          "title": "Spinners",
+          "caption": "clean, instant loading states"
+        }
+      ]
+    },
+    "colophon": {
+      "leftLabel": "Colophon",
+      "titleLine1": "Created by a",
+      "titleAccent": "lone wolf.",
+      "credits": [
+        {
+          "role": "Engineering & Design",
+          "primary": "Zenith Soumya",
+          "secondary": "Full-stack developer · AI architect"
+        }
+      ],
+      "rightLabel": "About Z.S",
+      "bio": [
+        "Zenith Soumya is an IoT & AI Developer. He designs and builds next-gen web applications, Java/DSA optimized tools, and micro-controller IoT systems.",
+        "Furina Court is live on Vercel, representing a core research project into high-speed LLM gateway architectures."
+      ],
+      "actions": [
+        {
+          "label": "Live Demo ↗",
+          "href": "https://furina-de-fontaine1.vercel.app"
+        },
+        {
+          "label": "All work",
+          "href": "/work2"
+        },
+        {
+          "label": "Back home",
+          "href": "/"
+        }
+      ]
+    },
+    "nextCase": {
+      "slug": "recipe",
+      "counter": "Next case · 02 / 07"
+    }
+  },
+  "cartsnap": {
+    "hero": {
+      "title": "CARTSNAP",
+      "lede": "A beast of an offline POS app. Zero network lag, instant barcode scanning, and direct hardware integration for wireless printing because cloud dependencies suck.",
+      "image": "/images/projects/cartsnap.png",
+      "alt": "CartSnap App POS interface",
+      "pills": [
+        "Mobile POS · Offline-First",
+        "Flutter · Dart · SQLite · ESC/POS"
+      ],
+      "badge": "Witness\nPower",
+      "backHref": "/",
+      "counter": "06 / 06"
+    },
+    "ledger": {
+      "entries": [
+        {
+          "label": "Client",
+          "primary": "CartSnap",
+          "secondary": "Retail & POS platform"
+        },
+        {
+          "label": "Year",
+          "primary": "2024",
+          "secondary": "Completed & Shipped"
+        },
+        {
+          "label": "Role",
+          "primary": "Lead Developer",
+          "secondary": "Mobile architecture"
+        },
+        {
+          "label": "Stack",
+          "primary": "Flutter · Dart",
+          "secondary": "SQLite · ESC/POS"
+        },
+        {
+          "label": "Status",
+          "primary": "Shipped",
+          "secondary": "Production ready"
+        }
+      ]
+    },
+    "context": {
+      "label": "Context",
+      "facts": [
+        "**Role**Flutter Developer & Mobile Architect",
+        "**Stack**Flutter · Dart · SQLite · ESC/POS",
+        "**Team**1 engineer (me)"
+      ],
+      "body": [
+        "**CartSnap App is an offline-first POS application** designed to solve connection delays in retail environments. Traditional cloud POS systems suffer from network lag and downtime; this app works fully local.",
+        "I built the system using Flutter and Dart, compiling to native binaries with direct micro-printer integration over ESC/POS commands. Instant barcode scans fetch items from a local SQLite cache in under 5 milliseconds.",
+        "The result is a lightning-fast checkout flow that operates in warehouses and remote retail sites with zero internet connection."
+      ]
+    },
+    "vision": {
+      "label": "The Vision",
+      "titleLine1": "Offline POS",
+      "titleLine2": "running at",
+      "titleAccent": "peak speed.",
+      "body": [
+        "Retail stores lose money when transaction flows hang. This POS app caches entire inventory models locally, allowing workers to scan items, generate invoices, and print receipts with zero network calls.",
+        "Hardware-level commands interact directly with portable Bluetooth/Thermal printers."
+      ]
+    },
+    "product": {
+      "label": "The Product",
+      "titleLine1": "Check out in",
+      "titleLine2": "under three",
+      "titleAccent": "seconds.",
+      "body": [
+        "By structuring local indexing, product lookup is immediate. The receipt printer commands are queued locally and executed via Bluetooth channels instantly.",
+        "The app runs on low-cost Android tablets, lowering the hardware entry-barrier for local store owners."
+      ]
+    },
+    "dashboard": {
+      "badge": "In production",
+      "figcaption": "CARTSNAP full system architecture overview.",
+      "image": "/images/projects/cartsnap_dashboard.png",
+      "alt": "CARTSNAP system diagram overview"
+    },
+    "toggle": {
+      "label": "Telemetry",
+      "titleLine1": "Interactive",
+      "titleAccent": "POS checkout.",
+      "screens": [
+        {
+          "num": "01",
+          "name": "Checkout Basket & Cart",
+          "image": "/images/projects/cartsnap_screen1.png",
+          "color": "teal",
+          "description": "Demonstrating the Checkout Basket & Cart functionality built into the core stack.",
+          "meta": "Local SQLite cache"
+        },
+        {
+          "num": "02",
+          "name": "Local database search",
+          "image": "/images/projects/cartsnap_screen2.png",
+          "color": "orange",
+          "description": "Demonstrating the Local database search functionality built into the core stack.",
+          "meta": "Offline inventory"
+        },
+        {
+          "num": "03",
+          "name": "Bluetooth Printer connection",
+          "image": "/images/projects/cartsnap_screen3.png",
+          "color": "purple",
+          "description": "Demonstrating the Bluetooth Printer connection functionality built into the core stack.",
+          "meta": "ESC/POS direct protocol"
+        }
+      ]
+    },
+    "architecture": {
+      "label": "Architecture",
+      "titleLine1": "Under the",
+      "titleAccent": "hood.",
+      "intro": "A local SQLite database provides 5ms query speeds, synced to a Flutter app logic layer that manages printer queues and inventory indexing.",
+      "layers": [
+        {
+          "name": "UI Layer",
+          "tech": [
+            "Flutter",
+            "Dart"
+          ],
+          "detail": "Responsive mobile UI tailored for tablet layouts with double column panels."
+        },
+        {
+          "name": "Database",
+          "tech": [
+            "SQLite",
+            "drift"
+          ],
+          "detail": "Indexed local store backing that holds catalog data, sales reports, and receipt templates."
+        },
+        {
+          "name": "Hardware",
+          "tech": [
+            "ESC/POS",
+            "Bluetooth Serial"
+          ],
+          "detail": "Low-level connection streams that send formatting and print commands directly to thermal printers."
+        }
+      ],
+      "facts": [
+        {
+          "value": "5ms",
+          "title": "Lookup",
+          "caption": "local product index"
+        },
+        {
+          "value": "100%",
+          "title": "Offline",
+          "caption": "no internet required"
+        },
+        {
+          "value": "Bluetooth",
+          "title": "Printing",
+          "caption": "direct print commands"
+        }
+      ]
+    },
+    "outcomes": {
+      "label": "Outcome",
+      "titleLine1": "Speed and",
+      "titleLine2": "reliability",
+      "titleAccent": "unlocked.",
+      "metrics": [
+        {
+          "value": "0",
+          "unit": "ms",
+          "title": "Network lag",
+          "caption": "fully local processing"
+        }
+      ]
+    },
+    "colophon": {
+      "leftLabel": "Colophon",
+      "titleLine1": "Created by a",
+      "titleAccent": "lone wolf.",
+      "credits": [
+        {
+          "role": "Engineering & Design",
+          "primary": "Zenith Soumya",
+          "secondary": "Flutter developer · POS architect"
+        }
+      ],
+      "rightLabel": "About Z.S",
+      "bio": [
+        "Zenith Soumya is an IoT & AI Developer. He designs and builds next-gen web applications, Java/DSA optimized tools, and micro-controller IoT systems.",
+        "CartSnap POS is compiled and packaged as an Android APK, distributed locally to store owners."
+      ],
+      "actions": [
+        {
+          "label": "Download APK ↗",
+          "href": "https://github.com/1bitVscoder/cartsnap/releases/download/v1.0.0/CartSnap_v1.0.0.apk"
+        },
+        {
+          "label": "All work",
+          "href": "/work2"
+        },
+        {
+          "label": "Back home",
+          "href": "/"
+        }
+      ]
+    },
+    "nextCase": {
+      "slug": "furina",
+      "counter": "Next case · 01 / 07"
+    }
+  },
+  "recipe": {
+    "hero": {
+      "title": "RECIPE FINDER",
+      "lede": "A smart AI pantry chef web app powered by Gemini 2.5 Flash. It evaluates ingredients, performs safety validations, and generates beginner-friendly cooking instructions.",
+      "image": "/images/projects/recipe.png",
+      "alt": "Recipe Finder Pantry Chef UI",
+      "pills": [
+        "Web Application · AI Chef",
+        "React · Gemini API · Vercel"
+      ],
+      "badge": "Witness\nPower",
+      "backHref": "/"
+    },
+    "ledger": {
+      "entries": [
+        {
+          "label": "Client",
+          "primary": "Recipe Finder",
+          "secondary": "Self-initiated project"
+        },
+        {
+          "label": "Year",
+          "primary": "2024",
+          "secondary": "Live on Vercel"
+        },
+        {
+          "label": "Role",
+          "primary": "Developer",
+          "secondary": "Frontend & AI Integration"
+        },
+        {
+          "label": "Stack",
+          "primary": "React · Vite · TypeScript",
+          "secondary": "Gemini API · Vercel"
+        },
+        {
+          "label": "Status",
+          "primary": "Live",
+          "secondary": "Publicly accessible"
+        }
+      ]
+    },
+    "context": {
+      "label": "Context",
+      "facts": [
+        "**Role** AI Developer & Frontend Engineer",
+        "**Deliverable** React Web Application",
+        "**Highlights** Multi-modal parsing, safety validations"
+      ],
+      "body": [
+        "Recipe Finder was born from the common kitchen dilemma: having miscellaneous ingredients but no clear recipe. Standard search engines suggest recipes requiring missing ingredients, leading to grocery runs.",
+        "By leveraging the **Gemini 2.5 Flash** model, Recipe Finder evaluates a user's typed ingredients, validates them for food safety (preventing toxic combinations), and generates clean, structured cooking instructions tailored for beginners.",
+        "The UI is built with React and Tailwind CSS, focusing on speed and minimal layout shifts during generation, offering streaming-like text animations for recipe steps."
+      ]
+    },
+    "vision": {
+      "label": "Vision",
+      "titleLine1": "Pantry to plate,",
+      "titleLine2": "optimized by",
+      "titleAccent": "intelligence.",
+      "body": [
+        "To build a zero-waste cooking companion. No signup barriers, no advertisements—just input what you have and let the model design your meal.",
+        "Every generated recipe includes calorie estimations, macro breakdowns, and step-by-step cooking telemetry to ensure the outcome matches the pantry inventory."
+      ]
+    },
+    "product": {
+      "label": "Product",
+      "titleLine1": "Streamlined UI,",
+      "titleLine2": "uncompromising",
+      "titleAccent": "simplicity.",
+      "body": [
+        "Users select ingredients via a tags input interface. The backend packs these ingredients into structured prompt templates, querying Gemini for clean JSON outputs.",
+        "Built-in parsing validators inspect the JSON payload before rendering, ensuring formatting mistakes are caught and handled gracefully without breaking the client interface."
+      ]
+    },
+    "architecture": {
+      "label": "Architecture",
+      "titleLine1": "React frontend",
+      "titleAccent": "Gemini orchestration.",
+      "intro": "A fully responsive client web application optimized for desktop and mobile, interacting with the Gemini API for layout-safe recipe compilation.",
+      "layers": [
+        {
+          "name": "Frontend Client",
+          "tech": [
+            "React",
+            "TypeScript",
+            "Vite",
+            "Tailwind CSS"
+          ],
+          "detail": "Modular UI component architecture handling state for active ingredient tags, selected filter conditions (e.g. vegetarian, gluten-free), and parsed recipe cards."
+        },
+        {
+          "name": "AI Integration Layer",
+          "tech": [
+            "@google/genai",
+            "JSON Schema Validation"
+          ],
+          "detail": "Formulates structured instruction prompts and forces JSON mode constraints on Gemini to guarantee type-safe responses matching the UI interface."
+        }
+      ],
+      "facts": [
+        {
+          "value": "100%",
+          "title": "Type-Safe JSON",
+          "caption": "Strict schema responses"
+        },
+        {
+          "value": "<2s",
+          "title": "Inference Latency",
+          "caption": "Using Gemini 2.5 Flash"
+        },
+        {
+          "value": "0",
+          "title": "Server overhead",
+          "caption": "Direct API orchestration"
+        }
+      ]
+    },
+    "outcomes": {
+      "label": "Outcomes",
+      "titleLine1": "Cooking made",
+      "titleLine2": "accessible,",
+      "titleAccent": "waste reduced.",
+      "metrics": [
+        {
+          "value": "100",
+          "unit": "%",
+          "title": "Client side",
+          "caption": "No central database required"
+        }
+      ]
+    },
+    "colophon": {
+      "leftLabel": "Colophon",
+      "titleLine1": "Engineered by",
+      "titleAccent": "1bitVscoder.",
+      "credits": [
+        {
+          "role": "Client & AI Engineering",
+          "primary": "Zenith Soumya",
+          "secondary": "AI App Builder"
+        }
+      ],
+      "rightLabel": "About Z.S",
+      "bio": [
+        "Zenith Soumya is an IoT and AI Developer focused on building optimized software engines and hardware integrations.",
+        "Recipe Finder is deployed publicly on Vercel, letting anyone turn raw ingredients into full, structured culinary plans."
+      ],
+      "actions": [
+        {
+          "label": "Live Demo ↗",
+          "href": "https://recipe-finder-lac-one.vercel.app"
+        },
+        {
+          "label": "All work",
+          "href": "/work2"
+        },
+        {
+          "label": "Back home",
+          "href": "/"
+        }
+      ]
+    },
+    "nextCase": {
+      "slug": "flowstate",
+      "counter": "Next case · 03 / 07"
+    },
+    "dashboard": {
+      "badge": "In production",
+      "figcaption": "RECIPE FINDER full system architecture overview.",
+      "image": "/images/projects/recipe_dashboard.png",
+      "alt": "RECIPE FINDER system diagram overview"
+    },
+    "toggle": {
+      "label": "Telemetry",
+      "titleLine1": "Interactive",
+      "titleAccent": "chef interface.",
+      "screens": [
+        {
+          "num": "01",
+          "name": "Pantry Input Surface",
+          "image": "/images/projects/recipe_screen1.png",
+          "color": "teal",
+          "description": "Demonstrating the Pantry Input Surface functionality built into the core stack.",
+          "meta": "Ingredient tagging"
+        },
+        {
+          "num": "02",
+          "name": "Safety Validation Layer",
+          "image": "/images/projects/recipe_screen2.png",
+          "color": "orange",
+          "description": "Demonstrating the Safety Validation Layer functionality built into the core stack.",
+          "meta": "Toxin checks"
+        },
+        {
+          "num": "03",
+          "name": "Recipe Output Card",
+          "image": "/images/projects/recipe_screen3.png",
+          "color": "purple",
+          "description": "Demonstrating the Recipe Output Card functionality built into the core stack.",
+          "meta": "Calorie & Macro breakdown"
+        }
+      ]
+    }
+  },
+  "flowstate": {
+    "hero": {
+      "title": "FLOWSTATE",
+      "lede": "A gamified habit tracking mobile RPG built with Flutter and Dart, featuring Hive NoSQL caching, a dynamic sky-phase rendering engine, and real-time boss fights.",
+      "image": "/images/projects/flowstate.png",
+      "alt": "FlowState Habit RPG Interface mockup",
+      "pills": [
+        "Mobile RPG · Habit Cultivation",
+        "Flutter · Dart · Hive NoSQL"
+      ],
+      "badge": "Witness\nPower",
+      "backHref": "/"
+    },
+    "ledger": {
+      "entries": [
+        {
+          "label": "Client",
+          "primary": "FlowState RPG",
+          "secondary": "Self-initiated project"
+        },
+        {
+          "label": "Year",
+          "primary": "2024",
+          "secondary": "Offline-First Mobile"
+        },
+        {
+          "label": "Role",
+          "primary": "Architect",
+          "secondary": "Flutter Developer"
+        },
+        {
+          "label": "Stack",
+          "primary": "Flutter · Dart · Hive NoSQL",
+          "secondary": "Local Storage & State"
+        },
+        {
+          "label": "Status",
+          "primary": "Completed",
+          "secondary": "Distributed as APK/Code"
+        }
+      ]
+    },
+    "context": {
+      "label": "Context",
+      "facts": [
+        "**Role** Flutter Developer & Game Architect",
+        "**Deliverable** Gamified Habit Mobile Application",
+        "**Highlights** Offline-first Hive DB, sky-phase system"
+      ],
+      "body": [
+        "Standard habit trackers are dry and fail to maintain long-term user retention. FlowState turns daily routines, tasks, and habits into a retro fantasy RPG experience.",
+        "Completing real-life tasks awards experience points, gold, and mana, allowing users to upgrade stats, buy gear in the shop, and fight procedural boss monsters in real-time.",
+        "Built entirely offline-first using **Hive NoSQL** for fast cache read/write loops, meaning all animations, combat calculations, and logs update instantly without network delays."
+      ]
+    },
+    "vision": {
+      "label": "Vision",
+      "titleLine1": "Habits as quests,",
+      "titleLine2": "discipline as",
+      "titleAccent": "survival.",
+      "body": [
+        "To merge productivity tools with core RPG mechanics. Discipline shouldn't feel like a chore—it should feel like leveling up your stats.",
+        "The app includes a custom sky-phase rendering engine that shifts the background theme (sunrise, afternoon, twilight, night) dynamically based on local device time."
+      ]
+    },
+    "product": {
+      "label": "Product",
+      "titleLine1": "Gamified ticks,",
+      "titleLine2": "uncompromising",
+      "titleAccent": "local speed.",
+      "body": [
+        "The local state system synchronizes task status with RPG combat calculators. Missing habits deals damage to your character, prompting active discipline to survive.",
+        "Using lightweight Hive adapter serialization ensures save data loads in under 50ms, bypassing typical SQFlite startup bottlenecks."
+      ]
+    },
+    "architecture": {
+      "label": "Architecture",
+      "titleLine1": "Flutter client",
+      "titleAccent": "Hive local engine.",
+      "intro": "A fully compile-safe Dart architecture separating UI rendering from local NoSQL database transactions.",
+      "layers": [
+        {
+          "name": "UI Render Layer",
+          "tech": [
+            "Flutter SDK",
+            "Custom Canvas Shaders"
+          ],
+          "detail": "Atmospheric sky-phase UI shifting layouts according to local time. Fluid widget transitions and custom canvas drawings for character status rings."
+        },
+        {
+          "name": "State & Persistence",
+          "tech": [
+            "Hive NoSQL",
+            "Provider Pattern"
+          ],
+          "detail": "Durable schema-versioned local storage caching habits, character level matrices, equipped item indices, and combat logs."
+        }
+      ],
+      "facts": [
+        {
+          "value": "<50ms",
+          "title": "Cold Boot Time",
+          "caption": "Ultra-fast Hive storage"
+        },
+        {
+          "value": "0",
+          "title": "Network Requests",
+          "caption": "100% offline functionality"
+        },
+        {
+          "value": "60fps",
+          "title": "UI Frame Rate",
+          "caption": "Optimized widget trees"
+        }
+      ]
+    },
+    "outcomes": {
+      "label": "Outcomes",
+      "titleLine1": "Discipline turned",
+      "titleLine2": "fun,",
+      "titleAccent": "latency zero.",
+      "metrics": [
+        {
+          "value": "0",
+          "unit": "ms",
+          "title": "Server sync latency",
+          "caption": "Fully local state validation"
+        }
+      ]
+    },
+    "colophon": {
+      "leftLabel": "Colophon",
+      "titleLine1": "Created by a",
+      "titleAccent": "lone wolf.",
+      "credits": [
+        {
+          "role": "Mobile Design & Coding",
+          "primary": "Zenith Soumya",
+          "secondary": "Flutter Architect"
+        }
+      ],
+      "rightLabel": "About Z.S",
+      "bio": [
+        "Zenith Soumya is an AI and Mobile Application developer who designs robust offline-first software architectures.",
+        "FlowState is compiled as a mobile package, running completely self-contained on the device."
+      ],
+      "actions": [
+        {
+          "label": "Download APK ↗",
+          "href": "https://github.com/1bitVscoder/flow-state-habit-rpg/releases/download/v2.0.0/FlowState.apk"
+        },
+        {
+          "label": "All work",
+          "href": "/work2"
+        },
+        {
+          "label": "Back home",
+          "href": "/"
+        }
+      ]
+    },
+    "nextCase": {
+      "slug": "lumina",
+      "counter": "Next case · 04 / 07"
+    },
+    "dashboard": {
+      "badge": "In production",
+      "figcaption": "FLOWSTATE full system architecture overview.",
+      "image": "/images/projects/flowstate_dashboard.png",
+      "alt": "FLOWSTATE system diagram overview"
+    },
+    "toggle": {
+      "label": "Telemetry",
+      "titleLine1": "Interactive",
+      "titleAccent": "habit RPG system.",
+      "screens": [
+        {
+          "num": "01",
+          "name": "Habit Daily Quests",
+          "image": "/images/projects/flowstate_screen1.png",
+          "color": "teal",
+          "description": "Demonstrating the Habit Daily Quests functionality built into the core stack.",
+          "meta": "Experience & Leveling"
+        },
+        {
+          "num": "02",
+          "name": "Procedural Boss Combat",
+          "image": "/images/projects/flowstate_screen2.png",
+          "color": "orange",
+          "description": "Demonstrating the Procedural Boss Combat functionality built into the core stack.",
+          "meta": "Real-time state engine"
+        },
+        {
+          "num": "03",
+          "name": "Inventory Shop & Gear",
+          "image": "/images/projects/flowstate_screen3.png",
+          "color": "purple",
+          "description": "Demonstrating the Inventory Shop & Gear functionality built into the core stack.",
+          "meta": "Item equip managers"
+        }
+      ]
+    }
+  },
+  "lumina": {
+    "hero": {
+      "title": "LUMINA",
+      "lede": "A customized, friendly personal AI companion mobile app built with Flutter and Dart, powered by a FastAPI backend and Supabase for persistent conversation ledgers.",
+      "image": "/images/projects/lumina.png",
+      "alt": "Lumina AI Mobile Application mockups",
+      "pills": [
+        "Mobile Client · AI Companion",
+        "Flutter · FastAPI · Supabase · TTS"
+      ],
+      "badge": "Witness\nPower",
+      "backHref": "/"
+    },
+    "ledger": {
+      "entries": [
+        {
+          "label": "Client",
+          "primary": "Lumina AI",
+          "secondary": "Personal AI project"
+        },
+        {
+          "label": "Year",
+          "primary": "2024",
+          "secondary": "Cross-Platform Mobile"
+        },
+        {
+          "label": "Role",
+          "primary": "Lead Developer",
+          "secondary": "Full-Stack AI Architect"
+        },
+        {
+          "label": "Stack",
+          "primary": "FastAPI · Supabase (Postgres)",
+          "secondary": "Flutter Client · Google OAuth"
+        },
+        {
+          "label": "Status",
+          "primary": "Live",
+          "secondary": "Hosted on Render/Supabase"
+        }
+      ]
+    },
+    "context": {
+      "label": "Context",
+      "facts": [
+        "**Role** Full-Stack AI Developer",
+        "**Deliverable** Companion AI Mobile App & API",
+        "**Highlights** Personality-adaptive assessment, TTS"
+      ],
+      "body": [
+        "Most AI assistants are designed to be transactional and formal. Lumina was engineered to act as an immersive text-messaging friend, capable of emotional empathy, humor, and personal memory.",
+        "Upon first startup, users undergo a gamified personality onboarding assessment. This designs the AI companion's tone, boundary rules, and speech patterns (e.g. conversational, formal, casual).",
+        "The app integrates **Supabase Session Ledgers** to write and read message history permanently, combined with FastAPI and JWT tokens for secure authentication."
+      ]
+    },
+    "vision": {
+      "label": "Vision",
+      "titleLine1": "Companion AI,",
+      "titleLine2": "tailored for",
+      "titleAccent": "empathy.",
+      "body": [
+        "To build a chatbot that feels like a real texting partner. Lumina adapts its conversational pacing and remembers details from past discussions to bring continuity.",
+        "Equipped with built-in voice rendering (TTS), letting users hear spoken responses matching the companion's assigned mood."
+      ]
+    },
+    "product": {
+      "label": "Product",
+      "titleLine1": "Glassmorphic UI,",
+      "titleLine2": "uncompromising",
+      "titleAccent": "responsiveness.",
+      "body": [
+        "Features an edge-to-edge chat window with glowing glassmorphic panels, ambient message arrival transitions, and real-time typing indicators.",
+        "Connections are guarded by network listeners, displaying a smooth fallback sheet when internet connection drops and syncing database buffers upon restoration."
+      ]
+    },
+    "architecture": {
+      "label": "Architecture",
+      "titleLine1": "FastAPI server",
+      "titleAccent": "Supabase ledger integration.",
+      "intro": "Lumina separates client UI logic from AI model routing and Postgres storage, hosting a scalable API backend on Render.",
+      "layers": [
+        {
+          "name": "Mobile Frontend",
+          "tech": [
+            "Flutter SDK",
+            "Dio API Client",
+            "Google Sign-In"
+          ],
+          "detail": "Cross-platform mobile client handling user session tokens, audio recording, and rendering the custom chat bubble animations."
+        },
+        {
+          "name": "Server & database",
+          "tech": [
+            "FastAPI",
+            "Uvicorn",
+            "Supabase",
+            "PostgreSQL"
+          ],
+          "detail": "Modular routers handling JWT validation, onboarding profiles, conversation history ledger writes, and LLM orchestration."
+        }
+      ],
+      "facts": [
+        {
+          "value": "100%",
+          "title": "OAuth Security",
+          "caption": "Google Sign-In authorization"
+        },
+        {
+          "value": "<100ms",
+          "title": "DB Fetch Speed",
+          "caption": "PostgreSQL index queries"
+        },
+        {
+          "value": "FastAPI",
+          "title": "API Engine",
+          "caption": "Uvicorn parallel routing"
+        }
+      ]
+    },
+    "outcomes": {
+      "label": "Outcomes",
+      "titleLine1": "Texting redesigned,",
+      "titleLine2": "continuity",
+      "titleAccent": "preserved.",
+      "metrics": [
+        {
+          "value": "99.9",
+          "unit": "%",
+          "title": "Auth uptime",
+          "caption": "Secured session management via Supabase"
+        }
+      ]
+    },
+    "colophon": {
+      "leftLabel": "Colophon",
+      "titleLine1": "Engineered by",
+      "titleAccent": "1bitVscoder.",
+      "credits": [
+        {
+          "role": "Full-Stack Architecture & API",
+          "primary": "Zenith Soumya",
+          "secondary": "AI & Mobile Specialist"
+        }
+      ],
+      "rightLabel": "About Z.S",
+      "bio": [
+        "Zenith Soumya is an AI Developer and mobile app specialist who focuses on building human-centric conversational interfaces.",
+        "Lumina's backend is hosted live on Render, communicating with Supabase PostgreSQL clusters."
+      ],
+      "actions": [
+        {
+          "label": "Download APK ↗",
+          "href": "https://github.com/1bitVscoder/Lumina-AI/releases/download/v1.0.1/app-release.apk"
+        },
+        {
+          "label": "All work",
+          "href": "/work2"
+        },
+        {
+          "label": "Back home",
+          "href": "/"
+        }
+      ]
+    },
+    "nextCase": {
+      "slug": "nutrilens",
+      "counter": "Next case · 05 / 07"
+    },
+    "dashboard": {
+      "badge": "In production",
+      "figcaption": "LUMINA full system architecture overview.",
+      "image": "/images/projects/lumina_dashboard.png",
+      "alt": "LUMINA system diagram overview"
+    },
+    "toggle": {
+      "label": "Telemetry",
+      "titleLine1": "Interactive",
+      "titleAccent": "companion UI.",
+      "screens": [
+        {
+          "num": "01",
+          "name": "Personality Assessment onboarding",
+          "image": "/images/projects/lumina_screen1.png",
+          "color": "teal",
+          "description": "Demonstrating the Personality Assessment onboarding functionality built into the core stack.",
+          "meta": "Empathy config"
+        },
+        {
+          "num": "02",
+          "name": "Glassmorphic Chat Window",
+          "image": "/images/projects/lumina_screen2.png",
+          "color": "orange",
+          "description": "Demonstrating the Glassmorphic Chat Window functionality built into the core stack.",
+          "meta": "Dynamic bubbles"
+        },
+        {
+          "num": "03",
+          "name": "Voice dictation interface",
+          "image": "/images/projects/lumina_screen3.png",
+          "color": "purple",
+          "description": "Demonstrating the Voice dictation interface functionality built into the core stack.",
+          "meta": "Speech to Text"
+        }
+      ]
+    }
+  },
+  "nutrilens": {
+    "hero": {
+      "title": "NUTRILENS",
+      "lede": "AI-powered smart nutrition companion Progressive Web App (PWA) built with Next.js, Zustand, and Gemini 2.5 Flash for multi-modal meal analysis and streaming AI chat.",
+      "image": "/images/projects/nutrilens.png",
+      "alt": "NutriLens AI PWA Interface dashboard",
+      "pills": [
+        "Progressive Web App · AI Health",
+        "Next.js 15 · Zustand · Gemini 2.5 Flash"
+      ],
+      "badge": "Witness\nPower",
+      "backHref": "/"
+    },
+    "ledger": {
+      "entries": [
+        {
+          "label": "Client",
+          "primary": "NutriLens PWA",
+          "secondary": "Smart Health Platform"
+        },
+        {
+          "label": "Year",
+          "primary": "2025",
+          "secondary": "Mobile-First Web App"
+        },
+        {
+          "label": "Role",
+          "primary": "Lead Architect",
+          "secondary": "Full-Stack & AI Builder"
+        },
+        {
+          "label": "Stack",
+          "primary": "Next.js 15 · Zustand",
+          "secondary": "Gemini 2.5 Flash · SSE"
+        },
+        {
+          "label": "Status",
+          "primary": "Live",
+          "secondary": "Fully functional PWA"
+        }
+      ]
+    },
+    "context": {
+      "label": "Context",
+      "facts": [
+        "**Role** Full-Stack & Generative AI Engineer",
+        "**Deliverable** Progressive Web Application (PWA)",
+        "**Highlights** Multi-modal meal analysis, SSE streaming chat"
+      ],
+      "body": [
+        "Calorie counting is traditionally slow and tedious, requiring manual ingredient search and weight estimations. NutriLens simplifies this by letting users photograph their food and instantly receive detailed nutritional logs.",
+        "Powered by the new **Google GenAI SDK** and the `gemini-2.5-flash` model, the app extracts ingredients, portion weights, calorie counts, and macro metrics directly from visual pixels.",
+        "It features a **Streaming Context-Aware AI Chat** utilizing Server-Sent Events (SSE). The AI acts as a personal nutritionist, referencing local meal logs and active targets to give hyper-targeted dietary advice."
+      ]
+    },
+    "vision": {
+      "label": "Vision",
+      "titleLine1": "Snap, track,",
+      "titleLine2": "and optimize",
+      "titleAccent": "your health.",
+      "body": [
+        "To eliminate manual calorie tracking bottlenecks. AI analysis combined with portion adjusters makes logging a meal take less than 10 seconds.",
+        "The app includes glassmorphic analytics cards and circular progress rings detailing daily macros, plus habit streak calendar heatmaps."
+      ]
+    },
+    "product": {
+      "label": "Product",
+      "titleLine1": "PWA installer,",
+      "titleLine2": "uncompromising",
+      "titleAccent": "offline state.",
+      "body": [
+        "Zustand state partitions sync to local storage, keeping logged meals, calorie targets, and conversation history persistent even when the app is offline.",
+        "Portion scaling is managed via a live slider, letting users adjust serving sizes and immediately recalculate macro values client-side."
+      ]
+    },
+    "architecture": {
+      "label": "Architecture",
+      "titleLine1": "Next.js 15 App",
+      "titleAccent": "Gemini Multi-Modal API.",
+      "intro": "NutriLens leverages the speed of Turbopack and the Google GenAI SDK to process image data and stream chat messages safely.",
+      "layers": [
+        {
+          "name": "PWA Client",
+          "tech": [
+            "Next.js 15",
+            "Zustand",
+            "Tailwind CSS",
+            "Recharts"
+          ],
+          "detail": "Responsive mobile-first layout with Service Worker caching, dynamic macro circular gauges, and custom markdown message formatting."
+        },
+        {
+          "name": "Generative Backend",
+          "tech": [
+            "@google/genai",
+            "Server-Sent Events (SSE)"
+          ],
+          "detail": "Server routes handling multi-modal analysis prompts and streaming nutritionist chat using Gemini's high-speed completion pipelines."
+        }
+      ],
+      "facts": [
+        {
+          "value": "PWA",
+          "title": "Launcher Support",
+          "caption": "Add to Home Screen"
+        },
+        {
+          "value": "SSE",
+          "title": "Streaming Chat",
+          "caption": "Real-time responses"
+        },
+        {
+          "value": "Gemini",
+          "title": "Model Core",
+          "caption": "Multi-modal vision analysis"
+        }
+      ]
+    },
+    "outcomes": {
+      "label": "Outcomes",
+      "titleLine1": "Diet tracking,",
+      "titleLine2": "made instant and",
+      "titleAccent": "visual.",
+      "metrics": [
+        {
+          "value": "10",
+          "unit": "sec",
+          "title": "Meal logging speed",
+          "caption": "From snap to macro database write"
+        }
+      ]
+    },
+    "colophon": {
+      "leftLabel": "Colophon",
+      "titleLine1": "Engineered by",
+      "titleAccent": "1bitVscoder.",
+      "credits": [
+        {
+          "role": "Full-Stack & Generative Design",
+          "primary": "Zenith Soumya",
+          "secondary": "AI PWA Developer"
+        }
+      ],
+      "rightLabel": "About Z.S",
+      "bio": [
+        "Zenith Soumya is an AI Developer and IoT system designer focused on high-performance human-interface web applications.",
+        "NutriLens runs locally as a PWA, storing session partitions in client-side state caches."
+      ],
+      "actions": [
+        {
+          "label": "Live Demo ↗",
+          "href": "https://nutrilens-three.vercel.app"
+        },
+        {
+          "label": "All work",
+          "href": "/work2"
+        },
+        {
+          "label": "Back home",
+          "href": "/"
+        }
+      ]
+    },
+    "nextCase": {
+      "slug": "freellmapi",
+      "counter": "Next case · 06 / 07"
+    },
+    "dashboard": {
+      "badge": "In production",
+      "figcaption": "NUTRILENS full system architecture overview.",
+      "image": "/images/projects/nutrilens_dashboard.png",
+      "alt": "NUTRILENS system diagram overview"
+    },
+    "toggle": {
+      "label": "Telemetry",
+      "titleLine1": "Interactive",
+      "titleAccent": "Visual Calorie Tracker.",
+      "screens": [
+        {
+          "num": "01",
+          "name": "Visual Plate Analyzer",
+          "image": "/images/projects/nutrilens_screen1.png",
+          "color": "teal",
+          "description": "Demonstrating the Visual Plate Analyzer functionality built into the core stack.",
+          "meta": "Gemini Image Analysis"
+        },
+        {
+          "num": "02",
+          "name": "Calorie Macro Gauges",
+          "image": "/images/projects/nutrilens_screen2.png",
+          "color": "orange",
+          "description": "Demonstrating the Calorie Macro Gauges functionality built into the core stack.",
+          "meta": "Zustand offline storage"
+        },
+        {
+          "num": "03",
+          "name": "Streaming Nutritionist Chat",
+          "image": "/images/projects/nutrilens_screen3.png",
+          "color": "purple",
+          "description": "Demonstrating the Streaming Nutritionist Chat functionality built into the core stack.",
+          "meta": "SSE response pipelines"
+        }
+      ]
+    }
+  },
+  "freellmapi": {
+    "hero": {
+      "title": "FREELLMAPI",
+      "lede": "A self-hosted, OpenAI-compatible proxy routing across 11+ free-tier LLM providers. Features automatic failover, AES-256 key encryption, token rate tracking, and an admin dashboard.",
+      "image": "/images/projects/freellmapi.png",
+      "alt": "FreeLLMAPI Proxy Architecture",
+      "pills": [
+        "Developer Tool · LLM Router",
+        "Node.js · Express · SQLite · React"
+      ],
+      "badge": "Witness\nPower",
+      "backHref": "/"
+    },
+    "ledger": {
+      "entries": [
+        {
+          "label": "Client",
+          "primary": "FreeLLMAPI Proxy",
+          "secondary": "Developer Utility"
+        },
+        {
+          "label": "Year",
+          "primary": "2026",
+          "secondary": "Self-Hosted Utility"
+        },
+        {
+          "label": "Role",
+          "primary": "Lead Engineer",
+          "secondary": "Full-Stack API Architect"
+        },
+        {
+          "label": "Stack",
+          "primary": "Express · SQLite · React",
+          "secondary": "Vite · Tailwind CSS"
+        },
+        {
+          "label": "Status",
+          "primary": "Released",
+          "secondary": "Open Source"
+        }
+      ]
+    },
+    "context": {
+      "label": "Context",
+      "facts": [
+        "**Role** Backend Developer & API Architect",
+        "**Deliverable** Self-hosted API Gateway Router",
+        "**Highlights** 1B+ token monthly limit aggregation"
+      ],
+      "body": [
+        "Every serious AI lab now offers a free tier — a few million tokens a month. Stacked together, they add up to roughly 1.3 billion tokens per month of working inference capacity. The problem is managing multiple SDKs, rate limits, and failure points.",
+        "FreeLLMAPI collapses this into a single OpenAI-compatible `/v1/chat/completions` endpoint. Point any standard OpenAI client library at your local proxy, and it routes transparently across your configured API keys.",
+        "Built with Express, SQLite, and React, it tracks per-key RPM/TPM usage to avoid rate limits, and uses AES-256-GCM envelope encryption to keep credentials safe at rest."
+      ]
+    },
+    "vision": {
+      "label": "Vision",
+      "titleLine1": "Aggregating the",
+      "titleLine2": "free tiers of",
+      "titleAccent": "intelligence.",
+      "body": [
+        "To build an inference aggregation layer that runs happily on a Raspberry Pi (~40 MB memory footprint) while handling automatic failover for high-volume local experiments.",
+        "Includes a React-based admin dashboard to monitor live latency charts, adjust priorities in the fallback chain, and test models in a shared playground."
+      ]
+    },
+    "product": {
+      "label": "Instructions",
+      "titleLine1": "Quick Start",
+      "titleLine2": "and setup",
+      "titleAccent": "guidelines.",
+      "body": [
+        "**1. Clone & Install**: Run **git clone https://github.com/1bitVscoder/my-freellmapi-proxy.git** and run **npm install** in the directory to pull the dependencies.",
+        "**2. Setup Keys**: Copy **.env.example** to **.env** and run **node -e \"console.log(require('crypto').randomBytes(32).toString('hex'))\"** to append a unique **ENCRYPTION_KEY**.",
+        "**3. Launch**: Run **npm run dev** to start both the Express proxy server (listening on port **3001**) and the React admin dashboard (listening on port **5173**).",
+        "**4. Configure**: Open **http://localhost:5173** in your browser, enter your provider API keys (Google, Groq, Cerebras, etc.), prioritize the fallback list, and grab the unified API key.",
+        "**5. Use in Code**: Initialize any standard OpenAI SDK client by setting the **base_url** pointing to **http://localhost:3001/v1** and passing your unified **freellmapi-your-key** as the token. Use the model **auto** to let the proxy select the best healthy backend dynamically."
+      ]
+    },
+    "architecture": {
+      "label": "Architecture",
+      "titleLine1": "Express server",
+      "titleAccent": "SQLite key security.",
+      "intro": "FreeLLMAPI separates client query layers from rate limit counters, running a low-latency proxy engine on local device networks.",
+      "layers": [
+        {
+          "name": "Proxy Routing Layer",
+          "tech": [
+            "Express",
+            "TypeScript",
+            "better-sqlite3"
+          ],
+          "detail": "Receives client requests, queries local SQLite database for healthy keys, determines failover targets, and translates payloads between OpenAI schema and Gemini/other custom models."
+        },
+        {
+          "name": "Management Console",
+          "tech": [
+            "React",
+            "Vite",
+            "shadcn/ui",
+            "Recharts"
+          ],
+          "detail": "Admin interface displaying live rate tracking, request logs, database keys, and configuration for custom model fallback hierarchies."
+        }
+      ],
+      "facts": [
+        {
+          "value": "11+",
+          "title": "Providers",
+          "caption": "Gemini, Groq, Cerebras, etc."
+        },
+        {
+          "value": "~40MB",
+          "title": "Memory Footprint",
+          "caption": "Runs on a Raspberry Pi"
+        },
+        {
+          "value": "<10ms",
+          "title": "Router Overhead",
+          "caption": "SQLite key-lookups"
+        }
+      ]
+    },
+    "outcomes": {
+      "label": "Outcomes",
+      "titleLine1": "Aggregated tiers,",
+      "titleLine2": "failovers",
+      "titleAccent": "resolved.",
+      "metrics": [
+        {
+          "value": "1.3B",
+          "unit": "tokens",
+          "title": "Monthly capacity",
+          "caption": "Aggregated free-tier limits"
+        }
+      ]
+    },
+    "colophon": {
+      "leftLabel": "Colophon",
+      "titleLine1": "Engineered by",
+      "titleAccent": "1bitVscoder.",
+      "credits": [
+        {
+          "role": "Architecture & Design",
+          "primary": "Zenith Soumya",
+          "secondary": "API Developer"
+        }
+      ],
+      "rightLabel": "About Z.S",
+      "bio": [
+        "Zenith Soumya is an AI Developer and IoT system designer. He specializes in low-overhead proxy systems and secure developer tools.",
+        "FreeLLMAPI is open-source on GitHub, serving as a unified local endpoint for LLM prototyping."
+      ],
+      "actions": [
+        {
+          "label": "View on GitHub ↗",
+          "href": "https://github.com/1bitVscoder/my-freellmapi-proxy"
+        },
+        {
+          "label": "All work",
+          "href": "/work2"
+        },
+        {
+          "label": "Back home",
+          "href": "/"
+        }
+      ]
+    },
+    "nextCase": {
+      "slug": "cartsnap",
+      "counter": "Next case · 07 / 07"
+    },
+    "dashboard": {
+      "badge": "In production",
+      "figcaption": "FREELLMAPI full system architecture overview.",
+      "image": "/images/projects/freellmapi_dashboard.png",
+      "alt": "FREELLMAPI system diagram overview"
+    },
+    "toggle": {
+      "label": "Telemetry",
+      "titleLine1": "Interactive",
+      "titleAccent": "Proxy Dashboard.",
+      "screens": [
+        {
+          "num": "01",
+          "name": "API Keys Ledger Manager",
+          "image": "/images/projects/freellmapi_screen1.png",
+          "color": "teal",
+          "description": "Demonstrating the API Keys Ledger Manager functionality built into the core stack.",
+          "meta": "AES encryption writes"
+        },
+        {
+          "num": "02",
+          "name": "Fallback Chain Configurator",
+          "image": "/images/projects/freellmapi_screen2.png",
+          "color": "orange",
+          "description": "Demonstrating the Fallback Chain Configurator functionality built into the core stack.",
+          "meta": "Dynamic failover list"
+        },
+        {
+          "num": "03",
+          "name": "Model Testing Playground",
+          "image": "/images/projects/freellmapi_screen3.png",
+          "color": "purple",
+          "description": "Demonstrating the Model Testing Playground functionality built into the core stack.",
+          "meta": "Latency logs"
+        }
+      ]
+    }
+  }
+}

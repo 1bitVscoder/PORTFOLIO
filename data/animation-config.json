@@ -1,0 +1,54 @@
+{
+  "durations": {
+    "fast": 0.2,
+    "normal": 0.4,
+    "slow": 0.8,
+    "slower": 1.2,
+    "slowest": 1.6
+  },
+  "easing": {
+    "gsap": {
+      "outExpo": "expo.out",
+      "outQuart": "power4.out",
+      "inOutQuart": "power4.inOut",
+      "outBack": "back.out(1.7)",
+      "inOutBack": "back.inOut(1.7)",
+      "outCubic": "power3.out",
+      "outQuad": "power2.out",
+      "inQuad": "power2.in"
+    },
+    "css": {
+      "outExpo": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "outQuart": "cubic-bezier(0.25, 1, 0.5, 1)",
+      "inOutQuart": "cubic-bezier(0.76, 0, 0.24, 1)"
+    }
+  },
+  "stagger": {
+    "fast": 0.02,
+    "normal": 0.05,
+    "slow": 0.08,
+    "letters": 0.03,
+    "words": 0.1
+  },
+  "delays": {
+    "short": 0.1,
+    "medium": 0.3,
+    "long": 0.5
+  },
+  "caseStudy": {
+    "scrollTrigger": {
+      "early": "top 88%",
+      "mid": "top 85%",
+      "late": "top 70%"
+    },
+    "blockFade": {
+      "yShort": 16,
+      "yMedium": 24,
+      "yTall": 28,
+      "durationShort": 0.7,
+      "durationMedium": 0.8,
+      "durationLong": 0.9,
+      "ease": "expo.out"
+    }
+  }
+}

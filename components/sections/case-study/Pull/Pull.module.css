@@ -1,0 +1,205 @@
+/* ============================================================
+   CASE STUDY · PULL — scroll-pinned testimonial cinema.
+   Act 1: avatar + attribution, top-left (sets the speaker).
+   Act 2: quote build-up, top-right (closes on accented RESPECTS).
+   Act 3: quote resolution, bottom-left (diagonal counterpoint).
+   Driven by useScrubbedActsReveal.
+   ============================================================ */
+
+.pull {
+    position: relative;
+    padding: 0;
+    /* border-top: 2px solid var(--color-primary-text);
+    border-bottom: 2px solid var(--color-primary-text); */
+}
+
+.figure {
+    margin: 0;
+    padding: 0;
+}
+
+.sticky {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    padding: 0 var(--spacing-nav-side);
+    box-sizing: border-box;
+    overflow: hidden;
+    /* The case-study Hero clones its image card to <body> with
+       position:fixed; z-index:5 and the exit timeline can leave it
+       lingering at top:0 once Pull's pin extends the document. Stamp
+       a higher z-index on Pull's pinned shell so its content always
+       paints above that lingering card. */
+    z-index: 10;
+}
+
+/* ── ACT 1 ────────────────────────────── top-left, small */
+.act1 {
+    position: absolute;
+    top: clamp(80px, 14vh, 160px);
+    left: var(--spacing-nav-side);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-family: var(--font-navbar);
+    font-size: clamp(14px, 1vw, 16px);
+    color: var(--color-gray-dark);
+    line-height: 1.3;
+    z-index: 2;
+}
+
+.avatar {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-accent-purple), #2C7E94);
+    border: 2px solid var(--color-primary-text);
+    box-shadow: 4px 4px 0 var(--color-primary-text);
+}
+
+.attrText {
+    display: flex;
+    flex-direction: column;
+}
+
+.attrText b {
+    color: var(--color-primary-text);
+    font-weight: 700;
+    font-size: clamp(20px, 1.5vw, 24px);
+    line-height: 1.1;
+    margin-bottom: 4px;
+}
+
+/* ── Quote container — semantic wrapper for screen readers */
+.quote {
+    margin: 0;
+    padding: 0;
+}
+
+/* Shared quote-act typography */
+.act2,
+.act3 {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-primary);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: clamp(48px, 8.5vw, 116px);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--color-primary-text);
+    z-index: 1;
+}
+
+/* ── ACT 2 ─────────────────── top-right, right-aligned */
+.act2 {
+    top: clamp(100px, 17vh, 180px);
+    left: var(--spacing-nav-side);
+    right: var(--spacing-nav-side);
+    text-align: right;
+}
+
+/* ── ACT 3 ─────────────────── bottom-left, left-aligned */
+.act3 {
+    bottom: clamp(100px, 17vh, 180px);
+    left: var(--spacing-nav-side);
+    right: var(--spacing-nav-side);
+    text-align: left;
+}
+
+.quoteLine {
+    display: block;
+}
+
+.accent {
+    color: var(--color-accent-purple);
+    font-style: italic;
+}
+
+/* Italic-glyph clipping override, scoped to Pull only.
+   splitTextIntoWords stamps every word with [data-split-word]; using
+   that attribute lets us reach the hashed staggerText `.word` masks
+   without coupling to their generated class names, and the .act2/.act3
+   ancestor selector keeps the override out of the seven other
+   case-study sections that consume the same staggerText module. */
+.act2 [data-split-word],
+.act3 [data-split-word] {
+    overflow: clip;
+    overflow-clip-margin: 0.15em;
+}
+
+/* ── Static fallback ──── mobile + reduced motion ──── */
+@media (max-width: 768px) {
+    .pull {
+        height: auto;
+        padding: clamp(80px, 14vh, 160px) var(--spacing-nav-side);
+        overflow: visible;
+    }
+
+    .sticky {
+        height: auto;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: clamp(32px, 6vh, 56px);
+        max-width: var(--canvas-max-width);
+        margin: 0 auto;
+        overflow: visible;
+    }
+
+    .act1,
+    .act2,
+    .act3 {
+        position: static;
+        left: auto;
+        right: auto;
+        top: auto;
+        bottom: auto;
+    }
+
+    .act2,
+    .act3 {
+        font-size: clamp(36px, 9vw, 72px);
+        text-align: left;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pull {
+        height: auto;
+        padding: clamp(80px, 14vh, 160px) var(--spacing-nav-side);
+        overflow: visible;
+    }
+
+    .sticky {
+        height: auto;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: clamp(32px, 6vh, 56px);
+        max-width: var(--canvas-max-width);
+        margin: 0 auto;
+        overflow: visible;
+    }
+
+    .act1,
+    .act2,
+    .act3 {
+        position: static;
+        left: auto;
+        right: auto;
+        top: auto;
+        bottom: auto;
+    }
+
+    /* Desktop + reduced-motion: the giant pinned font stacked
+       vertically would overflow the section. Match the mobile
+       fallback's smaller typography. */
+    .act2,
+    .act3 {
+        font-size: clamp(36px, 6vw, 72px);
+        text-align: left;
+    }
+}

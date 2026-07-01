@@ -1,0 +1,100 @@
+/* WorksPage
+ *
+ * Page-level shell for /work — intro headline, index, end strip. The plus-grid
+ * background is provided by the layout-level <InteractiveBackground />, so this
+ * root stays transparent and z-index-neutral to let it show through.
+ */
+
+.root {
+    position: relative;
+    min-height: 100vh;
+    padding: 0 32px;
+    color: var(--color-primary-text, #1b2028);
+    cursor: none;
+}
+
+/* All content sits above the layout-level interactive background (z-index: -1). */
+.main {
+    position: relative;
+    z-index: 5;
+}
+
+/* ---------------- Intro ---------------- */
+
+.intro {
+    padding: clamp(140px, 22vh, 220px) 0 clamp(48px, 8vh, 96px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: end;
+}
+
+.headline {
+    font-size: clamp(120px, 22vw, 320px);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 0.86;
+    text-transform: lowercase;
+    margin-left: -0.06em;
+}
+
+.headline > span {
+    display: inline-block;
+}
+
+.headline em {
+    font-style: normal;
+    position: relative;
+    display: inline-block;
+}
+
+/* .headline em::after {
+    content: '';
+    position: absolute;
+    right: -0.18em;
+    bottom: 0.18em;
+    width: 0.14em;
+    height: 0.14em;
+    border-radius: 50%;
+    background: var(--accent, var(--color-accent-purple, #62b6cb));
+    transition: background 0.5s var(--ease-out-quart, ease);
+} */
+
+.lede {
+    max-width: 36ch;
+    font-size: 15px;
+    line-height: 1.45;
+    color: rgba(27, 32, 40, 0.5);
+    padding-bottom: 0.6em;
+}
+
+.lede b {
+    color: var(--color-primary-text);
+    font-weight: 500;
+}
+
+/* ---------------- End strip ---------------- */
+
+.end {
+    padding: 40px 0 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(27, 32, 40, 0.5);
+}
+
+.end b {
+    color: var(--color-primary-text);
+    font-weight: 500;
+}
+
+/* ---------------- Coarse-pointer + reduced-motion ---------------- */
+
+@media (hover: none), (pointer: coarse) {
+    .root {
+        cursor: auto;
+    }
+}

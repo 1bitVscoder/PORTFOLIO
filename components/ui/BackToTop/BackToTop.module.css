@@ -1,0 +1,74 @@
+.sentinel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.button {
+    position: fixed;
+    bottom: 80px;
+    right: 24px;
+    z-index: 150;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1.5px solid var(--color-primary-text);
+    background-color: var(--color-background);
+    color: var(--color-primary-text);
+
+    cursor: pointer;
+
+    opacity: 0;
+    transform: translateY(8px);
+    pointer-events: none;
+
+    transition:
+        opacity var(--duration-normal) var(--ease-out-quart),
+        transform var(--duration-normal) var(--ease-out-quart),
+        background-color var(--duration-normal) var(--ease-out-quart),
+        color var(--duration-normal) var(--ease-out-quart),
+        border-color var(--duration-normal) var(--ease-out-quart);
+}
+
+.button[data-visible='true'] {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.button:hover {
+    transform: translateY(0) scale(1.1);
+}
+
+.button:active {
+    transform: translateY(0) scale(0.95);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .button {
+        transition: opacity var(--duration-fast) linear;
+        transform: none;
+    }
+
+    .button:hover,
+    .button:active {
+        transform: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .button {
+        bottom: 64px;
+        right: 16px;
+        width: 40px;
+        height: 40px;
+    }
+}

@@ -1,0 +1,211 @@
+/* WorksStickersPage
+ *
+ * Shell for /work2 — intro headline + sticker stack + end strip. The plus-grid
+ * background is provided by the layout-level <InteractiveBackground />, so this
+ * root stays transparent. Theme-aware via design tokens.
+ */
+
+.root {
+    position: relative;
+    min-height: 100vh;
+    padding: 0 32px;
+    color: var(--color-primary-text, #1b2028);
+    cursor: none;
+}
+
+/* All content sits above the layout-level interactive background (z-index: -1). */
+.main {
+    position: relative;
+    z-index: 5;
+}
+
+/* Top bar that holds the back-to-home button just above the headline.
+   Absorbs most of what was .intro's top padding so the headline stays
+   in the same vertical position. The left margin pulls the button out
+   so its left edge aligns with the navbar's MENU button on the row
+   above — .root contributes 32px of left padding, --spacing-nav-side
+   is the navbar's offset from the viewport edge, and max() guards
+   against negative values at narrow viewports where --spacing-nav-side
+   (20px min) is less than the .root padding (32px). */
+.topBar {
+    padding: clamp(56px, 9vh, 100px) 0 clamp(28px, 4vh, 48px);
+    margin-left: max(0px, calc(var(--spacing-nav-side) - 32px));
+    display: flex;
+    align-items: center;
+}
+
+/* Back-to-home — visual parity with case-study Hero's .backLink:
+   circular pill, 2px border, Doppio One, color-inverts on hover. */
+.backLink {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1 / 1;
+    height: calc(2px * 2 + 9px * 2 + clamp(13px, 1vw, 16px));
+    border: 2px solid var(--color-primary-text);
+    border-radius: 999px;
+    background: var(--color-background);
+    color: var(--color-primary-text);
+    text-decoration: none;
+    font-family: var(--font-navbar);
+    font-size: clamp(14px, 1.05vw, 17px);
+    line-height: 1;
+    transition:
+        transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+        background-color 0.28s ease,
+        color 0.28s ease,
+        border-color 0.28s ease;
+    will-change: transform;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .backLink:hover {
+        transform: translateX(-2px) scale(1.03);
+        background: var(--color-primary-text);
+        color: var(--color-background);
+    }
+}
+
+/* Keyboard affordance — .root sets cursor:none, so a visible focus ring
+   is the only signal a keyboard user gets that this is the active link. */
+.backLink:focus-visible {
+    outline: 2px solid var(--color-accent-purple);
+    outline-offset: 4px;
+    background: var(--color-primary-text);
+    color: var(--color-background);
+}
+
+/* INTRO --------------------------------------------------------------- */
+
+.intro {
+    padding: 0 0 clamp(56px, 9vh, 100px);
+    display: grid;
+    /* Headline takes its natural single-line width; lede gets the rest.
+       The meta-label eyebrow spans both columns as its own full-width row. */
+    grid-template-columns: auto 1fr;
+    column-gap: 32px;
+    row-gap: 0;
+    align-items: end;
+}
+
+/* Eyebrow / meta-label — full-width row above the headline+lede grid.
+   Mirrors Archive.module.css .metaLabel exactly. */
+.metaLabel {
+    grid-column: 1 / -1;
+    align-self: start;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--color-accent-purple);
+    font-weight: 700;
+    display: none; /* hidden for now — change back to `flex` to show the eyebrow */
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 0;
+    transition: color 0.6s var(--ease-out-expo);
+}
+
+.starIcon {
+    width: 1.2em;
+    height: 1.2em;
+    flex-shrink: 0;
+}
+
+.headline {
+    font-size: clamp(120px, 22vw, 320px);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 0.86;
+    text-transform: lowercase;
+    margin-left: -0.06em;
+    /* Each character is its own inline-block (for the GSAP letter stagger),
+       so without this the inline-blocks can wrap one-per-line when the
+       grid column is narrower than the word's natural width. */
+    white-space: nowrap;
+}
+
+.headline > span {
+    display: inline-block;
+}
+
+.headline em {
+    font-style: normal;
+    position: relative;
+    display: inline-block;
+}
+
+.lede {
+    max-width: 36ch;
+    font-size: 15px;
+    line-height: 1.45;
+    color: var(--color-text-muted, rgba(27, 32, 40, 0.5));
+    padding-bottom: 0.6em;
+    justify-self: end;
+}
+
+/* Below 1024px the lede column gets squeezed under 36ch (its natural
+   reading width) because the headline at 22vw eats most of the row.
+   Stack to a single column and let the lede sit underneath, left-aligned.
+   1024px is the project's tablet/desktop seam (matches CLAUDE.md). */
+@media (max-width: 1024px) {
+    .intro {
+        grid-template-columns: 1fr;
+        row-gap: 0;
+    }
+
+    .lede {
+        justify-self: start;
+        margin-top: clamp(20px, 4vh, 40px);
+    }
+}
+
+/* Bold lead — applies to both the server-rendered fallback (.lede b) and the
+   split word inners (.ledeBold), so the reduced-motion and animated forms match.
+   Mirrors ServicesV2 .ledeBold. */
+.lede b,
+.ledeBold {
+    color: var(--color-primary-text);
+    font-weight: 600;
+}
+
+/* Word-mask load-up — same structure as ServicesV2's case-study lede.
+   .ledeWord is the per-word overflow:hidden mask; .ledeWordInner is the span
+   GSAP slides up from yPercent:110. line-height matches .lede (1.45) so wrapped
+   lines group correctly. */
+.ledeWord {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    line-height: 1.45;
+}
+
+.ledeWordInner {
+    display: inline-block;
+    will-change: transform;
+}
+
+/* END STRIP ----------------------------------------------------------- */
+
+.end {
+    padding: 56px 0 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-text-muted, rgba(27, 32, 40, 0.5));
+}
+
+.end b {
+    color: var(--color-primary-text);
+    font-weight: 500;
+}
+
+/* COARSE POINTER ----------------------------------------------------- */
+
+@media (hover: none), (pointer: coarse) {
+    .root {
+        cursor: auto;
+    }
+}

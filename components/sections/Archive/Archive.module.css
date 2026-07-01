@@ -1,0 +1,259 @@
+.wrapper {
+  position: relative;
+  z-index: var(--z-above);
+}
+
+/* Projects → Archive pinned-overlap handoff. The Projects effect sets
+   data-overlap here while the last project is held pinned, so the Archive
+   scrolls UP over the fixed card (negative margin = the single overlap driver)
+   and paints above it (the section is opaque). z-index sits above the pinned
+   card (--z-above: 10) but below the navbar (--z-nav: 100). Only active when
+   the JS handoff runs (motion allowed) → static/reduced-motion layout keeps
+   margin 0 and stacks normally. Tune -55vh alongside the 320vh last-section
+   height and SPLIT_RUNWAY_VH in Projects.tsx.
+   See .planning/projects-archive-handoff/PLAN.md. */
+.wrapper[data-overlap='true'] {
+  /* Overlap depth: how far the Archive rises over the held card. Smaller (less
+     negative) ⇒ the Archive enters LATER in the project pin, leaving room for
+     the split to finish first (coherent stack). Tuned with the 320vh
+     last-section height + SPLIT_RUNWAY_VH. */
+  margin-top: -55vh;
+  z-index: 50;
+}
+
+.section {
+  min-height: 100vh;
+  padding: 150px 8% 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+  contain: content;
+  background-color: var(--color-background);
+}
+
+/* Base meta-label styling lives in the shared <MetaLabel> component; this
+   only adds the scroll-driven accent color transition. */
+.metaLabel {
+  transition: color 0.6s var(--ease-out-expo);
+}
+
+/* Statement — mirrors RevealText.module.css (uppercase 900, tight, max 1400) */
+.statement {
+  font-size: clamp(2.5rem, 6.5vw, 7rem);
+  font-weight: 900;
+  line-height: 1;
+  text-transform: uppercase;
+  max-width: 1400px;
+  letter-spacing: -0.02em;
+  color: var(--color-primary-text);
+}
+
+.word {
+  display: inline-block;
+}
+
+/* Highlight — recolor the word with the live accent on scroll-in.
+   Color cascades from this container down into .portalLetter. */
+.highlight {
+  color: var(--color-primary-text);
+  transition: color 0.9s var(--ease-out-expo);
+}
+
+.section.hlOn .highlight {
+  color: var(--color-accent-purple);
+}
+
+/* ============================================
+   PORTAL ANIMATION — mirrors RevealText.module.css
+   Each highlight letter is a masked window; the inner
+   letter is what flies in/out of the mask.
+   ============================================ */
+.highlightWord {
+  display: inline-block;
+  opacity: 0; /* Hidden until letter stagger reveals */
+}
+
+/* Reveal fallbacks. The portal reveal that animates these from opacity:0→1 lives
+   in the useGSAP effect, which early-returns under reduced motion and never runs
+   with JS off — leaving the three highlight words invisible and the statement
+   reading with gaps. Show them statically in those cases. The JS-on, motion-on
+   path keeps opacity:0 and animates the reveal, so there is no flash. */
+@media (prefers-reduced-motion: reduce) {
+  .highlightWord {
+    opacity: 1;
+  }
+}
+
+@media (scripting: none) {
+  .highlightWord {
+    opacity: 1;
+  }
+}
+
+.portalMask {
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+  vertical-align: bottom;
+  /* No pointer cursor: these highlight letters are a reveal flourish, not a
+     link. Inherit the body's `cursor: none` so no hand cursor appears. */
+}
+
+.portalLetter {
+  display: inline-block;
+  position: relative;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Foot — pinned to the bottom of the section with margin-top:auto so the
+   statement sits directly under the meta label (small flow gap) and the
+   CTA anchors against the section's lower edge. */
+.foot {
+  margin-top: auto;
+  padding-top: 64px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 5vw;
+  align-items: end;
+  /* border-top: 1px solid var(--color-grid-line); */
+}
+
+.footMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.footMeta span:first-child {
+  color: var(--color-text-muted-strong);
+}
+
+/* CTA — typographic affordance with highlight-bar on hover, no pill/border. */
+.cta {
+  text-decoration: none;
+  color: var(--color-primary-text);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.32em;
+  font-size: clamp(1.6rem, 3.4vw, 3.6rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.015em;
+  line-height: 1;
+  padding: 0 0.04em 0.12em;
+  cursor: pointer;
+}
+
+/* Split-flap text — same pattern as Menu's .socialLink hover.
+   Base layer is the resting text; clone layer (accent) sits at +100%
+   and on hover both translate up by one line-box. */
+.ctaTextWrap {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  line-height: 1;
+  vertical-align: baseline;
+}
+
+.ctaTextBase {
+  display: flex;
+  color: var(--color-primary-text);
+}
+
+.ctaTextClone {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  color: var(--color-accent-purple);
+}
+
+.ctaChar {
+  display: inline-block;
+  transition: transform 0.4s var(--ease-out-expo);
+}
+
+.ctaTextClone .ctaChar {
+  transform: translateY(100%);
+}
+
+.cta:hover .ctaTextBase .ctaChar,
+.cta:focus-visible .ctaTextBase .ctaChar {
+  transform: translateY(-100%);
+}
+
+.cta:hover .ctaTextClone .ctaChar,
+.cta:focus-visible .ctaTextClone .ctaChar {
+  transform: translateY(0);
+}
+
+.ctaArrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  width: 0.7em;
+  height: 0.7em;
+  color: var(--color-primary-text);
+  transition: color 0.4s var(--ease-out-expo);
+}
+
+.ctaArrow svg {
+  width: 100%;
+  height: 100%;
+}
+
+.cta:hover .ctaArrow,
+.cta:focus-visible .ctaArrow {
+  color: var(--color-accent-purple);
+}
+
+/* Responsive — .statement font sizing mirrors RevealText.module.css 1:1
+   across every breakpoint so Philosophy and Archive read at the same scale. */
+@media (max-width: 1024px) {
+  .section {
+    padding: 120px 6% 100px;
+  }
+
+  .statement {
+    font-size: clamp(2rem, 10vw, 5.5rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 100px 5% 80px;
+    min-height: auto;
+  }
+
+  .statement {
+    font-size: clamp(1.75rem, 9vw, 5rem);
+    line-height: 1.1;
+    margin-top: 24px;
+  }
+
+  .foot {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-top: 48px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 80px 4% 64px;
+  }
+
+  .statement {
+    font-size: clamp(1.5rem, 12vw, 3.5rem);
+    line-height: 1.15;
+  }
+}

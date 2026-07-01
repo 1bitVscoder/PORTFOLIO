@@ -1,0 +1,151 @@
+/* SkillsBar Component - Diagonal Marquee
+   Reference: styles.css lines 285-337 */
+
+.skillsBar {
+    position: absolute;
+    bottom: clamp(50px, 7vh, 120px);
+    left: 0;
+    width: 150vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 4;
+    pointer-events: none;
+    overflow: visible;
+}
+
+.skillsBarInner {
+    width: 100%;
+}
+
+.skillsWrapper {
+    background-color: var(--color-background);
+    border: clamp(3px, 0.4vw, 5px) solid var(--color-primary-text);
+    height: clamp(50px, 7vw, 91px);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    border-left: 0;
+    border-right: 0;
+
+    /* Performance containment */
+    contain: content;
+}
+
+.skillsContent {
+    display: flex;
+    align-items: center;
+    gap: clamp(30px, 5vw, 70px);
+    font-family: var(--font-primary);
+    font-weight: 700;
+    font-size: var(--font-size-skills);
+    color: var(--color-accent-purple);
+    white-space: nowrap;
+    line-height: normal;
+    animation: scroll-skills-seamless 20s linear infinite;
+
+    /* CSS custom property set by JS for exact scroll distance */
+    --scroll-width: 0px;
+
+    /* Performance: optimize animation for GPU */
+    will-change: transform;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.skillItem {
+    display: flex;
+    align-items: center;
+    gap: clamp(20px, 3vw, 50px);
+    flex-shrink: 0;
+}
+
+.skillText {
+    flex-shrink: 0;
+}
+
+.separator {
+    display: flex;
+    align-items: center;
+    gap: clamp(8px, 1vw, 16px);
+    flex-shrink: 0;
+}
+
+.starIcon {
+    width: clamp(16px, 2vw, 28px);
+    height: clamp(16px, 2vw, 28px);
+    color: var(--color-accent-purple);
+    flex-shrink: 0;
+}
+
+/* Seamless scroll using exact pixel width calculated by JS */
+@keyframes scroll-skills-seamless {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(calc(var(--scroll-width) * -1));
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .skillsBar {
+        bottom: clamp(40px, 8vh, 80px);
+        width: 160vw;
+    }
+
+    .skillsContent {
+        font-size: 28px;
+        gap: 50px;
+    }
+
+    .skillItem {
+        gap: 35px;
+    }
+
+    .separator {
+        gap: 10px;
+    }
+
+    .starIcon {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .skillsBar {
+        /* Move slightly higher on mobile to clear safe areas */
+        bottom: clamp(60px, 10vh, 80px);
+        width: 200vw; /* Make it even wider to ensure smooth diagonal if needed later */
+    }
+
+    .skillsContent {
+        font-size: 24px; /* Fixed readable size for mobile */
+        gap: 40px;
+    }
+
+    .skillItem {
+        gap: 25px;
+    }
+
+    .separator {
+        gap: 8px;
+    }
+
+    .starIcon {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+/* PERF: Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .skillsContent {
+        animation: none;
+        transform: none;
+    }
+}

@@ -1,0 +1,70 @@
+/* ============================================================
+   CASE STUDY · PRODUCT — chapter-head with row layout (eyebrow
+   left, display H2 right) + reading column.
+   ============================================================ */
+
+.product {
+    padding: clamp(80px, 12vh, 140px) var(--spacing-nav-side);
+}
+
+/* ---------- CHAPTER HEAD — eyebrow left, h2 right ---------- */
+.head {
+    max-width: var(--canvas-max-width);
+    margin: 0 auto clamp(40px, 6vw, 64px);
+}
+
+/* .row {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: clamp(24px, 4vw, 64px);
+    align-items: end;
+} */
+
+.eyebrow {
+    margin: 0;
+}
+
+.title {
+    composes: caseStudyTitle from '../title.module.css';
+    margin: 0;
+    max-width: 18ch;
+}
+
+.titleAccent {
+    color: var(--color-accent-purple);
+}
+
+/* ---------- READING COLUMN ---------- */
+.col {
+    max-width: var(--read-col);
+    margin: 0 auto;
+    font-family: var(--font-primary);
+    font-weight: 400;
+    font-size: clamp(17px, 1.2vw, 20px);
+    line-height: 1.55;
+    color: var(--color-primary-text);
+}
+
+.col > p {
+    margin: 0 0 1.4em;
+}
+
+.col > p:last-child {
+    margin-bottom: 0;
+}
+
+.col > p strong {
+    font-weight: 700;
+    /* background: var(--highlight-strong); */
+    padding: 0 0.04em;
+    color: var(--color-accent-purple);
+}
+
+/* ---------- RESPONSIVE — stack chapter-head ---------- */
+@media (max-width: 1100px) {
+    .row {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        align-items: start;
+    }
+}

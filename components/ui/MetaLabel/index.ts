@@ -1,0 +1,1 @@
+export { MetaLabel } from './MetaLabel';

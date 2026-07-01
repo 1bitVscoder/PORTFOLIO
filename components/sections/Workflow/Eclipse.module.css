@@ -1,0 +1,217 @@
+/* ============================================================
+   WORKFLOW · ECLIPSE renderer
+   A dark body slides off a light disc; the growing crescent of accent
+   light sweeps across the active step's name. High contrast, deep
+   vignette, near-no chrome. Ends on a corona bloom. Geometry is driven
+   imperatively by useEclipseDriver. Accent palette (--wf-*) comes from
+   styles/variables.css.
+   ============================================================ */
+
+.eclipse {
+  position: relative;
+  --wf-live-accent: var(--wf-teal);
+
+  background: transparent;
+  color: var(--color-primary-text);
+}
+
+.viewport {
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: transparent;
+}
+
+/* ---- header (meta-label top-left, step readout top-right) ---- */
+.head {
+  position: absolute;
+  inset: clamp(84px, 11vh, 116px) clamp(28px, 5vw, 80px) auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  z-index: 6;
+}
+/* Same accent uppercase treatment the per-step kicker used to carry. */
+.readout {
+  font-family: var(--font-navbar);
+  font-size: 12px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--wf-live-accent);
+  font-variant-numeric: tabular-nums;
+}
+.readout em {
+  font-style: normal;
+  font-weight: 700;
+  color: var(--wf-live-accent);
+}
+
+/* ---- scene ---- */
+.schematic {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+.glow {
+  fill: var(--wf-live-accent);
+  opacity: 0.5;
+  transition: fill 0.5s var(--ease-out-expo);
+}
+.discEdge {
+  fill: none;
+  stroke: color-mix(in srgb, var(--color-primary-text) 16%, transparent);
+  stroke-width: 1.5;
+}
+.corona {
+  fill: none;
+  stroke: var(--wf-live-accent);
+  stroke-width: 3;
+  opacity: 0;
+  filter: drop-shadow(0 0 14px var(--wf-live-accent));
+  transition: stroke 0.5s var(--ease-out-expo);
+}
+.moon {
+  fill: color-mix(in srgb, var(--color-primary-text) 7%, var(--color-background));
+  stroke: color-mix(in srgb, var(--color-primary-text) 20%, transparent);
+  stroke-width: 1;
+}
+
+/* ---- crescent-swept names (SVG text, viewBox units) ---- */
+/* Opacity + y are owned by GSAP (per-letter rise on activation); only the
+   accent fill transitions here. */
+.nameBase {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: 88px;
+  letter-spacing: -3px;
+  text-transform: uppercase;
+  fill: var(--color-text-muted);
+}
+.nameLit {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: 88px;
+  letter-spacing: -3px;
+  text-transform: uppercase;
+  fill: var(--wf-live-accent);
+  transition: fill 0.5s var(--ease-out-expo);
+}
+
+/* ---- detail column (bottom-right) ----
+   Rotating step detail, anchored to the bottom-right so longer copy grows
+   upward and never clips. The meta-label stays in the top-left header.
+   The scene sits behind on the page's light ground, so the copy reads at full
+   contrast. */
+.detailWrap {
+  position: absolute;
+  left: auto;
+  right: clamp(28px, 5vw, 80px);
+  bottom: clamp(48px, 9vh, 104px);
+  width: 25%;
+  min-height: clamp(8.5em, 17vh, 11em);
+  z-index: 4;
+  text-align: left;
+}
+.detail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  /* Motion comes from the per-word line reveal (same as the case-study
+     content); the container only fades to gate the kicker between steps. */
+  transition: opacity 0.45s var(--ease-out-expo);
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.detail.isActive {
+  opacity: 1;
+}
+.detailTitle {
+  margin: 0 0 clamp(12px, 1.4vw, 20px);
+  font-family: var(--font-primary);
+  /* Larger, bold display treatment mirroring the Services section words
+     (font-weight 600, tight tracking + leading). */
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 600;
+  line-height: 0.96;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  text-wrap: balance;
+  color: var(--color-primary-text);
+}
+/* The trailing full stop carries the orbiting sphere's accent (the same
+   live teal that lights the crescent + corona), not the ink of the words. */
+.detailTitleStop {
+  color: var(--wf-live-accent);
+}
+.detailCopy {
+  margin: 0;
+  max-width: 52ch;
+  font-size: clamp(15px, 1.15vw, 18px);
+  line-height: 1.6;
+  color: var(--color-text-muted-strong);
+  text-wrap: pretty;
+}
+.em {
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* ---- reduced-motion / static fallback ---- */
+.isStatic .viewport {
+  height: auto;
+  padding: 12vh 0 8vh;
+}
+.isStatic .schematic {
+  position: relative;
+  height: 50vh;
+}
+.isStatic .nameBase,
+.isStatic .nameLit {
+  opacity: 1;
+}
+.isStatic .detailWrap {
+  position: relative;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  width: auto;
+  min-height: 0;
+  margin: 2.5rem clamp(28px, 5vw, 80px) 0;
+  display: grid;
+  gap: 2.4rem;
+  text-align: left;
+}
+.isStatic .detail {
+  position: relative;
+  inset: auto;
+  opacity: 1;
+  transform: none;
+  align-items: flex-start;
+}
+
+/* ---- responsive: keep the detail column readable as it narrows ---- */
+@media (max-width: 1024px) {
+  .detailWrap {
+    width: min(52ch, 60vw);
+  }
+}
+@media (max-width: 768px) {
+  .detailWrap {
+    left: clamp(20px, 5vw, 32px);
+    right: clamp(20px, 5vw, 32px);
+    width: auto;
+    bottom: clamp(32px, 7vh, 72px);
+  }
+  .detailTitle {
+    font-size: clamp(30px, 8vw, 46px);
+  }
+  .detailCopy {
+    font-size: clamp(14px, 3.6vw, 17px);
+  }
+}

@@ -1,0 +1,188 @@
+/* ============================================
+   GLOBAL STYLES - Zenith Soumya Portfolio
+   ============================================ */
+
+/* Import design tokens and fonts */
+@import '../styles/fonts.css';
+@import '../styles/variables.css';
+@import '../styles/animations.css';
+
+/* ============================================
+   RESET & BASE STYLES
+   ============================================ */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+    overflow-x: hidden;
+}
+
+/* Hide default cursor for custom cursor */
+@media (hover: hover) and (pointer: fine) {
+    body {
+        cursor: none;
+    }
+}
+
+html {
+    /* Note: scroll-behavior removed - Lenis handles smooth scrolling.
+       CSS scroll-behavior can conflict with Lenis on anchor links and scrollTo() calls */
+    scrollbar-gutter: stable;
+}
+
+body {
+    font-family: var(--font-primary);
+    background-color: var(--color-background);
+    color: var(--color-primary-text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    transition: background-color var(--duration-slow) var(--ease-out-quart),
+                color var(--duration-slow) var(--ease-out-quart);
+    
+    /* Disable text selection globally */
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none;
+}
+
+/* Allow text selection in form inputs and textareas */
+input, textarea {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+/* ============================================
+   TYPOGRAPHY UTILITIES
+   ============================================ */
+.text-purple {
+    color: var(--color-accent-purple);
+}
+
+.text-dark {
+    color: var(--color-primary-text);
+}
+
+.text-black {
+    color: var(--color-black);
+}
+
+/* ============================================
+   LINKS
+   ============================================ */
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* ============================================
+   IMAGES
+   ============================================ */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    
+    /* Prevent image selection and dragging */
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Focus visible for keyboard navigation */
+:focus-visible {
+    outline: 2px solid var(--color-accent-purple);
+    outline-offset: 2px;
+}
+
+/* Remove focus outline for mouse users */
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* ============================================
+   CUSTOM SCROLLBAR
+   Modern, minimal scrollbar matching theme
+   ============================================ */
+
+/* Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-grid-line);
+    border-radius: 4px;
+    transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-accent-purple);
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: var(--color-primary-text);
+}
+
+/* Hide scrollbar corner */
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-grid-line) transparent;
+}
+
+/* Firefox hover state via container */
+html {
+    scrollbar-color: var(--color-grid-line) transparent;
+}
+
+html:hover {
+    scrollbar-color: var(--color-accent-purple) transparent;
+}
+
+/* ============================================
+   SECTION LAYERING
+   Content sections scroll over the fixed hero.
+   They need opaque backgrounds and higher z-index.
+   ============================================ */
+#philosophy ~ section {
+    position: relative;
+    z-index: var(--z-above);
+}

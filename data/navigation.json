@@ -1,0 +1,55 @@
+{
+  "mainLinks": [
+    {
+      "id": "work",
+      "label": "Work",
+      "href": "#projects",
+      "description": "Selected projects and case studies"
+    },
+    {
+      "id": "about",
+      "label": "About",
+      "href": "/about",
+      "description": "The story behind the craft"
+    },
+    {
+      "id": "services",
+      "label": "Services",
+      "href": "#services",
+      "description": "Expert solutions for your needs"
+    },
+    {
+      "id": "contact",
+      "label": "Contact",
+      "href": "#contact",
+      "description": "Start a conversation today"
+    }
+  ],
+  "socialLinks": [
+    {
+      "id": "instagram",
+      "label": "Instagram",
+      "href": "https://www.instagram.com/zenith.soumya",
+      "platform": "instagram"
+    },
+    {
+      "id": "linkedin",
+      "label": "LinkedIn",
+      "href": "https://www.linkedin.com/in/soumya-ranjan-jana-414586370",
+      "platform": "linkedin"
+    },
+    {
+      "id": "github",
+      "label": "GitHub",
+      "href": "https://github.com/1bitVscoder",
+      "platform": "github"
+    },
+    {
+      "id": "twitter",
+      "label": "Twitter",
+      "href": "https://x.com/byte_wizard1",
+      "platform": "twitter"
+    }
+  ],
+  "location": "Based in India, Operating from a dark room with 0.1ms latency"
+}

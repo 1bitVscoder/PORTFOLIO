@@ -1,0 +1,69 @@
+# ─────────────────────────────────────────────────────────────────
+# Rollback — Emergency Production Rollback
+# ─────────────────────────────────────────────────────────────────
+# Manual trigger only. Rolls back to a specific commit or the
+# previous deploy. Use when a deploy breaks the site.
+# ─────────────────────────────────────────────────────────────────
+
+name: Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_sha:
+        description: 'Git commit SHA to roll back to (leave empty for previous commit)'
+        type: string
+        default: ''
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  rollback:
+    name: Rollback Production
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Rollback via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_SSH_PORT || 22 }}
+          script: |
+            set -euo pipefail
+            cd /home/${{ secrets.VPS_USER }}/apps/portfolio
+
+            TARGET="${{ inputs.target_sha }}"
+
+            if [ -z "$TARGET" ]; then
+              echo "No SHA specified — rolling back to previous commit"
+              TARGET="HEAD~1"
+            fi
+
+            echo "Rolling back to: $TARGET"
+            git fetch origin
+            git checkout "$TARGET"
+
+            echo "Rebuilding and restarting..."
+            docker compose -f docker-compose.production.yml build
+            docker compose -f docker-compose.production.yml down --remove-orphans
+            docker compose -f docker-compose.production.yml up -d
+
+            echo "Waiting for health check..."
+            for i in $(seq 1 30); do
+              if docker exec portfolio wget --no-verbose --tries=1 --spider http://127.0.0.1:8080/health 2>/dev/null; then
+                echo "Health check passed! Rollback complete."
+                exit 0
+              fi
+              sleep 1
+            done
+
+            echo "ERROR: Health check failed after rollback"
+            docker compose -f docker-compose.production.yml logs --tail=20
+            exit 1

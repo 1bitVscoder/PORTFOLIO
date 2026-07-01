@@ -1,0 +1,63 @@
+{
+  "colors": {
+    "background": "#FFFFFF",
+    "text": {
+      "primary": "#1b2028",
+      "dark": "#4C4C4C"
+    },
+    "accent": {
+      "teal": "#62B6CB",
+      "gold": "#FFB800",
+      "red": "#da3036",
+      "orange": "#ff990a",
+      "green": "#93b99e",
+      "black": "#000000"
+    },
+    "ui": {
+      "gridLine": "#E5E5E5"
+    },
+    "ogBackground": "#f5f3ee",
+    "accentPalette": ["#62b6cb", "#da3036", "#ff990a", "#93b99e"]
+  },
+  "typography": {
+    "families": {
+      "primary": "PP Neue Montreal",
+      "navbar": "Doppio One"
+    },
+    "sizes": {
+      "hero": "clamp(48px, 16vw, 24vw)",
+      "nav": "clamp(14px, 1.5vw, 20px)",
+      "tagline": "clamp(14px, 1.5vw, 20px)",
+      "menu": "clamp(48px, 12vw, 140px)",
+      "works": "12px",
+      "skills": "clamp(16px, 2.5vw, 31px)"
+    },
+    "weights": {
+      "regular": 400,
+      "medium": 500,
+      "semibold": 600,
+      "bold": 700
+    }
+  },
+  "spacing": {
+    "navTop": "clamp(16px, 3vw, 33px)",
+    "navSide": "clamp(20px, 5vw, 74px)"
+  },
+  "layout": {
+    "maxWidth": "1512px",
+    "minHeight": "100vh"
+  },
+  "borderRadius": {
+    "portrait": "clamp(20px, 3vw, 42px)",
+    "small": "4px",
+    "medium": "8px",
+    "large": "16px"
+  },
+  "zIndex": {
+    "base": 1,
+    "above": 10,
+    "nav": 100,
+    "modal": 200,
+    "cursor": 9999
+  }
+}

@@ -1,0 +1,30 @@
+.metaLabel {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: var(--color-accent-purple);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.starIcon {
+  width: 1.2em;
+  height: 1.2em;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .metaLabel {
+    font-size: 0.7rem;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .starIcon {
+    width: 1em;
+    height: 1em;
+  }
+}

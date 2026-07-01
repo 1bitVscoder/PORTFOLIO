@@ -1,0 +1,76 @@
+/* ============================================================
+   CASE STUDY · VISION — chapter-head + reading column.
+   No marginalia; pure editorial cadence.
+   ============================================================ */
+
+.vision {
+    /* Padding-top:0 so Context's bottom flows continuously into the
+       chapter-head; bottom padding is the standard editorial rhythm. */
+    padding: 0 var(--spacing-nav-side) clamp(80px, 12vh, 140px);
+}
+
+/* ---------- CHAPTER HEAD — eyebrow + display H2 ---------- */
+.head {
+    max-width: var(--canvas-max-width);
+    margin: 0 auto clamp(40px, 6vw, 64px);
+}
+
+/* .eyebrow {
+    margin: 0 0 clamp(20px, 3vw, 36px);
+} */
+
+.title {
+    composes: caseStudyTitle from '../title.module.css';
+    margin: 0;
+    max-width: 18ch;
+}
+
+.titleUnderline,
+.titleUnderline [data-split-word] {
+    /* Strip sits inside the lower 12% of the line-box. Any wider than
+       this and `line-height: 0.86` lets the colour bleed onto the next
+       line of the display title. The selector also paints onto each
+       split-word mask so the strip survives useWordLineReveal's per-word
+       wrap (the mask's overflow:hidden would otherwise clip the gradient
+       painted on the outer span). */
+    /* background: linear-gradient(
+        transparent 78%,
+        var(--color-accent-purple) 78%,
+        var(--color-accent-purple) 90%,
+        transparent 90%
+    ); */
+}
+
+.titleUnderline {
+    padding: 0 0.05em;
+}
+
+.titleAccent {
+    color: var(--color-accent-purple);
+}
+
+/* ---------- READING COLUMN ---------- */
+.col {
+    max-width: var(--read-col);
+    margin: 0 auto;
+    font-family: var(--font-primary);
+    font-weight: 400;
+    font-size: clamp(17px, 1.2vw, 20px);
+    line-height: 1.55;
+    color: var(--color-primary-text);
+}
+
+.col > p {
+    margin: 0 0 1.4em;
+}
+
+.col > p:last-child {
+    margin-bottom: 0;
+}
+
+.col > p strong {
+    font-weight: 700;
+    /* background: var(--highlight-strong); */
+    padding: 0 0.04em;
+    color: var(--color-accent-purple);
+}

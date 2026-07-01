@@ -1,0 +1,107 @@
+.welcomeWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--color-background);
+  z-index: 9000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  pointer-events: all;
+}
+
+.textContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.greeting {
+  position: absolute;
+  /* Centering handled via GSAP set in JS, but we ensure defaults here */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  font-family: var(--font-primary);
+  font-size: var(--font-size-hero);
+  color: var(--color-primary-text);
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  opacity: 0; /* Hidden by default */
+}
+
+.initialsContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-primary);
+  font-size: var(--font-size-hero);
+  font-weight: 700; 
+  opacity: 0;
+  z-index: 10;
+}
+
+.letterM {
+  color: var(--color-primary-text);
+  display: inline-block;
+  line-height: 0.85; /* Match HeroText to prevent jitter during handoff */
+}
+
+.letterA {
+  color: var(--color-primary-text);
+  display: inline-block;
+  line-height: 0.85; /* Match HeroText to prevent jitter during handoff */
+}
+
+/* ============================================
+
+   RESPONSIVE MATCHING
+
+   Must match HeroText.module.css overrides
+
+   ============================================ */
+
+
+
+@media (min-width: 769px) and (max-width: 1024px) {
+
+    .greeting,
+
+    .initialsContainer {
+
+        font-size: clamp(80px, 18vw, 20vw);
+
+        line-height: 0.82;
+
+    }
+
+}
+
+
+
+@media (max-width: 768px) {
+
+    .greeting,
+
+    .initialsContainer {
+
+        font-size: 24vw; /* Matched to HeroText mobile size */
+
+        line-height: 0.8;
+
+    }
+
+}

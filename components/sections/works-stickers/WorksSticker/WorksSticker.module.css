@@ -1,0 +1,208 @@
+/* WorksSticker
+ *
+ * Tilted pill containing: number badge · title marquee · meta · corner decal.
+ * Idle wobble is CSS-only (no GSAP tween needed). Hover straightens, kills the
+ * wobble, and floods the sticker with its accent. Theme-aware via tokens.
+ */
+
+.sticker {
+    position: relative;
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr) auto;
+    grid-template-areas: 'num title meta';
+    align-items: center;
+    gap: 24px;
+    padding: clamp(14px, 2vh, 22px) clamp(20px, 3vw, 36px);
+    border-radius: 999px;
+    border: 1.5px solid var(--color-primary-text);
+    background: var(--color-background);
+    color: var(--color-primary-text);
+    text-decoration: none;
+    cursor: none;
+    transform: rotate(var(--tilt, 0deg));
+    margin-left: var(--offset, 0%);
+    animation: worksStickerWobble var(--wobble-dur, 5s) ease-in-out infinite alternate;
+    animation-delay: var(--wobble-delay, 0s);
+    transition:
+        transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+        background-color 0.45s ease,
+        color 0.45s ease,
+        border-color 0.45s ease,
+        box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+}
+
+@keyframes worksStickerWobble {
+    from { transform: rotate(var(--tilt, 0deg)); }
+    to   { transform: rotate(calc(var(--tilt, 0deg) + var(--wobble-amp, 0.6deg))); }
+}
+
+/* Hover state — kill the wobble (so the tilt freezes at base), keep the
+ * sticker's natural tilt, lift + scale slightly, flood with accent.
+ *
+ * `animation: none` is required (not animation-play-state: paused) so the
+ * static `transform` rule wins; otherwise the keyframe's last computed value
+ * would override the static transform. The static transform preserves
+ * `rotate(var(--tilt))` so the sticker stays angled in place rather than
+ * snapping upright.
+ */
+.sticker.isHover {
+    animation: none;
+    transform: rotate(var(--tilt, 0deg)) translateY(-4px) scale(1.01);
+    background: var(--sticker-accent, var(--color-accent-purple));
+    color: #fff;
+    border-color: var(--color-primary-text);
+    box-shadow:
+        6px 8px 0 0 var(--color-primary-text),
+        0 30px 60px -20px var(--sticker-shadow, rgba(27, 32, 40, 0.35));
+}
+
+/* NUMBER BADGE -------------------------------------------------------- */
+
+.num {
+    grid-area: num;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--color-primary-text);
+    color: var(--color-background);
+    display: grid;
+    place-items: center;
+    font-size: 16px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+    transition:
+        background-color 0.45s ease,
+        color 0.45s ease;
+}
+
+.sticker.isHover .num {
+    background: #fff;
+    color: var(--sticker-accent, var(--color-accent-purple));
+}
+
+/* MARQUEE SLOT -------------------------------------------------------- */
+
+.marquee {
+    grid-area: title;
+    min-width: 0;
+}
+
+/* META ---------------------------------------------------------------- */
+
+.meta {
+    grid-area: meta;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    text-align: right;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(27, 32, 40, 0.5);
+    padding-right: 4px;
+    transition: color 0.45s ease;
+}
+
+.discipline {
+    color: var(--color-primary-text);
+    font-weight: 500;
+}
+
+.year {
+    font-variant-numeric: tabular-nums;
+}
+
+.sticker.isHover .meta {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.sticker.isHover .discipline {
+    color: #fff;
+}
+
+/* CORNER DECAL -------------------------------------------------------- */
+
+.decal {
+    position: absolute;
+    top: 50%;
+    right: -22px;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--sticker-accent, var(--color-accent-purple));
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: 1.5px solid var(--color-primary-text);
+    box-shadow: 3px 3px 0 0 var(--color-primary-text);
+    transform-origin: center;
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sticker.isHover .decal {
+    transform: translateY(-50%) rotate(360deg) scale(1.05);
+    background: #fff;
+    color: var(--sticker-accent, var(--color-accent-purple));
+}
+
+/* DARK MODE ---------------------------------------------------------- */
+/* Soft drop-shadow uses a darker rgba in light mode; in dark mode, swap
+ * the alpha source so we don't get an invisible shadow against #171717. */
+
+:global(:root[data-theme='dark']) .sticker.isHover {
+    --sticker-shadow: rgba(0, 0, 0, 0.6);
+}
+
+:global(:root[data-theme='dark']) .meta {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* REDUCED MOTION ----------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+    .sticker {
+        animation: none;
+        transform: rotate(var(--tilt, 0deg));
+    }
+}
+
+/* MOBILE / NARROW ---------------------------------------------------- */
+
+@media (max-width: 720px) {
+    .sticker {
+        grid-template-columns: 56px 1fr;
+        grid-template-areas:
+            'num title'
+            'meta meta';
+        border-radius: 36px;
+        margin-left: 0;
+    }
+    .num {
+        width: 48px;
+        height: 48px;
+        font-size: 13px;
+    }
+    .meta {
+        align-items: flex-start;
+        padding-top: 8px;
+    }
+    .decal {
+        right: -14px;
+        width: 36px;
+        height: 36px;
+    }
+}
+
+/* COARSE POINTER ----------------------------------------------------- */
+
+@media (hover: none), (pointer: coarse) {
+    .sticker {
+        cursor: auto;
+    }
+}

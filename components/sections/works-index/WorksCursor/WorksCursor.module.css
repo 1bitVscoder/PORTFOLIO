@@ -1,0 +1,54 @@
+/* WorksCursor
+ *
+ * Fixed-position custom cursor for the Works Index page.
+ * Event-driven: GSAP quickTo on mousemove — no rAF loops.
+ */
+
+.cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-primary-text);
+    pointer-events: none;
+    z-index: var(--z-cursor, 9999);
+    mix-blend-mode: difference;
+    transform: translate(-50%, -50%);
+    display: grid;
+    place-items: center;
+    transition:
+        width 0.3s var(--ease-out-quart, ease),
+        height 0.3s var(--ease-out-quart, ease),
+        background-color 0.4s var(--ease-out-quart, ease);
+}
+
+.cursor.onRow {
+    width: 80px;
+    height: 80px;
+    background: var(--cursor-accent, var(--color-primary-text));
+    mix-blend-mode: normal;
+}
+
+.label {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #fff;
+    opacity: 0;
+    transition: opacity 0.2s var(--ease-out-quart, ease) 0.1s;
+    user-select: none;
+    pointer-events: none;
+}
+
+.cursor.onRow .label {
+    opacity: 1;
+}
+
+/* Hidden on touch / coarse-pointer devices. */
+@media (hover: none), (pointer: coarse) {
+    .cursor {
+        display: none;
+    }
+}

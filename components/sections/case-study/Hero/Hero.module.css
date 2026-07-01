@@ -1,0 +1,290 @@
+/* ============================================================
+   CASE STUDY · HERO — desktop layout (animations + responsive
+   handled in later passes)
+   ============================================================ */
+
+/* The hero is a 3-column grid (1fr / auto / 1fr). The middle column is
+   `auto`, sized to its widest item — a hidden .titleSizer that mirrors
+   the wordmark text at the wordmark's font. .top sits in that same
+   middle column, so pills/lede automatically share the wordmark's
+   exact left/right edges for any title length or viewport width, with
+   zero JS measurement. The wordmark itself stays position:absolute at
+   the bottom so the image (in row 2) keeps its original vertical room. */
+.hero {
+    height: 100vh;
+    padding: clamp(80px, 11vh, 132px) var(--spacing-nav-side)
+             clamp(24px, 4vh, 48px);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    row-gap: clamp(24px, 4vh, 48px);
+    position: relative;
+    overflow: hidden;
+}
+
+.middle {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+    max-width: var(--canvas-max-width);
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 1;
+}
+
+/* Invisible, zero-height grid item that mirrors the wordmark text and
+   font metrics. Its `width: max-content` is what auto-sizes the shared
+   middle grid column; `height:0; overflow:hidden; visibility:hidden`
+   keeps it out of the visual layout and stops it from inflating row 1. */
+.titleSizer {
+    grid-column: 2;
+    grid-row: 1;
+    width: max-content;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    pointer-events: none;
+    white-space: nowrap;
+    font-family: var(--font-primary);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.04rem;
+    font-size: var(--font-size-hero);
+    line-height: 0.86;
+}
+
+/* ---------- TOP — pills (left) + lede (right) ---------- */
+.top {
+    grid-column: 2;
+    grid-row: 1;
+    position: relative;
+    z-index: 2;
+    /* width is driven by the shared middle column, not by content. */
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: clamp(32px, 4vw, 80px);
+}
+
+.backLink {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1 / 1;
+    height: calc(2px * 2 + 9px * 2 + clamp(13px, 1vw, 16px));
+    border: 2px solid var(--color-primary-text);
+    border-radius: 999px;
+    background: var(--color-background);
+    color: var(--color-primary-text);
+    text-decoration: none;
+    font-family: var(--font-navbar);
+    font-size: clamp(14px, 1.05vw, 17px);
+    line-height: 1;
+    transition:
+        transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+        background-color 0.28s ease,
+        color 0.28s ease,
+        border-color 0.28s ease;
+    will-change: transform;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .backLink:hover {
+        transform: translateX(-2px) scale(1.03);
+        background: var(--color-primary-text);
+        color: var(--color-background);
+    }
+}
+
+.metaRow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+.pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 20px;
+    border: 2px solid var(--color-primary-text);
+    border-radius: 999px;
+    background: var(--color-background);
+    color: var(--color-primary-text);
+    font-family: var(--font-navbar);
+    font-size: clamp(13px, 1vw, 16px);
+    line-height: 1;
+    transition:
+        transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+        background-color 0.28s ease,
+        color 0.28s ease,
+        border-color 0.28s ease;
+    will-change: transform;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .pill:hover {
+        transform: translateY(-2px) scale(1.03);
+        background: var(--color-primary-text);
+        color: var(--color-background);
+    }
+
+    .pillSolid:hover {
+        background: var(--color-background);
+        color: var(--color-primary-text);
+    }
+}
+
+.pillSolid {
+    background: var(--color-primary-text);
+    color: var(--color-background);
+}
+
+.lede {
+    margin: 0;
+    max-width: 32ch;
+    text-align: right;
+    font-family: var(--font-primary);
+    font-weight: 400;
+    font-size: clamp(16px, 1.3vw, 20px);
+    line-height: 1.4;
+    color: var(--color-primary-text);
+}
+
+/* ---------- MIDDLE — hero image centred, badge tagged on it ---------- */
+.middle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    /* allow grid track to shrink to available space */
+    transform: translateY(-18%);
+    -webkit-transform: translateY(-18%);
+    -moz-transform: translateY(-18%);
+    -ms-transform: translateY(-18%);
+    -o-transform: translateY(-18%);
+}
+
+.imageCard {
+    --card-radius: var(--radius-portrait);
+    position: relative;
+    width: clamp(420px, 54%, 920px);
+    aspect-ratio: 16 / 10;
+    border-radius: var(--card-radius);
+    box-shadow: 0 5px 10px 20px rgba(0, 0, 0, 0.18);
+    will-change: transform, width, height, top, left;
+}
+
+.imageInner {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--card-radius);
+    overflow: hidden;
+    will-change: transform;
+}
+
+.imageInner img,
+.imageCard img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+}
+
+.badge {
+    position: absolute;
+    top: -6%;
+    right: -6%;
+    transform: rotate(8deg);
+    width: clamp(110px, 11vw, 150px);
+    height: clamp(110px, 11vw, 150px);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--color-accent-gold);
+    color: var(--color-primary-text);
+    box-shadow: 5px 5px 0 var(--color-primary-text);
+    font-family: var(--font-navbar);
+    font-size: clamp(13px, 1vw, 15px);
+    line-height: 1.15;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    z-index: 2;
+    transition:
+        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.35s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .imageCard:hover .badge {
+        transform: rotate(8deg) scale(1.07) translate(-2px, -3px);
+        box-shadow: 7px 7px 0 var(--color-primary-text);
+    }
+}
+
+/* ---------- WORDMARK — full-bleed, anchored to bottom; sits BEHIND
+              the hero image so the image clips the title during the
+              scroll-pinned grow. Horizontal alignment of pills/lede to
+              its visible glyph run is handled by .titleSizer driving
+              the shared middle grid column, not by this rule. */
+.titleText {
+    position: absolute;
+    left: var(--spacing-nav-side);
+    right: var(--spacing-nav-side);
+    bottom: clamp(16px, 3vh, 36px);
+    margin: 0;
+    z-index: 3;
+    pointer-events: none;
+    font-family: var(--font-primary);
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 0.86;
+    letter-spacing: -0.04rem;
+    font-size: var(--font-size-hero);
+    text-align: center;
+    /* Wordmark must never wrap — it's a single token. During a window
+       resize the vw-based font-size snaps to the new value instantly,
+       but ScrollTrigger's pin-spacer (which constrains .hero's
+       effective width while pinned) only rebuilds after a debounced
+       refresh. For ~200ms the container is at the pre-resize width
+       while the glyphs are at the post-resize size; without nowrap,
+       the last letter drops to a second line until the pin-spacer
+       catches up. .hero has overflow:hidden so any brief horizontal
+       overshoot during that window is invisibly clipped instead. */
+    white-space: nowrap;
+}
+
+/* Per-letter mask for the on-load portal stagger. Mask clips the inner
+   span while it slides in from outside; the inner carries the visible
+   glyph and is the only element transformed during entrance. */
+.titleLetter {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: baseline;
+}
+
+.titleLetterInner {
+    display: inline-block;
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Per-word mask for the on-load lede line cascade. Words on the same
+   wrapped line share an offsetTop and animate together; the cascade
+   between lines is what produces the row-by-row baseline reveal. */
+.ledeWord {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+}
+
+.ledeWordInner {
+    display: inline-block;
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+}

@@ -1,0 +1,41 @@
+{
+  "title": "ZENITH SOUMYA - IoT & AI Developer",
+  "description": "Portfolio of Zenith Soumya - IoT & AI Developer building next-gen systems, Java/DSA optimized tools, and agentic AI full-stack applications.",
+  "author": "Zenith Soumya",
+  "siteUrl": "https://furina-de-fontaine1.vercel.app",
+  "themeColor": "#1b2028",
+  "keywords": [
+    "IoT & AI Developer",
+    "Software Engineer",
+    "Computer Science",
+    "ITER College",
+    "React",
+    "Next.js",
+    "Java",
+    "DSA",
+    "TypeScript",
+    "Web Development",
+    "Portfolio",
+    "Zenith Soumya",
+    "1bitVscoder"
+  ],
+  "openGraph": {
+    "title": "ZENITH SOUMYA - IoT & AI Developer",
+    "description": "Portfolio of Zenith Soumya - IoT & AI Developer building next-gen systems, Java/DSA optimized tools, and agentic AI full-stack applications.",
+    "type": "website",
+    "locale": "en_US",
+    "siteName": "Zenith Soumya Portfolio"
+  },
+  "twitter": {
+    "card": "summary_large_image",
+    "creator": "@byte_wizard1"
+  },
+  "person": {
+    "name": "Zenith Soumya",
+    "jobTitle": "IoT & AI Developer",
+    "sameAs": [
+      "https://www.linkedin.com/in/soumya-ranjan-jana-414586370",
+      "https://github.com/1bitVscoder"
+    ]
+  }
+}

@@ -1,0 +1,63 @@
+/* Hero Section - Main Container
+   Fixed behind content; content sections scroll over it.
+   Reference: styles.css lines 79-88 */
+
+.hero {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* max-width: var(--canvas-max-width); */
+    min-height: var(--canvas-min-height);
+    margin: 0 auto;
+    overflow: hidden;
+    padding-bottom: 60px;
+    z-index: 0;
+
+    /* GPU compositing without creating containing block for fixed children */
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+/* Scroll spacer: occupies document flow space for the fixed hero + animation range.
+   Content sections after this naturally scroll up and over the hero. */
+.heroScrollSpacer {
+    position: relative;
+    width: 100%;
+    pointer-events: none;
+    /* CSS fallback that matches Hero.tsx's runtime formula:
+       scrollRange × DOCKING_PROGRESS + 1 viewport = 25vh + 100vh = 125vh.
+       JS overwrites this once Hero mounts; the hero itself is
+       position: fixed so this spacer is the only document-flow
+       contribution, and matching the JS value keeps Philosophy in the
+       same pre/post-hydration scroll position. */
+    min-height: 125vh;
+}
+
+/* ============================================
+   FLYING LETTERS
+   Clones of M and A that animate from hero text
+   to navbar center during scroll
+   ============================================ */
+
+.flyingLetter {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-family: var(--font-primary);
+    font-weight: 700;
+    color: var(--color-primary-text);
+    line-height: 0.85;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 15;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* PERF: pre-promote to its own compositor layer so the scrub-driven
+       transform animation starts on the GPU from the first frame instead
+       of hitching as Firefox promotes the layer mid-tween. */
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}

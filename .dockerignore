@@ -1,0 +1,51 @@
+# Dependencies (re-installed in builder stage)
+node_modules
+
+# Build output (rebuilt in builder stage)
+.next
+out
+
+# Version control
+.git
+.gitignore
+
+# IDE / editor
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Documentation
+*.md
+!README.md
+
+# Environment files (secrets must not be baked into images)
+.env*
+
+# Docker configs (not needed inside the image)
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# Scripts — exclude all except the build-time prefetch the `prebuild` step runs
+# (it's tolerant: falls back to the committed data/github-contributions.json).
+scripts/*
+!scripts/fetch-contributions.mjs
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Snyk
+.snyk
+.snyk.json
+.snyk-docker
+snyk-test-results.json
+snyk-code-test-results.json
+snyk-report.*
+

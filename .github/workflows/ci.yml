@@ -1,0 +1,85 @@
+# ─────────────────────────────────────────────────────────────────
+# CI — Pull Request Quality Checks
+# ─────────────────────────────────────────────────────────────────
+# Runs lint, type-check, and build in parallel on every PR to main.
+# All three must pass before the PR can be merged.
+# ─────────────────────────────────────────────────────────────────
+
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+
+# Cancel outdated runs for the same PR (saves Actions minutes)
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+# Minimum permissions — read-only access to code
+permissions:
+  contents: read
+
+jobs:
+  # ─── Lint ────────────────────────────────────────────────────────
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+  # ─── Type Check ──────────────────────────────────────────────────
+  type-check:
+    name: Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # tsc --noEmit is faster than a full build for catching type errors
+      - name: Run TypeScript type check
+        run: npx tsc --noEmit
+
+  # ─── Build ───────────────────────────────────────────────────────
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Full production build — catches import errors and build issues
+      # that lint and type-check can't detect
+      - name: Build production site
+        run: npm run build

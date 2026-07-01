@@ -1,0 +1,17 @@
+{
+  "defaultEffect": "color-curtain-stack",
+  "reducedMotionFallback": "crossfade",
+  "reducedMotionDuration": 0.2,
+  "effects": {
+    "iris-bloom": {
+      "exitDuration": 0.8,
+      "enterDuration": 1.4
+    },
+    "color-curtain-stack": {
+      "exitDuration": 1.4,
+      "enterDuration": 1.4,
+      "holdDuration": 0.35,
+      "stagger": 0.18
+    }
+  }
+}
