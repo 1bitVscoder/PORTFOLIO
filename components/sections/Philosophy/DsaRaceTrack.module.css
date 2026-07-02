@@ -1,0 +1,398 @@
+.raceContainer {
+  margin-top: clamp(60px, 8vh, 100px);
+  padding: 40px;
+  border-radius: 16px;
+  border: 1.5px solid var(--color-primary-text);
+  background-color: var(--color-background);
+  box-shadow: 8px 8px 0px var(--color-primary-text);
+  transition: background-color var(--duration-normal) var(--ease-out-quart),
+              color var(--duration-normal) var(--ease-out-quart);
+}
+
+.header {
+  margin-bottom: 32px;
+}
+
+.title {
+  font-family: var(--font-primary);
+  font-size: clamp(24px, 3.5vw, 32px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-primary-text);
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-family: var(--font-primary);
+  font-size: clamp(14px, 1.5vw, 16px);
+  color: var(--color-text-muted-strong);
+}
+
+.arenaLayout {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 40px;
+}
+
+/* ── controls & tracks ── */
+.mainControls {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.controlRow {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sliderLabelGroup {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--font-navbar);
+  letter-spacing: 0.05em;
+}
+
+.label {
+  font-size: 13px;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.sliderValue {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-primary-text);
+}
+
+.sliderInput {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--color-grid-line);
+  outline: none;
+  cursor: pointer;
+}
+
+.sliderInput::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-primary-text);
+  background: var(--color-background);
+  box-shadow: 2px 2px 0px var(--color-primary-text);
+  cursor: pointer;
+  transition: transform 0.1s var(--ease-out-quart);
+}
+
+.sliderInput::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+}
+
+.sliderInput:disabled::-webkit-slider-thumb {
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: none;
+}
+
+.sliderTicks {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+
+.tickLabel {
+  font-family: var(--font-navbar);
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+/* ── tracks ── */
+.tracksGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.lane {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.laneHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.complexityBadge {
+  font-family: var(--font-navbar);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--color-primary-text);
+}
+
+.complexityBadge[data-complexity="o1"] {
+  background-color: #e2fcdb;
+  color: #1a4a15;
+}
+
+.complexityBadge[data-complexity="ologn"] {
+  background-color: #e3f2fd;
+  color: #0d47a1;
+}
+
+.complexityBadge[data-complexity="on"] {
+  background-color: color-mix(in srgb, var(--color-accent-teal) 20%, var(--color-background));
+  color: var(--color-accent-teal);
+  border-color: var(--color-accent-teal);
+}
+
+.complexityBadge[data-complexity="on2"] {
+  background-color: #ffebee;
+  color: #c62828;
+  border-color: #c62828;
+}
+
+.complexityName {
+  font-family: var(--font-primary);
+  font-size: 13px;
+  color: var(--color-text-muted-strong);
+}
+
+.track {
+  position: relative;
+  height: 24px;
+  border: 1.5px solid var(--color-primary-text);
+  border-radius: 6px;
+  background-color: var(--color-grid-line);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.progressIndicator {
+  height: 100%;
+  transition: width 0.05s linear;
+}
+
+.lane[data-complexity="o1"] .progressIndicator {
+  background-color: #81c784;
+}
+
+.lane[data-complexity="ologn"] .progressIndicator {
+  background-color: #64b5f6;
+}
+
+.lane[data-complexity="on"] .progressIndicator {
+  background-color: var(--color-accent-teal);
+}
+
+.lane[data-complexity="on2"] .progressIndicator {
+  background-color: var(--color-accent-gold);
+}
+
+.lane[data-complexity="on2"] .crashColor {
+  background-color: #e57373 !important;
+}
+
+.finishLine {
+  position: absolute;
+  right: 8px;
+  font-size: 14px;
+  z-index: 10;
+}
+
+.crashWarning {
+  position: absolute;
+  right: 8px;
+  font-family: var(--font-navbar);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #ffebee;
+  background-color: #c62828;
+  padding: 2px 6px;
+  border-radius: 4px;
+  z-index: 10;
+}
+
+/* Stalling shake animation */
+.stalledLane {
+  animation: stallShake 0.15s ease-in-out infinite;
+}
+
+@keyframes stallShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
+}
+
+/* ── actions ── */
+.actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.btn {
+  font-family: var(--font-navbar);
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: 1.5px solid var(--color-primary-text);
+  cursor: pointer;
+  transition: transform var(--duration-fast) var(--ease-out-quart),
+              background var(--duration-fast) var(--ease-out-quart),
+              color var(--duration-fast) var(--ease-out-quart);
+}
+
+.btnPrimary {
+  background-color: var(--color-primary-text);
+  color: var(--color-background);
+  box-shadow: 4px 4px 0px var(--color-background), 4px 4px 0px 1.5px var(--color-primary-text);
+}
+
+.btnPrimary:hover:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px var(--color-background), 2px 2px 0px 1.5px var(--color-primary-text);
+}
+
+.btnSecondary {
+  background-color: var(--color-background);
+  color: var(--color-primary-text);
+  box-shadow: 4px 4px 0px var(--color-primary-text);
+}
+
+.btnSecondary:hover:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px var(--color-primary-text);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* ── terminal panel ── */
+.terminalContainer {
+  border: 1.5px solid var(--color-primary-text);
+  border-radius: 12px;
+  background-color: #0d0e12; /* Retro terminal dark */
+  box-shadow: 4px 4px 0px var(--color-primary-text);
+  display: flex;
+  flex-direction: column;
+  height: 380px;
+  overflow: hidden;
+}
+
+.terminalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1.5px solid var(--color-primary-text);
+  background-color: #16181f;
+}
+
+.dotGroup {
+  display: flex;
+  gap: 8px;
+}
+
+.redDot, .yellowDot, .greenDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid var(--color-primary-text);
+}
+
+.redDot { background-color: #ff5f56; }
+.yellowDot { background-color: #ffbd2e; }
+.greenDot { background-color: #27c93f; }
+
+.terminalTitle {
+  font-family: var(--font-navbar);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  color: #888da8;
+}
+
+.terminalBody {
+  flex-grow: 1;
+  padding: 16px;
+  overflow-y: auto;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.terminalPlaceholder {
+  color: #56596b;
+  font-style: italic;
+}
+
+.logLine {
+  margin-bottom: 6px;
+}
+
+.logInfo {
+  color: #d1d5db;
+}
+
+.logSuccess {
+  color: #4ade80; /* bright green */
+}
+
+.logWarning {
+  color: #fbbf24; /* amber */
+}
+
+.logFatal {
+  color: #f87171; /* bright red */
+  font-weight: 700;
+}
+
+.logSystem {
+  color: #60a5fa; /* light blue */
+}
+
+/* ── responsiveness ── */
+@media (max-width: 1024px) {
+  .arenaLayout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  
+  .terminalContainer {
+    height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .raceContainer {
+    padding: 20px;
+  }
+  
+  .actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .btn {
+    width: 100%;
+  }
+}

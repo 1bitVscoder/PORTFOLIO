@@ -48,3 +48,27 @@
     font-size: 1.5rem;
   }
 }
+
+.raceTrackContainer {
+  max-width: var(--canvas-max-width);
+  margin: 0 auto;
+  padding: 0 8% 120px 8%;
+}
+
+@media (max-width: 1024px) {
+  .raceTrackContainer {
+    padding: 0 6% 100px 6%;
+  }
+}
+
+@media (max-width: 768px) {
+  .raceTrackContainer {
+    padding: 0 5% 80px 5%;
+  }
+}
+
+@media (max-width: 480px) {
+  .raceTrackContainer {
+    padding: 0 4% 60px 4%;
+  }
+}

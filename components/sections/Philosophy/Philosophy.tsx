@@ -7,6 +7,7 @@ import { useReducedMotion } from '@/lib/useReducedMotion';
 import { content } from '@/data';
 import { MetaLabel } from '@/components/ui/MetaLabel';
 import { RevealText } from './RevealText';
+import { DsaRaceTrack } from './DsaRaceTrack';
 import styles from './Philosophy.module.css';
 
 // Philosophy hold: once the section fills the viewport, pin it for this many
@@ -65,6 +66,9 @@ export function Philosophy() {
           highlights={content.philosophy.highlights}
         />
       </section>
+      <div className={styles.raceTrackContainer}>
+        <DsaRaceTrack />
+      </div>
     </div>
   );
 }
