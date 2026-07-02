@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { playClick, playSweep } from '@/lib/audio';
+import { gsap } from '@/lib/gsap';
 import styles from './DsaRaceTrack.module.css';
 
 const N_VALUES = [10, 100, 1000, 10000, 100000];
@@ -16,6 +17,7 @@ interface LaneProgress {
 
 export function DsaRaceTrack() {
   const [nValue, setNValue] = useState<number>(1000);
+  const [sliderVal, setSliderVal] = useState<number>(2); // 2 is index of 1000
   const [raceState, setRaceState] = useState<'idle' | 'running' | 'completed' | 'crashed'>('idle');
   const [logs, setLogs] = useState<string[]>([]);
   const [progress, setProgress] = useState<LaneProgress>({ o1: 0, ologn: 0, on: 0, on2: 0 });
@@ -31,6 +33,11 @@ export function DsaRaceTrack() {
     }
   }, [logs]);
 
+  // Keep sliderVal in sync with nValue (e.g. on reset)
+  useEffect(() => {
+    setSliderVal(N_VALUES.indexOf(nValue));
+  }, [nValue]);
+
   // Cleanup animations on unmount
   useEffect(() => {
     return () => {
@@ -44,10 +51,32 @@ export function DsaRaceTrack() {
 
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (raceState === 'running') return;
-    const index = parseInt(e.target.value, 10);
-    const val = N_VALUES[index];
-    setNValue(val);
-    playClick();
+    const val = parseFloat(e.target.value);
+    setSliderVal(val);
+    
+    // Update target N value dynamically on crossing thresholds
+    const nearestIndex = Math.round(val);
+    const nearestN = N_VALUES[nearestIndex];
+    if (nearestN !== nValue) {
+      setNValue(nearestN);
+      playClick();
+    }
+  };
+
+  const handleSliderRelease = () => {
+    if (raceState === 'running') return;
+    const nearestIndex = Math.round(sliderVal);
+    
+    // Snappy bouncy transition to the nearest discrete step
+    const obj = { val: sliderVal };
+    gsap.to(obj, {
+      val: nearestIndex,
+      duration: 0.25,
+      ease: 'back.out(1.6)',
+      onUpdate: () => {
+        setSliderVal(obj.val);
+      }
+    });
   };
 
   const startRace = () => {
@@ -221,9 +250,6 @@ export function DsaRaceTrack() {
     setRaceState('idle');
   };
 
-  const getSliderIndex = () => {
-    return N_VALUES.indexOf(nValue);
-  };
 
   return (
     <div className={styles.raceContainer}>
@@ -246,8 +272,11 @@ export function DsaRaceTrack() {
               type="range"
               min="0"
               max={N_VALUES.length - 1}
-              value={getSliderIndex()}
+              step="0.01"
+              value={sliderVal}
               onChange={handleSliderChange}
+              onMouseUp={handleSliderRelease}
+              onTouchEnd={handleSliderRelease}
               disabled={raceState === 'running'}
               className={styles.sliderInput}
               aria-label="Select Input Size N"
