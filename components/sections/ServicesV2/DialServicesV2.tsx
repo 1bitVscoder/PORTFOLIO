@@ -478,7 +478,7 @@ export function DialServicesV2() {
               : window.innerHeight;
           return `+=${refPx * PIN_RUNWAY_VH}`;
         },
-        pin: pinEl,
+        pin: shellEl,
         pinSpacing: true,
         /* Match V1's pinType so two adjacent pinned ScrollTriggers under
            Lenis use the same positioning strategy — avoids inconsistent
@@ -532,9 +532,12 @@ export function DialServicesV2() {
              otherwise hold stale measurements taken before the spacer existed.
          Global (not trigger.refresh()) on purpose — only the global form
          remeasures the other sections. */
-      ScrollTrigger.refresh();
+      const refreshTimeoutId = setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 150);
 
       return () => {
+        clearTimeout(refreshTimeoutId);
         /* Order matters: kill tweens FIRST so any delayedCall about to fire
            doesn't race the DOM teardown below. ScrollTrigger.kill removes
            the trigger + pin-spacer; clearing the imperative children

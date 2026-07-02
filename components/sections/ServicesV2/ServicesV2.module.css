@@ -8,11 +8,6 @@
   --gap-px: 220px;
   position: relative;
   z-index: var(--z-above);
-  /* Projects below uses margin-top: -315px (originally tuned for Philosophy's
-     parallax exit; V1 Services absorbs the same pull). Mirror that buffer
-     proportionally to viewport so the spacing scales with the pinned section's
-     1vh height rather than being a fixed px value tuned for one viewport. */
-  margin-bottom: 35vh;
 }
 
 :global([data-theme='dark']) .wrapper {

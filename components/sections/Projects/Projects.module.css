@@ -1,7 +1,6 @@
 .section {
     position: relative;
     width: 100%;
-    margin-top: -35vh; /* Pull up to reduce gap after Philosophy */
     z-index: var(--z-above);
 }
 

@@ -84,7 +84,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={doppioOne.variable}>
+      <body className={doppioOne.variable} suppressHydrationWarning>
         {/* See BOOTSTRAP_SCRIPT above — pre-paint theme + scroll-restoration bootstrap. */}
         <script
           dangerouslySetInnerHTML={{
