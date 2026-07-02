@@ -14,7 +14,7 @@
    begins. The loop is gated to when the section is on-screen (no off-screen
    CPU). Under reduced motion the grid is shown static and the snake omitted. */
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { useReducedMotion } from "@/lib/useReducedMotion";
@@ -52,6 +52,12 @@ const LEVELS = [0, 1, 2, 3, 4] as const;
 type Pt = { col: number; row: number };
 
 export function AboutPageContributions() {
+  const [tooltip, setTooltip] = useState<{
+    count: number;
+    date: string;
+    x: number;
+    y: number;
+  } | null>(null);
   const reduced = useReducedMotion();
   const { total, weeks } = githubContributions;
 
@@ -334,7 +340,7 @@ export function AboutPageContributions() {
           <span className={styles.count}>{totalLabel} in the last year</span>
         </div>
 
-        <div className={styles.gridWrap}>
+        <div className={styles.gridWrap} style={{ position: 'relative' }}>
           <svg
             className={styles.grid}
             data-grid
@@ -360,9 +366,22 @@ export function AboutPageContributions() {
                     height={CELL}
                     rx={3}
                     ry={3}
-                  >
-                    <title>{`${cell.count} contribution${cell.count === 1 ? "" : "s"} on ${cell.date}`}</title>
-                  </rect>
+                    aria-label={`${cell.count} contribution${cell.count === 1 ? "" : "s"} on ${cell.date}`}
+                    onMouseEnter={(e) => {
+                      const rect = e.currentTarget.getBoundingClientRect();
+                      const wrapEl = e.currentTarget.ownerSVGElement?.parentElement;
+                      const wrapRect = wrapEl?.getBoundingClientRect();
+                      if (rect && wrapRect) {
+                        setTooltip({
+                          count: cell.count,
+                          date: cell.date,
+                          x: rect.left - wrapRect.left + rect.width / 2,
+                          y: rect.top - wrapRect.top,
+                        });
+                      }
+                    }}
+                    onMouseLeave={() => setTooltip(null)}
+                  />
                 ) : null,
               ),
             )}
@@ -385,6 +404,21 @@ export function AboutPageContributions() {
               </g>
             )}
           </svg>
+
+          {tooltip && (
+            <div
+              className={styles.tooltip}
+              style={{
+                left: `${tooltip.x}px`,
+                top: `${tooltip.y}px`,
+              }}
+            >
+              <span className={styles.tooltipCount}>
+                {tooltip.count} commit{tooltip.count === 1 ? "" : "s"}
+              </span>
+              <span className={styles.tooltipDate}>{tooltip.date}</span>
+            </div>
+          )}
         </div>
 
         <div className={styles.footer}>

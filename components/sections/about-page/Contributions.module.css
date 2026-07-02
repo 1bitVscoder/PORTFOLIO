@@ -131,3 +131,48 @@
 @media (max-width: 560px) {
   .footer { flex-direction: column; align-items: flex-start; }
 }
+
+.cell {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: fill 0.45s var(--ease-out-quart), transform 0.15s var(--ease-out-expo);
+}
+
+.cell:hover {
+  transform: scale(1.4);
+  cursor: pointer;
+}
+
+.tooltip {
+  position: absolute;
+  pointer-events: none;
+  background-color: var(--color-background);
+  border: 1.5px solid var(--color-primary-text);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-family: var(--font-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  z-index: 50;
+  box-shadow: 4px 4px 0px var(--color-primary-text);
+  white-space: nowrap;
+  animation: tooltipFadeIn 0.15s var(--ease-out-expo) forwards;
+}
+
+@keyframes tooltipFadeIn {
+  from { opacity: 0; transform: translate(-50%, -100%) translateY(0); }
+  to { opacity: 1; transform: translate(-50%, -100%) translateY(-8px); }
+}
+
+.tooltipCount {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--color-primary-text);
+}
+
+.tooltipDate {
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
