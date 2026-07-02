@@ -84,32 +84,33 @@ export function DsaRaceTrack() {
     addLog(`[COMPILER] Instantiating loop race for N = ${nValue.toLocaleString()}...`);
     startTimeRef.current = performance.now();
     
-    // Set up timings based on N
-    const o1Duration = 300; // ms
-    const olognDuration = 450; // ms
-    let onDuration = 800; // ms
-    let on2Duration = 1200; // ms
+    // Set up timings based on N (slower durations for smooth pacing)
+    const o1Duration = 1200; // ms
+    const olognDuration = 1800; // ms
+    let onDuration = 2800; // ms
+    let on2Duration = 5000; // ms
 
     if (nValue === 10) {
-      onDuration = 500;
-      on2Duration = 700;
-    } else if (nValue === 100) {
-      onDuration = 600;
-      on2Duration = 900;
-    } else if (nValue === 1000) {
-      onDuration = 800;
-      on2Duration = 1800;
-    } else if (nValue === 10000) {
-      onDuration = 1200;
-      on2Duration = 3000; // Stalls and crashes around 2.5s
-    } else if (nValue === 100000) {
       onDuration = 2200;
-      on2Duration = 1500; // Stalls and crashes around 1.0s
+      on2Duration = 3000;
+    } else if (nValue === 100) {
+      onDuration = 2400;
+      on2Duration = 3800;
+    } else if (nValue === 1000) {
+      onDuration = 2800;
+      on2Duration = 5000;
+    } else if (nValue === 10000) {
+      onDuration = 3500;
+      on2Duration = 6000;
+    } else if (nValue === 100000) {
+      onDuration = 4500;
+      on2Duration = 6000;
     }
 
     const loggedRef = {
       o1: false,
       ologn: false,
+      onHalf: false,
       on: false,
       on2Warn: false,
       on2Fatal: false,
@@ -129,9 +130,9 @@ export function DsaRaceTrack() {
         // Normal completion path for small N
         pOn2 = Math.min(100, (elapsed / on2Duration) * 100);
       } else if (nValue === 10000) {
-        // Stalls at 45% and crashes
-        if (elapsed < 2400) {
-          pOn2 = (elapsed / on2Duration) * 45;
+        // Stalls at 45% and crashes (around 4.2s out of 6.0s duration)
+        if (elapsed < 4200) {
+          pOn2 = (elapsed / 4200) * 45;
         } else {
           pOn2 = 45;
           if (!loggedRef.on2Fatal) {
@@ -140,9 +141,9 @@ export function DsaRaceTrack() {
           }
         }
       } else {
-        // N = 100,000: Stalls at 12% and crashes quickly
-        if (elapsed < 1000) {
-          pOn2 = (elapsed / on2Duration) * 12;
+        // N = 100,000: Stalls at 12% and crashes quickly (around 2.0s)
+        if (elapsed < 2000) {
+          pOn2 = (elapsed / 2000) * 12;
         } else {
           pOn2 = 12;
           if (!loggedRef.on2Fatal) {
@@ -172,17 +173,18 @@ export function DsaRaceTrack() {
         addLog(`[RUNNING] O(log N) binary search: ${ops} operations completed in 0.06ms.`);
       }
 
-      if (pOn >= 50 && !loggedRef.on && nValue >= 1000) {
-        loggedRef.on = true;
+      if (pOn >= 50 && !loggedRef.onHalf && nValue >= 1000) {
+        loggedRef.onHalf = true;
         addLog(`[RUNNING] O(N) linear sweep: ${(nValue / 2).toLocaleString()} operations processed...`);
       }
 
-      if (pOn >= 100 && pOn2 < 100 && !loggedRef.on === true) {
+      if (pOn >= 100 && !loggedRef.on) {
+        loggedRef.on = true;
         addLog(`[SUCCESS] O(N) linear sweep finished in ${Math.round(onDuration)}ms.`);
       }
 
       // O(N2) Stalling Logs
-      if (nValue >= 10000 && elapsed > 600 && !loggedRef.on2Warn) {
+      if (nValue >= 10000 && elapsed > 1500 && !loggedRef.on2Warn) {
         loggedRef.on2Warn = true;
         addLog(`[WARNING] O(N²) quadratic sort: Cache line thrashing detected. CPU usage 100%.`);
       }
