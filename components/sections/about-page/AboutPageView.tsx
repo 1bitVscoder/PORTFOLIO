@@ -5,6 +5,7 @@ import { Contact } from "@/components/sections/Contact";
 import { AboutPageHeroEcho } from "./Echo";
 import { AboutPageIntro } from "./Intro";
 import { AboutPageExperience } from "./Experience";
+import { AboutPageCurrentProject } from "./CurrentProject";
 import { AboutPageContributions } from "./Contributions";
 import { AboutPageLeetCodeStats } from "./LeetCodeStats";
 import { AboutPageCredentials } from "./Credentials";
@@ -24,6 +25,7 @@ export function AboutPageView() {
       <Ledger entries={VITALS} />
       <AboutPageIntro />
       <AboutPageExperience />
+      <AboutPageCurrentProject />
       <AboutPageContributions />
       <AboutPageLeetCodeStats />
       <AboutPageCredentials />

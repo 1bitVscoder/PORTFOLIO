@@ -1,0 +1,214 @@
+.section {
+    position: relative;
+    width: 100%;
+    z-index: var(--z-above);
+}
+
+/* Base meta-label positioning */
+.metaLabel {
+    position: absolute;
+    top: clamp(80px, 9vw, 110px);
+    left: var(--spacing-nav-side);
+    z-index: 20;
+    font-family: var(--font-navbar);
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    .metaLabel {
+        top: clamp(70px, 14vw, 90px);
+        left: var(--spacing-nav-side);
+    }
+}
+
+.projectSection {
+    height: 250vh; /* Long scroll for drama */
+    position: relative;
+    width: 100%;
+}
+
+.projectSticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    perspective: 1000px;
+    contain: layout style;
+    color: inherit;
+    text-decoration: none;
+}
+
+a.projectSticky {
+    cursor: pointer;
+}
+
+[data-split-gated="true"] a.projectSticky {
+    pointer-events: none;
+    cursor: default;
+}
+
+[data-split-gated="true"] a.projectSticky[data-open="true"] {
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+/* THE SPLIT TEXT */
+.titleWrapper {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    pointer-events: none;
+    contain: layout style;
+}
+
+.textTop, .textBottom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    overflow: hidden;
+    background-color: transparent;
+}
+
+.textBacking {
+    position: absolute;
+    width: 120%;
+    height: 60%;
+    background-color: transparent;
+    z-index: -1;
+    transition: background-color 0.5s ease;
+}
+
+.textTop .textBacking { bottom: 0; }
+.textBottom .textBacking { top: 0; }
+
+.textTop {
+    clip-path: polygon(0 0, 100% 0, 100% calc(50% + 1px), 0 calc(50% + 1px));
+    z-index: 12;
+    transform-origin: center 50%;
+}
+
+.textBottom {
+    clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
+    z-index: 11;
+    transform-origin: center 50%;
+}
+
+.textContent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16vw;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--color-primary-text);
+    white-space: nowrap;
+    letter-spacing: -0.04em;
+    line-height: 0.8;
+    font-family: var(--font-primary);
+}
+
+/* THE IMAGE */
+.imageCard {
+    position: relative;
+    width: min(80vw, 76vh * 3 / 2);
+    aspect-ratio: 3 / 2;
+    z-index: 5;
+    transform: scale(0.125) rotate(-10deg);
+    opacity: 0;
+    border-radius: var(--radius-portrait);
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+}
+
+.projectImgWrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform: scale(1.15);
+}
+
+/* FUNKY BADGE */
+.funkyBadge {
+    position: absolute;
+    top: -3%;
+    right: -6%;
+    width: clamp(100px, 12vw, 150px);
+    height: clamp(100px, 12vw, 150px);
+    background: var(--color-accent-gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+    z-index: 20;
+    transform: scale(0);
+    box-shadow: 5px 5px 0px var(--color-primary-text);
+    color: var(--color-primary-text);
+    text-align: center;
+    line-height: 1.2;
+    font-family: var(--font-navbar);
+}
+
+/* INFO */
+.projectMeta {
+    position: absolute;
+    bottom: 50px;
+    display: flex;
+    gap: 20px;
+    z-index: 20;
+    font-family: var(--font-navbar);
+    font-size: 18px;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.pill {
+    padding: 10px 20px;
+    border: 2px solid var(--color-primary-text);
+    border-radius: 50px;
+    background-color: var(--color-background);
+}
+
+@media (max-width: 768px) {
+    .projectMeta {
+        font-size: 13px;
+        gap: 10px;
+    }
+
+    .pill {
+        padding: 7px 14px;
+        border-width: 1.5px;
+    }
+
+    .funkyBadge {
+        width: 76px;
+        height: 76px;
+        font-size: 11px;
+    }
+}
+
+@media (scripting: none) {
+    .imageCard {
+        opacity: 1;
+        transform: none;
+    }
+
+    .funkyBadge {
+        transform: scale(1);
+    }
+
+    .projectMeta {
+        opacity: 1;
+        transform: none;
+    }
+}

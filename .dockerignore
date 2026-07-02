@@ -40,12 +40,3 @@ scripts/*
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# Snyk
-.snyk
-.snyk.json
-.snyk-docker
-snyk-test-results.json
-snyk-code-test-results.json
-snyk-report.*
-

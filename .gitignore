@@ -43,12 +43,3 @@ next-env.d.ts
 *.md
 !README.md
 !docs/**/*.md
-
-# Snyk
-.snyk
-.snyk.json
-.snyk-docker
-snyk-test-results.json
-snyk-code-test-results.json
-snyk-report.*
-
