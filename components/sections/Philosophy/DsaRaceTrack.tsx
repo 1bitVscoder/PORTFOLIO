@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { playClick, playSweep } from '@/lib/audio';
+import { useDynamicLenisPrevent } from '@/lib/useDynamicLenisPrevent';
 import { gsap } from '@/lib/gsap';
 import styles from './DsaRaceTrack.module.css';
 
@@ -25,6 +26,9 @@ export function DsaRaceTrack() {
   const animationRef = useRef<number | null>(null);
   const startTimeRef = useRef<number>(0);
   const terminalBodyRef = useRef<HTMLDivElement>(null);
+
+  // Apply dynamic lenis-prevent to scrollable terminal container
+  useDynamicLenisPrevent(terminalBodyRef);
 
   // Auto-scroll the terminal logs internally (no page jumping)
   useEffect(() => {
@@ -387,7 +391,7 @@ export function DsaRaceTrack() {
             </div>
             <span className={styles.terminalTitle}>system_telemetry.log</span>
           </div>
-          <div ref={terminalBodyRef} className={styles.terminalBody} data-lenis-prevent>
+          <div ref={terminalBodyRef} className={styles.terminalBody}>
             {logs.length === 0 ? (
               <span className={styles.terminalPlaceholder}>Terminal idle. Click "Run Simulation" to execute complexity check...</span>
             ) : (

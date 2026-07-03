@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { playClick } from '@/lib/audio';
-import { gsap } from '@/lib/gsap';
+import { useDynamicLenisPrevent } from '@/lib/useDynamicLenisPrevent';
 import styles from './AiVisualizer.module.css';
 
 const PRESETS = [
@@ -92,6 +92,10 @@ export function AiVisualizer() {
   const reducedMotion = useReducedMotion();
   const logsBodyRef = useRef<HTMLDivElement>(null);
   const outputConsoleRef = useRef<HTMLDivElement>(null);
+
+  // Apply dynamic lenis-prevent to scrollable containers
+  useDynamicLenisPrevent(logsBodyRef);
+  useDynamicLenisPrevent(outputConsoleRef);
 
   // Load API Key from localStorage
   useEffect(() => {
@@ -548,7 +552,7 @@ pub fn sort() { ... }
             {/* Response Area */}
             <div className={styles.monitorOutput}>
               <h4 className={styles.panelTitle}>Stream Monitor</h4>
-              <div ref={outputConsoleRef} className={styles.outputConsole} data-lenis-prevent>
+              <div ref={outputConsoleRef} className={styles.outputConsole}>
                 {outputResponse ? (
                   <pre className={styles.outputText}>{outputResponse}</pre>
                 ) : (
@@ -589,7 +593,7 @@ pub fn sort() { ... }
             </div>
             <span className={styles.logsTitle}>gateway_routing_agent.log</span>
           </div>
-          <div ref={logsBodyRef} className={styles.logsBody} data-lenis-prevent>
+          <div ref={logsBodyRef} className={styles.logsBody}>
             {terminalLogs.length === 0 ? (
               <span className={styles.logsPlaceholder}>Router pipeline idle. Input prompt to begin telemetry...</span>
             ) : (
