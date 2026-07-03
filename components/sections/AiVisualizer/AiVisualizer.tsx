@@ -92,7 +92,6 @@ export function AiVisualizer() {
   const reducedMotion = useReducedMotion();
   const logsBodyRef = useRef<HTMLDivElement>(null);
   const outputConsoleRef = useRef<HTMLDivElement>(null);
-  const audioContextRef = useRef<AudioContext | null>(null);
 
   // Load API Key from localStorage
   useEffect(() => {
@@ -110,35 +109,7 @@ export function AiVisualizer() {
 
   // Play high-frequency stream token beep using native Web Audio
   const playTokenBeep = () => {
-    if (typeof window === 'undefined') return;
-    const muted = localStorage.getItem('site-muted') === 'true';
-    if (muted) return;
-
-    try {
-      if (!audioContextRef.current) {
-        audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
-      }
-      const ctx = audioContextRef.current;
-      if (ctx.state === 'suspended') {
-        ctx.resume();
-      }
-
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(1200 + Math.random() * 300, ctx.currentTime);
-      gain.gain.setValueAtTime(0.006, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.03);
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-
-      osc.start();
-      osc.stop(ctx.currentTime + 0.03);
-    } catch (e) {
-      // Fallback silently if audio context is blocked
-    }
+    // disabled
   };
 
   // Auto-scroll the terminal logs internally (no page jumping)
