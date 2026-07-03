@@ -6,6 +6,7 @@
    column of profile narrative. From content.about.bio. */
 
 import { useId, useRef } from "react";
+import Image from "next/image";
 import { useBlockFadeIn } from "@/lib/useBlockFadeIn";
 import { useWordLineReveal } from "@/lib/useWordLineReveal";
 import { renderInline } from "@/lib/renderInline";
@@ -26,12 +27,14 @@ export function AboutPageIntro() {
   const sectionRef = useRef<HTMLElement>(null);
   const marginRef = useRef<HTMLDivElement>(null);
   const colRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
   const eyebrowId = useId();
 
   useBlockFadeIn(sectionRef, {
     start: cs.scrollTrigger.early,
     groups: [
       { targets: [marginRef], y: cs.blockFade.yTall, duration: cs.blockFade.durationLong },
+      { targets: [cardRef], y: cs.blockFade.yTall, duration: cs.blockFade.durationLong, delay: 0.15 },
     ],
   });
   useWordLineReveal(colRef, { scope: sectionRef });
@@ -59,6 +62,26 @@ export function AboutPageIntro() {
           </p>
         ))}
       </div>
+
+      <aside ref={cardRef} className={styles.cardCol}>
+        <div className={styles.profileCard}>
+          <div className={styles.cardFrame}>
+            <Image
+              src="/profile1.png"
+              alt="Zenith Soumya"
+              width={220}
+              height={220}
+              priority
+              className={styles.profileImage}
+            />
+            <div className={styles.scanlines} />
+          </div>
+          <div className={styles.cardMeta}>
+            <span className={styles.metaLabel}>SYS_OP: ZENITH</span>
+            <span className={styles.metaStatus}>iter-01 // ACTIVE</span>
+          </div>
+        </div>
+      </aside>
     </section>
   );
 }

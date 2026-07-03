@@ -52,14 +52,121 @@
 }
 .lede strong { font-weight: 700; }
 
+.cardCol {
+  grid-column: col-end / margin-end;
+  margin: 0;
+}
+
+.profileCard {
+  position: relative;
+  background-color: var(--color-background);
+  border: 1.5px solid var(--color-primary-text);
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 0.3s var(--ease-out-expo), border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profileCard:hover {
+  transform: translateY(-4px) scale(1.02);
+  border-color: var(--color-accent-purple);
+  box-shadow: 0 10px 25px rgba(191, 90, 242, 0.12), 0 0 12px rgba(191, 90, 242, 0.08);
+}
+
+.cardFrame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--color-primary-text);
+  background-color: var(--color-grid-line);
+}
+
+.profileImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(15%);
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.profileCard:hover .profileImage {
+  filter: grayscale(0%);
+  transform: scale(1.04);
+}
+
+.scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.12) 50%
+  ), linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.03),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.03)
+  );
+  background-size: 100% 4px, 6px 100%;
+  opacity: 0.85;
+  transition: opacity 0.3s ease;
+}
+
+.profileCard:hover .scanlines {
+  opacity: 1;
+}
+
+.cardMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: var(--font-navbar);
+  font-size: 10px;
+  color: var(--color-text-muted-strong);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.metaLabel {
+  font-weight: 700;
+  color: var(--color-primary-text);
+}
+
+.metaStatus {
+  color: var(--color-gray-dark);
+}
+
 @media (max-width: 1100px) {
-  .intro { grid-template-columns: 1fr; gap: 24px; }
-  .margin, .col {
-    grid-column: 1;
+  .intro { 
+    grid-template-columns: 1fr; 
+    gap: 32px; 
+    display: flex;
+    flex-direction: column;
+  }
+  .margin, .col, .cardCol {
     max-width: var(--read-col);
     margin-left: auto;
     margin-right: auto;
     width: 100%;
+  }
+  .margin {
+    order: 1;
+  }
+  .cardCol {
+    order: 2;
+    display: flex;
+    justify-content: center;
+  }
+  .profileCard {
+    width: 240px;
+  }
+  .col {
+    order: 3;
   }
   .marginInner { flex-direction: row; flex-wrap: wrap; gap: 32px; }
   .eyebrow { flex-basis: 100%; margin: 0 0 4px; }
