@@ -399,6 +399,17 @@ export function Menu({ isOpen, onClose, onCloseComplete, onRevealStart }: MenuPr
       return;
     }
 
+    if (href === '#arcade') {
+      e.preventDefault();
+      onClose();
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+      scrollTimeoutRef.current = setTimeout(() => {
+        scrollTimeoutRef.current = null;
+        document.dispatchEvent(new CustomEvent('arcade:open'));
+      }, 700);
+      return;
+    }
+
     // Route links (e.g. /about) navigate to a different page rather than
     // scrolling within the current one. Hand them to the page-transition
     // system so the curtain plays, mirroring TransitionLink. A click while

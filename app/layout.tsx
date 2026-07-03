@@ -9,6 +9,7 @@ import { AccentColorProvider } from "@/lib/AccentColorContext";
 import { LenisProvider } from "@/lib/LenisProvider";
 import { InteractiveBackground } from "@/components/sections/Hero";
 import { Navbar } from "@/components/layout/Navbar";
+import { ArcadeSection } from "@/components/sections/Arcade";
 import {
   TransitionProvider,
   TransitionStage,
@@ -109,6 +110,7 @@ export default function RootLayout({
               <ThemeToggle />
               {children}
               <TransitionStage />
+              <ArcadeSection />
             </TransitionProvider>
           </AccentColorProvider>
         </LenisProvider>

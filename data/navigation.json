@@ -19,6 +19,12 @@
       "description": "Expert solutions for your needs"
     },
     {
+      "id": "arcade",
+      "label": "Arcade",
+      "href": "#arcade",
+      "description": "Interactive race arena & agentic flow"
+    },
+    {
       "id": "contact",
       "label": "Contact",
       "href": "#contact",
