@@ -555,3 +555,205 @@
   margin: 0;
 }
 
+/* ── Interactive Pipeline Container & Inspector ── */
+.pipelineContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.nodeInspector {
+  min-height: 100px;
+  border: 1.5px dashed var(--color-primary-text);
+  border-radius: 8px;
+  padding: 16px;
+  background-color: rgba(255, 255, 255, 0.02);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.inspectorActive {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: inspectorFadeIn 0.25s ease-out forwards;
+}
+
+@keyframes inspectorFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.inspectorHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.inspectorTitle {
+  font-family: var(--font-primary);
+  font-size: clamp(14px, 1.4vw, 18px);
+  font-weight: 800;
+  color: var(--color-primary-text);
+}
+
+.inspectorBadge {
+  font-family: var(--font-navbar);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid currentColor;
+}
+
+.badgeCode { color: var(--color-accent-purple); }
+.badgeCreative { color: var(--color-accent-gold); }
+.badgeDebug { color: var(--color-accent-teal); }
+.badgeSys { color: var(--color-primary-text); }
+
+.inspectorDesc {
+  font-family: var(--font-primary);
+  font-size: clamp(12px, 1.1vw, 14px);
+  color: var(--color-text-muted-strong);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.inspectorSpecs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.specTag {
+  font-family: var(--font-navbar);
+  font-size: 10px;
+  font-weight: 600;
+  background-color: var(--color-grid-line);
+  color: var(--color-primary-text);
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--color-primary-text);
+}
+
+.lockNotice {
+  font-family: var(--font-navbar);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-accent-purple);
+  margin-left: auto;
+  letter-spacing: 0.02em;
+}
+
+.inspectorPlaceholder {
+  font-family: var(--font-primary);
+  font-size: clamp(12px, 1.1vw, 14px);
+  color: var(--color-text-muted-strong);
+  text-align: center;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.lockStatusText {
+  color: var(--color-accent-purple);
+  font-style: normal;
+}
+
+.pulseIcon {
+  display: inline-block;
+  animation: pulseIconAnim 1.5s infinite ease-in-out;
+  margin-right: 4px;
+}
+
+@keyframes pulseIconAnim {
+  0%, 100% { opacity: 0.4; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+
+/* ── Interactive SVG Nodes ── */
+.interactiveNode {
+  cursor: pointer;
+}
+
+.interactiveNode rect,
+.interactiveNode circle {
+  transition: transform 0.2s var(--ease-out-expo), fill 0.2s ease, stroke 0.2s ease;
+  transform-origin: center;
+}
+
+.interactiveNode:hover rect,
+.interactiveNode:hover circle {
+  transform: scale(1.04);
+  fill: var(--color-grid-line);
+  stroke-width: 2.5px;
+}
+
+.nodeLocked rect {
+  stroke: var(--color-accent-purple);
+  stroke-width: 2.5px;
+  filter: drop-shadow(0 0 3px var(--color-accent-purple));
+}
+
+/* ── Glowing Data Packet Flows ── */
+.packetFlow,
+.packetFlowCode,
+.packetFlowCreative,
+.packetFlowDebug {
+  stroke-linecap: round;
+  fill: none;
+  animation: flowPacket 1s infinite linear;
+}
+
+.packetFlow {
+  stroke: var(--color-accent-purple);
+  stroke-width: 3.5px;
+  stroke-dasharray: 12 180;
+  filter: drop-shadow(0 0 4px var(--color-accent-purple));
+}
+
+.packetFlowCode {
+  stroke: var(--color-accent-purple);
+  stroke-width: 4px;
+  stroke-dasharray: 15 200;
+  filter: drop-shadow(0 0 5px var(--color-accent-purple));
+}
+
+.packetFlowCreative {
+  stroke: var(--color-accent-gold);
+  stroke-width: 4px;
+  stroke-dasharray: 15 200;
+  filter: drop-shadow(0 0 5px var(--color-accent-gold));
+  animation-duration: 0.8s;
+}
+
+.packetFlowDebug {
+  stroke: var(--color-accent-teal);
+  stroke-width: 4px;
+  stroke-dasharray: 15 200;
+  filter: drop-shadow(0 0 5px var(--color-accent-teal));
+  animation-duration: 0.9s;
+}
+
+@keyframes flowPacket {
+  0% {
+    stroke-dashoffset: 240;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+

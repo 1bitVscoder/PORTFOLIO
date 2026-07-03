@@ -76,6 +76,34 @@ Prompt classification completed.
 [STATUS] Streaming output successfully.`,
 };
 
+const NODE_DETAILS = {
+  input: {
+    title: "User Prompt Input",
+    description: "The gateway entrypoint for developer query payloads.",
+    specs: ["Payload: Text Prompt", "Format: UTF-8 String", "Status: Active"]
+  },
+  router: {
+    title: "AI Router Gate",
+    description: "Evaluates input semantics using gemini-2.5-flash to select the optimal model pipeline.",
+    specs: ["Type: Dynamic Classifier", "Confidence: Realtime %", "Latency: ~120ms"]
+  },
+  code: {
+    title: "Gemini 3.5 Flash",
+    description: "Specialized model pipeline optimized for complex coding, logical reasoning, and structure mapping.",
+    specs: ["Latency: Low", "Context: 1M tokens", "Capability: High Logic"]
+  },
+  creative: {
+    title: "Gemini 2.5 Flash",
+    description: "Highly responsive model pipeline optimized for creative copywriting, product brainstorming, and general intent.",
+    specs: ["Latency: Very Low", "Context: 1M tokens", "Capability: High Speed"]
+  },
+  debug: {
+    title: "Gemini 3.1 Flash Lite",
+    description: "Super light-weight pipeline optimized for log parsing, container debugging, and low-latency diagnostic streams.",
+    specs: ["Latency: Minimal", "Context: 1M tokens", "Capability: Max Throughput"]
+  }
+};
+
 export function AiVisualizer() {
   const [query, setQuery] = useState('');
   const [isRouting, setIsRouting] = useState(false);
@@ -85,10 +113,13 @@ export function AiVisualizer() {
   const [outputResponse, setOutputResponse] = useState('');
   const [telemetry, setTelemetry] = useState({ latency: 0, tokens: 0, speed: 0, cost: 0 });
   
+  const [hoveredNodeId, setHoveredNodeId] = useState<'input' | 'router' | 'code' | 'creative' | 'debug' | null>(null);
+  const [lockedRoute, setLockedRoute] = useState<'code' | 'creative' | 'debug' | null>(null);
 
   const reducedMotion = useReducedMotion();
   const logsBodyRef = useRef<HTMLDivElement>(null);
   const outputConsoleRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // Apply dynamic lenis-prevent to scrollable containers
   useDynamicLenisPrevent(logsBodyRef);
@@ -187,80 +218,95 @@ export function AiVisualizer() {
     let targetRoute: 'code' | 'creative' | 'debug' | 'generic' = 'generic';
     let modelName = 'gemini-2.5-flash';
 
-    try {
-      const classResponse = await fetch('/api/classify-prompt', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: processedQuery }),
-      });
-
-      if (!classResponse.ok) {
-        throw new Error('Classification request failed');
-      }
-
-      const scores = await classResponse.json();
-      targetScores = {
-        code: scores.code ?? 10,
-        creative: scores.creative ?? 10,
-        debug: scores.debug ?? 10
-      };
-
-      // Determine highest score
-      const maxVal = Math.max(targetScores.code, targetScores.creative, targetScores.debug);
-      if (maxVal === targetScores.code) {
-        targetRoute = 'code';
+    if (lockedRoute) {
+      targetRoute = lockedRoute;
+      if (lockedRoute === 'code') {
+        targetScores = { code: 100, creative: 0, debug: 0 };
         modelName = 'gemini-3.5-flash';
-      } else if (maxVal === targetScores.creative) {
-        targetRoute = 'creative';
+      } else if (lockedRoute === 'creative') {
+        targetScores = { code: 0, creative: 100, debug: 0 };
         modelName = 'gemini-2.5-flash';
       } else {
-        targetRoute = 'debug';
+        targetScores = { code: 0, creative: 0, debug: 100 };
         modelName = 'gemini-3.1-flash-lite';
       }
+      await addLogDeferred(`[SYSTEM] Manual override active (Locked to ${lockedRoute.toUpperCase()}). Bypassing classification...`, 100);
+    } else {
+      try {
+        const classResponse = await fetch('/api/classify-prompt', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt: processedQuery }),
+        });
 
-      await addLogDeferred(`[ROUTER] Intent classification completed dynamically using server-side Gemini key.`, 100);
-      await addLogDeferred(`[ROUTER] Dynamic routing scores resolved: { code: ${targetScores.code}%, creative: ${targetScores.creative}%, debug: ${targetScores.debug}% }`, 100);
+        if (!classResponse.ok) {
+          throw new Error('Classification request failed');
+        }
 
-    } catch (e) {
-      const errMsg = e instanceof Error ? e.message : 'Error';
-      await addLogDeferred(`[WARNING] Server-side classification failed: ${errMsg}. Falling back to keyword heuristics...`, 100);
-      
-      // Fallback heuristics
-      const lowerQuery = processedQuery.toLowerCase();
-      if (
-        lowerQuery.includes('rust') ||
-        lowerQuery.includes('sorting') ||
-        lowerQuery.includes('algorithm') ||
-        lowerQuery.includes('code') ||
-        lowerQuery.includes('function')
-      ) {
-        targetRoute = 'code';
-        targetScores = { code: 92, creative: 3, debug: 5 };
-        modelName = 'gemini-3.5-flash';
-      } else if (
-        lowerQuery.includes('tagline') ||
-        lowerQuery.includes('database product') ||
-        lowerQuery.includes('marketing') ||
-        lowerQuery.includes('creative') ||
-        lowerQuery.includes('tag')
-      ) {
-        targetRoute = 'creative';
-        targetScores = { code: 2, creative: 94, debug: 4 };
-        modelName = 'gemini-2.5-flash';
-      } else if (
-        lowerQuery.includes('docker') ||
-        lowerQuery.includes('logs') ||
-        lowerQuery.includes('crashed') ||
-        lowerQuery.includes('container') ||
-        lowerQuery.includes('debug')
-      ) {
-        targetRoute = 'debug';
-        targetScores = { code: 6, creative: 2, debug: 92 };
-        modelName = 'gemini-3.1-flash-lite';
-      } else {
-        targetRoute = 'generic';
-        targetScores = { code: 34, creative: 33, debug: 33 };
-        modelName = 'gemini-2.5-flash';
+        const scores = await classResponse.json();
+        targetScores = {
+          code: scores.code ?? 10,
+          creative: scores.creative ?? 10,
+          debug: scores.debug ?? 10
+        };
+
+        // Determine highest score
+        const maxVal = Math.max(targetScores.code, targetScores.creative, targetScores.debug);
+        if (maxVal === targetScores.code) {
+          targetRoute = 'code';
+          modelName = 'gemini-3.5-flash';
+        } else if (maxVal === targetScores.creative) {
+          targetRoute = 'creative';
+          modelName = 'gemini-2.5-flash';
+        } else {
+          targetRoute = 'debug';
+          modelName = 'gemini-3.1-flash-lite';
+        }
+
+        await addLogDeferred(`[ROUTER] Intent classification completed dynamically using server-side Gemini key.`, 100);
+        await addLogDeferred(`[ROUTER] Dynamic routing scores resolved: { code: ${targetScores.code}%, creative: ${targetScores.creative}%, debug: ${targetScores.debug}% }`, 100);
+
+      } catch (e) {
+        const errMsg = e instanceof Error ? e.message : 'Error';
+        await addLogDeferred(`[WARNING] Server-side classification failed: ${errMsg}. Falling back to keyword heuristics...`, 100);
+        
+        // Fallback heuristics
+        const lowerQuery = processedQuery.toLowerCase();
+        if (
+          lowerQuery.includes('rust') ||
+          lowerQuery.includes('sorting') ||
+          lowerQuery.includes('algorithm') ||
+          lowerQuery.includes('code') ||
+          lowerQuery.includes('function')
+        ) {
+          targetRoute = 'code';
+          targetScores = { code: 92, creative: 3, debug: 5 };
+          modelName = 'gemini-3.5-flash';
+        } else if (
+          lowerQuery.includes('tagline') ||
+          lowerQuery.includes('database product') ||
+          lowerQuery.includes('marketing') ||
+          lowerQuery.includes('creative') ||
+          lowerQuery.includes('tag')
+        ) {
+          targetRoute = 'creative';
+          targetScores = { code: 2, creative: 94, debug: 4 };
+          modelName = 'gemini-2.5-flash';
+        } else if (
+          lowerQuery.includes('docker') ||
+          lowerQuery.includes('logs') ||
+          lowerQuery.includes('crashed') ||
+          lowerQuery.includes('container') ||
+          lowerQuery.includes('debug')
+        ) {
+          targetRoute = 'debug';
+          targetScores = { code: 6, creative: 2, debug: 92 };
+          modelName = 'gemini-3.1-flash-lite';
+        } else {
+          targetRoute = 'generic';
+          targetScores = { code: 34, creative: 33, debug: 33 };
+          modelName = 'gemini-2.5-flash';
+        }
       }
     }
 
@@ -424,6 +470,7 @@ pub fn sort() { ... }
 
             <div className={styles.inputGroup}>
               <input
+                ref={inputRef}
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
@@ -441,69 +488,186 @@ pub fn sort() { ... }
               </button>
             </div>
 
-            {/* Pipeline Network Canvas */}
-            <div className={styles.pipelineArea}>
-              <svg className={styles.networkSvg} viewBox="0 0 500 240">
-                {/* Connection lines */}
-                {/* Line: Input -> Router */}
-                <line
-                  x1="50" y1="120" x2="160" y2="120"
-                  className={`${styles.connLine} ${isRouting ? styles.activeConn : ''}`}
-                />
-                
-                {/* Route: Router -> Gemini 3.5 Flash (Code) */}
-                <path
-                  d="M 190 120 Q 280 40, 370 40"
-                  className={`${styles.connLine} ${activeRoute === 'code' ? styles.activeRouteCode : ''}`}
-                  fill="none"
-                />
+            {/* Pipeline Network Canvas Container */}
+            <div className={styles.pipelineContainer}>
+              <div className={styles.pipelineArea}>
+                <svg className={styles.networkSvg} viewBox="0 0 500 240">
+                  <defs>
+                    <pattern id="blueprint-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255, 255, 255, 0.04)" strokeWidth="1" />
+                    </pattern>
+                  </defs>
+                  
+                  {/* Grid overlay */}
+                  <rect width="100%" height="100%" fill="url(#blueprint-grid)" rx="8" />
 
-                {/* Route: Router -> Gemini 2.5 Flash (Creative) */}
-                <line
-                  x1="190" y1="120" x2="370" y2="120"
-                  className={`${styles.connLine} ${activeRoute === 'creative' ? styles.activeRouteCreative : ''}`}
-                />
+                  {/* Connection lines (Base Layer) */}
+                  {/* Line: Input -> Router */}
+                  <line
+                    x1="50" y1="120" x2="160" y2="120"
+                    className={`${styles.connLine} ${isRouting ? styles.activeConn : ''}`}
+                  />
+                  
+                  {/* Route: Router -> Gemini 3.5 Flash (Code) */}
+                  <path
+                    d="M 190 120 Q 280 40, 370 40"
+                    className={`${styles.connLine} ${activeRoute === 'code' ? styles.activeRouteCode : ''}`}
+                    fill="none"
+                  />
 
-                {/* Route: Router -> Gemini 3.1 Flash Lite (Debug) */}
-                <path
-                  d="M 190 120 Q 280 200, 370 200"
-                  className={`${styles.connLine} ${activeRoute === 'debug' ? styles.activeRouteDebug : ''}`}
-                  fill="none"
-                />
+                  {/* Route: Router -> Gemini 2.5 Flash (Creative) */}
+                  <line
+                    x1="190" y1="120" x2="370" y2="120"
+                    className={`${styles.connLine} ${activeRoute === 'creative' ? styles.activeRouteCreative : ''}`}
+                  />
 
-                {/* Nodes */}
-                {/* Node: Input */}
-                <circle cx="50" cy="120" r="16" className={styles.nodeCircle} data-node="input" />
-                <text x="50" y="148" textAnchor="middle" className={styles.nodeLabel}>Input</text>
+                  {/* Route: Router -> Gemini 3.1 Flash Lite (Debug) */}
+                  <path
+                    d="M 190 120 Q 280 200, 370 200"
+                    className={`${styles.connLine} ${activeRoute === 'debug' ? styles.activeRouteDebug : ''}`}
+                    fill="none"
+                  />
 
-                {/* Node: Router */}
-                <rect x="140" y="100" width="50" height="40" rx="6" className={styles.nodeRect} data-node="router" />
-                <text x="165" y="124" textAnchor="middle" className={styles.routerLabel}>Router</text>
+                  {/* Glowing Data Packets Flow (Overlay Layer) */}
+                  {isRouting && activeRoute === 'idle' && (
+                    <line x1="50" y1="120" x2="160" y2="120" className={styles.packetFlow} />
+                  )}
+                  {isRouting && activeRoute === 'code' && (
+                    <>
+                      <line x1="50" y1="120" x2="160" y2="120" className={styles.packetFlow} />
+                      <path d="M 190 120 Q 280 40, 370 40" className={styles.packetFlowCode} fill="none" />
+                    </>
+                  )}
+                  {isRouting && activeRoute === 'creative' && (
+                    <>
+                      <line x1="50" y1="120" x2="160" y2="120" className={styles.packetFlow} />
+                      <line x1="190" y1="120" x2="370" y2="120" className={styles.packetFlowCreative} />
+                    </>
+                  )}
+                  {isRouting && activeRoute === 'debug' && (
+                    <>
+                      <line x1="50" y1="120" x2="160" y2="120" className={styles.packetFlow} />
+                      <path d="M 190 120 Q 280 200, 370 200" className={styles.packetFlowDebug} fill="none" />
+                    </>
+                  )}
 
-                {/* Node: Gemini Pro */}
-                <rect 
-                  x="370" y="20" width="100" height="40" rx="6" 
-                  className={`${styles.nodeRect} ${activeRoute === 'code' ? styles.pulsePro : ''}`} 
-                  data-node="pro" 
-                />
-                <text x="420" y="44" textAnchor="middle" className={styles.modelLabel}>Gemini 3.5 Flash</text>
+                  {/* Interactive Nodes */}
+                  {/* Node: Input */}
+                  <g 
+                    className={`${styles.interactiveNode} ${hoveredNodeId === 'input' ? styles.nodeHovered : ''}`}
+                    onMouseEnter={() => setHoveredNodeId('input')}
+                    onMouseLeave={() => setHoveredNodeId(null)}
+                    onClick={() => { playClick(); inputRef.current?.focus(); }}
+                  >
+                    <circle cx="50" cy="120" r="16" className={styles.nodeCircle} data-node="input" />
+                    <text x="50" y="148" textAnchor="middle" className={styles.nodeLabel}>Input</text>
+                  </g>
 
-                {/* Node: Gemini 2.5 Flash */}
-                <rect 
-                  x="370" y="100" width="100" height="40" rx="6" 
-                  className={`${styles.nodeRect} ${activeRoute === 'creative' ? styles.pulseGroq : ''}`} 
-                  data-node="groq" 
-                />
-                <text x="420" y="124" textAnchor="middle" className={styles.modelLabel}>Gemini 2.5 Flash</text>
+                  {/* Node: Router */}
+                  <g
+                    className={`${styles.interactiveNode} ${hoveredNodeId === 'router' ? styles.nodeHovered : ''}`}
+                    onMouseEnter={() => setHoveredNodeId('router')}
+                    onMouseLeave={() => setHoveredNodeId(null)}
+                  >
+                    <rect x="140" y="100" width="50" height="40" rx="6" className={styles.nodeRect} data-node="router" />
+                    <text x="165" y="124" textAnchor="middle" className={styles.routerLabel}>Router</text>
+                  </g>
 
-                {/* Node: Gemini 3.1 Flash Lite */}
-                <rect 
-                  x="370" y="180" width="100" height="40" rx="6" 
-                  className={`${styles.nodeRect} ${activeRoute === 'debug' ? styles.pulseFlash : ''}`} 
-                  data-node="flash" 
-                />
-                <text x="420" y="204" textAnchor="middle" className={styles.modelLabel}>Gemini 3.1 Lite</text>
-              </svg>
+                  {/* Node: Gemini 3.5 (Code) */}
+                  <g
+                    className={`${styles.interactiveNode} ${hoveredNodeId === 'code' ? styles.nodeHovered : ''} ${lockedRoute === 'code' ? styles.nodeLocked : ''}`}
+                    onMouseEnter={() => setHoveredNodeId('code')}
+                    onMouseLeave={() => setHoveredNodeId(null)}
+                    onClick={() => { playClick(); setLockedRoute(lockedRoute === 'code' ? null : 'code'); }}
+                  >
+                    <rect 
+                      x="370" y="20" width="100" height="40" rx="6" 
+                      className={`${styles.nodeRect} ${activeRoute === 'code' ? styles.pulsePro : ''}`} 
+                      data-node="pro" 
+                    />
+                    <text x="420" y="44" textAnchor="middle" className={styles.modelLabel}>
+                      {lockedRoute === 'code' ? '🔒 Code Forced' : 'Gemini 3.5 Flash'}
+                    </text>
+                  </g>
+
+                  {/* Node: Gemini 2.5 (Creative) */}
+                  <g
+                    className={`${styles.interactiveNode} ${hoveredNodeId === 'creative' ? styles.nodeHovered : ''} ${lockedRoute === 'creative' ? styles.nodeLocked : ''}`}
+                    onMouseEnter={() => setHoveredNodeId('creative')}
+                    onMouseLeave={() => setHoveredNodeId(null)}
+                    onClick={() => { playClick(); setLockedRoute(lockedRoute === 'creative' ? null : 'creative'); }}
+                  >
+                    <rect 
+                      x="370" y="100" width="100" height="40" rx="6" 
+                      className={`${styles.nodeRect} ${activeRoute === 'creative' ? styles.pulseGroq : ''}`} 
+                      data-node="groq" 
+                    />
+                    <text x="420" y="124" textAnchor="middle" className={styles.modelLabel}>
+                      {lockedRoute === 'creative' ? '🔒 Creative Forced' : 'Gemini 2.5 Flash'}
+                    </text>
+                  </g>
+
+                  {/* Node: Gemini 3.1 (Debug) */}
+                  <g
+                    className={`${styles.interactiveNode} ${hoveredNodeId === 'debug' ? styles.nodeHovered : ''} ${lockedRoute === 'debug' ? styles.nodeLocked : ''}`}
+                    onMouseEnter={() => setHoveredNodeId('debug')}
+                    onMouseLeave={() => setHoveredNodeId(null)}
+                    onClick={() => { playClick(); setLockedRoute(lockedRoute === 'debug' ? null : 'debug'); }}
+                  >
+                    <rect 
+                      x="370" y="180" width="100" height="40" rx="6" 
+                      className={`${styles.nodeRect} ${activeRoute === 'debug' ? styles.pulseFlash : ''}`} 
+                      data-node="flash" 
+                    />
+                    <text x="420" y="204" textAnchor="middle" className={styles.modelLabel}>
+                      {lockedRoute === 'debug' ? '🔒 Debug Forced' : 'Gemini 3.1 Lite'}
+                    </text>
+                  </g>
+                </svg>
+              </div>
+
+              {/* Node Inspector Metadata Panel */}
+              <div className={styles.nodeInspector}>
+                {hoveredNodeId && NODE_DETAILS[hoveredNodeId] ? (
+                  <div className={styles.inspectorActive}>
+                    <div className={styles.inspectorHeader}>
+                      <span className={styles.inspectorTitle}>{NODE_DETAILS[hoveredNodeId].title}</span>
+                      <span className={`${styles.inspectorBadge} ${
+                        hoveredNodeId === 'code' ? styles.badgeCode :
+                        hoveredNodeId === 'creative' ? styles.badgeCreative :
+                        hoveredNodeId === 'debug' ? styles.badgeDebug : styles.badgeSys
+                      }`}>
+                        {hoveredNodeId === 'code' ? 'CODE PIPELINE' :
+                         hoveredNodeId === 'creative' ? 'CREATIVE PIPELINE' :
+                         hoveredNodeId === 'debug' ? 'DEBUG PIPELINE' : 'SYSTEM NODE'}
+                      </span>
+                    </div>
+                    <p className={styles.inspectorDesc}>{NODE_DETAILS[hoveredNodeId].description}</p>
+                    <div className={styles.inspectorSpecs}>
+                      {NODE_DETAILS[hoveredNodeId].specs.map((spec: string, i: number) => (
+                        <span key={i} className={styles.specTag}>{spec}</span>
+                      ))}
+                      {(hoveredNodeId === 'code' || hoveredNodeId === 'creative' || hoveredNodeId === 'debug') && (
+                        <span className={styles.lockNotice}>
+                          {lockedRoute === hoveredNodeId ? '🔒 Locked (Click to unlock)' : '⚡ Click to force route'}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <div className={styles.inspectorPlaceholder}>
+                    {lockedRoute ? (
+                      <span className={styles.lockStatusText}>
+                        🔒 OVERRIDE ACTIVE: All query payloads are forced to the <strong>{lockedRoute.toUpperCase()}</strong> pipeline. Click the node again to restore Auto-Routing.
+                      </span>
+                    ) : (
+                      <span>
+                        <span className={styles.pulseIcon}>⚡</span> Hover or tap any pipeline node to inspect technical metadata | Click a model node to force override routing.
+                      </span>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
