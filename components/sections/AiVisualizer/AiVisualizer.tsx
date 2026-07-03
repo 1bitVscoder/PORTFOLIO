@@ -5,6 +5,7 @@ import { useReducedMotion } from '@/lib/useReducedMotion';
 import { playClick } from '@/lib/audio';
 import { useDynamicLenisPrevent } from '@/lib/useDynamicLenisPrevent';
 import styles from './AiVisualizer.module.css';
+import { gsap } from '@/lib/gsap';
 
 const PRESETS = [
   {
@@ -112,14 +113,41 @@ export function AiVisualizer() {
   const [terminalLogs, setTerminalLogs] = useState<string[]>([]);
   const [outputResponse, setOutputResponse] = useState('');
   const [telemetry, setTelemetry] = useState({ latency: 0, tokens: 0, speed: 0, cost: 0 });
-  
+
   const [hoveredNodeId, setHoveredNodeId] = useState<'input' | 'router' | 'code' | 'creative' | 'debug' | null>(null);
   const [lockedRoute, setLockedRoute] = useState<'code' | 'creative' | 'debug' | null>(null);
+  const [displayedNodeId, setDisplayedNodeId] = useState<'input' | 'router' | 'code' | 'creative' | 'debug' | null>(null);
 
   const reducedMotion = useReducedMotion();
   const logsBodyRef = useRef<HTMLDivElement>(null);
   const outputConsoleRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const inspectorRef = useRef<HTMLDivElement>(null);
+
+  // Smooth cross-fade transition switcher for Node Inspector contents
+  useEffect(() => {
+    const targetNodeId = hoveredNodeId;
+
+    if (targetNodeId === displayedNodeId && (targetNodeId !== null || !inspectorRef.current)) return;
+
+    gsap.killTweensOf(inspectorRef.current);
+
+    gsap.to(inspectorRef.current, {
+      opacity: 0,
+      y: -4,
+      duration: 0.12,
+      ease: "power2.in",
+      onComplete: () => {
+        setDisplayedNodeId(targetNodeId);
+        gsap.to(inspectorRef.current, {
+          opacity: 1,
+          y: 0,
+          duration: 0.2,
+          ease: "power2.out"
+        });
+      }
+    });
+  }, [hoveredNodeId, lockedRoute]);
 
   // Apply dynamic lenis-prevent to scrollable containers
   useDynamicLenisPrevent(logsBodyRef);
@@ -627,29 +655,29 @@ pub fn sort() { ... }
               </div>
 
               {/* Node Inspector Metadata Panel */}
-              <div className={styles.nodeInspector}>
-                {hoveredNodeId && NODE_DETAILS[hoveredNodeId] ? (
+              <div ref={inspectorRef} className={styles.nodeInspector}>
+                {displayedNodeId && NODE_DETAILS[displayedNodeId] ? (
                   <div className={styles.inspectorActive}>
                     <div className={styles.inspectorHeader}>
-                      <span className={styles.inspectorTitle}>{NODE_DETAILS[hoveredNodeId].title}</span>
+                      <span className={styles.inspectorTitle}>{NODE_DETAILS[displayedNodeId].title}</span>
                       <span className={`${styles.inspectorBadge} ${
-                        hoveredNodeId === 'code' ? styles.badgeCode :
-                        hoveredNodeId === 'creative' ? styles.badgeCreative :
-                        hoveredNodeId === 'debug' ? styles.badgeDebug : styles.badgeSys
+                        displayedNodeId === 'code' ? styles.badgeCode :
+                        displayedNodeId === 'creative' ? styles.badgeCreative :
+                        displayedNodeId === 'debug' ? styles.badgeDebug : styles.badgeSys
                       }`}>
-                        {hoveredNodeId === 'code' ? 'CODE PIPELINE' :
-                         hoveredNodeId === 'creative' ? 'CREATIVE PIPELINE' :
-                         hoveredNodeId === 'debug' ? 'DEBUG PIPELINE' : 'SYSTEM NODE'}
+                        {displayedNodeId === 'code' ? 'CODE PIPELINE' :
+                         displayedNodeId === 'creative' ? 'CREATIVE PIPELINE' :
+                         displayedNodeId === 'debug' ? 'DEBUG PIPELINE' : 'SYSTEM NODE'}
                       </span>
                     </div>
-                    <p className={styles.inspectorDesc}>{NODE_DETAILS[hoveredNodeId].description}</p>
+                    <p className={styles.inspectorDesc}>{NODE_DETAILS[displayedNodeId].description}</p>
                     <div className={styles.inspectorSpecs}>
-                      {NODE_DETAILS[hoveredNodeId].specs.map((spec: string, i: number) => (
+                      {NODE_DETAILS[displayedNodeId].specs.map((spec: string, i: number) => (
                         <span key={i} className={styles.specTag}>{spec}</span>
                       ))}
-                      {(hoveredNodeId === 'code' || hoveredNodeId === 'creative' || hoveredNodeId === 'debug') && (
+                      {(displayedNodeId === 'code' || displayedNodeId === 'creative' || displayedNodeId === 'debug') && (
                         <span className={styles.lockNotice}>
-                          {lockedRoute === hoveredNodeId ? '🔒 Locked (Click to unlock)' : '⚡ Click to force route'}
+                          {lockedRoute === displayedNodeId ? '🔒 Locked (Click to unlock)' : '⚡ Click to force route'}
                         </span>
                       )}
                     </div>
