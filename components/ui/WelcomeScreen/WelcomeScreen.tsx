@@ -173,11 +173,53 @@ export const WelcomeScreen = () => {
                 ease: "power2.out"
             }
         );
+
+        tl.addLabel("initialsRevealed");
+
+        // 3.5. Glitch Jitter & Decryption Effect on Z and S
+        const originalFirst = INITIALS.first;
+        const originalLast = INITIALS.last;
+        const glyphs = ["X", "Δ", "Ø", "9", "%", "&", "⚡", "0", "1", "★", "✦"];
+        const glitchTime = 0.45;
+        const steps = 6;
+        const stepDuration = glitchTime / steps;
+
+        for (let i = 0; i < steps; i++) {
+          const isLast = i === steps - 1;
+          const startTimeOffset = 0.2 + i * stepDuration;
+          const startTime = `initialsRevealed+=${startTimeOffset}`;
+
+          tl.to([mRef.current, aRef.current], {
+            x: isLast ? 0 : () => gsap.utils.random(-8, 8),
+            y: isLast ? 0 : () => gsap.utils.random(-5, 5),
+            skewX: isLast ? 0 : () => gsap.utils.random(-25, 25),
+            scaleY: isLast ? 1 : () => gsap.utils.random(0.8, 1.2),
+            opacity: isLast ? 1 : () => gsap.utils.random(0.5, 1),
+            textShadow: isLast 
+              ? "none" 
+              : () => `${gsap.utils.random(-5, 5)}px 0 var(--color-accent-purple), ${gsap.utils.random(-5, 5)}px 0 var(--color-accent-teal)`,
+            duration: stepDuration,
+            ease: "none"
+          }, startTime);
+
+          // Swap characters to random glyphs during the glitch
+          tl.call(() => {
+            if (mRef.current && aRef.current) {
+              if (isLast) {
+                mRef.current.textContent = originalFirst;
+                aRef.current.textContent = originalLast;
+              } else {
+                mRef.current.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
+                aRef.current.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
+              }
+            }
+          }, undefined, startTime);
+        }
     }
 
       // 4. The Travel Transition
       // Using a label to properly sequence the flight animation
-      tl.addLabel("flightStart", "+=0.65");
+      tl.addLabel("flightStart", "initialsRevealed+=0.65");
 
       // Calculate positions at the right moment, then animate
       tl.call(() => {
