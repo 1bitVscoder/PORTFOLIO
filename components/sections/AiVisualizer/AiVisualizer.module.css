@@ -463,3 +463,94 @@
     gap: 12px;
   }
 }
+
+.settingsBtn {
+  background-color: var(--color-background);
+  color: var(--color-primary-text);
+  border: 1.5px solid var(--color-primary-text);
+  border-radius: 8px;
+  min-width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 2px 2px 0px var(--color-primary-text);
+  transition: transform 0.1s var(--ease-out-quart), box-shadow 0.1s var(--ease-out-quart);
+}
+
+.settingsBtn:hover {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px var(--color-primary-text);
+}
+
+.apiKeyPanel {
+  border: 1.5px solid var(--color-primary-text);
+  border-radius: 8px;
+  background-color: var(--color-grid-line);
+  padding: 16px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: panelFadeIn 0.2s var(--ease-out-expo) forwards;
+}
+
+@keyframes panelFadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.panelLabel {
+  font-family: var(--font-navbar);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-primary-text);
+}
+
+.keyInputRow {
+  display: flex;
+  gap: 12px;
+}
+
+.keyInput {
+  flex-grow: 1;
+  font-family: var(--font-primary);
+  font-size: 13px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1.5px solid var(--color-primary-text);
+  background-color: var(--color-background);
+  color: var(--color-primary-text);
+  outline: none;
+}
+
+.clearKeyBtn {
+  font-family: var(--font-navbar);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 0 16px;
+  border-radius: 6px;
+  border: 1.5px solid var(--color-primary-text);
+  background-color: #ffebee;
+  color: #c62828;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.clearKeyBtn:hover {
+  background-color: #ffcdd2;
+}
+
+.keyNotice {
+  font-family: var(--font-primary);
+  font-size: 11px;
+  color: var(--color-text-muted-strong);
+  line-height: 1.4;
+  margin: 0;
+}
+
