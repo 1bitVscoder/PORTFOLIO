@@ -85,9 +85,6 @@ export function AiVisualizer() {
   const [outputResponse, setOutputResponse] = useState('');
   const [telemetry, setTelemetry] = useState({ latency: 0, tokens: 0, speed: 0, cost: 0 });
   
-  // API Key local state
-  const [apiKey, setApiKey] = useState('');
-  const [showApiKeyInput, setShowApiKeyInput] = useState(false);
 
   const reducedMotion = useReducedMotion();
   const logsBodyRef = useRef<HTMLDivElement>(null);
@@ -97,19 +94,6 @@ export function AiVisualizer() {
   useDynamicLenisPrevent(logsBodyRef);
   useDynamicLenisPrevent(outputConsoleRef);
 
-  // Load API Key from localStorage
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setApiKey(localStorage.getItem('user-gemini-key') || '');
-    }
-  }, []);
-
-  const saveApiKey = (key: string) => {
-    setApiKey(key);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('user-gemini-key', key);
-    }
-  };
 
   // Play high-frequency stream token beep using native Web Audio
   const playTokenBeep = () => {
@@ -140,31 +124,8 @@ export function AiVisualizer() {
     setQuery(presetQuery);
   };
 
-  // Triggers API Call (Client-direct OR Server Proxy OR Offline Fallback)
+  // Triggers API Call via Server Proxy
   const fetchModelResponse = async (model: string, prompt: string, instruction: string): Promise<string> => {
-    // 1. Client-side direct call if user configured a client API key
-    if (apiKey.trim()) {
-      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          systemInstruction: { parts: [{ text: instruction }] },
-          generationConfig: { maxOutputTokens: 1024, temperature: 0.7 }
-        })
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error?.message || 'Client direct API request failed');
-      }
-
-      const data = await response.json();
-      return data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-    }
-
-    // 2. Server-side proxy call
     const response = await fetch('/api/route-prompt', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -414,38 +375,7 @@ pub fn sort() { ... }
               >
                 {isRouting ? 'ROUTING...' : 'ROUTE QUERY'}
               </button>
-              <button 
-                className={styles.settingsBtn} 
-                onClick={() => setShowApiKeyInput(!showApiKeyInput)}
-                title="Configure Gemini API Key"
-                disabled={isRouting}
-              >
-                {apiKey ? '🔑' : '⚙️'}
-              </button>
             </div>
-
-            {showApiKeyInput && (
-              <div className={styles.apiKeyPanel}>
-                <span className={styles.panelLabel}>Gemini API Key (Local Browser Storage)</span>
-                <div className={styles.keyInputRow}>
-                  <input
-                    type="password"
-                    value={apiKey}
-                    onChange={(e) => saveApiKey(e.target.value)}
-                    placeholder="Enter your AIzaSy... API key"
-                    className={styles.keyInput}
-                  />
-                  {apiKey && (
-                    <button className={styles.clearKeyBtn} onClick={() => saveApiKey('')}>
-                      Clear
-                    </button>
-                  )}
-                </div>
-                <p className={styles.keyNotice}>
-                  Your key is saved locally in localStorage for direct client-side requests. If empty, the system will use your server-side key or fallback to local simulations.
-                </p>
-              </div>
-            )}
 
             {/* Pipeline Network Canvas */}
             <div className={styles.pipelineArea}>
