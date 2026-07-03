@@ -50,14 +50,34 @@ jobs:
             git fetch origin
             git checkout "$TARGET"
 
+            # ─── Detect Docker / Compose Command ─────────────────────────
+            DOCKER="docker"
+            if ! docker info >/dev/null 2>&1; then
+              if sudo -n docker info >/dev/null 2>&1; then
+                DOCKER="sudo docker"
+                echo "Using sudo for docker commands"
+              fi
+            fi
+
+            if $DOCKER compose version >/dev/null 2>&1; then
+              DOCKER_COMPOSE="$DOCKER compose"
+            elif docker-compose version >/dev/null 2>&1; then
+              DOCKER_COMPOSE="docker-compose"
+            elif sudo -n docker-compose version >/dev/null 2>&1; then
+              DOCKER_COMPOSE="sudo docker-compose"
+            else
+              echo "ERROR: Neither 'docker compose' nor 'docker-compose' command could be found." >&2
+              exit 1
+            fi
+
             echo "Rebuilding and restarting..."
-            docker compose -f docker-compose.production.yml build
-            docker compose -f docker-compose.production.yml down --remove-orphans
-            docker compose -f docker-compose.production.yml up -d
+            $DOCKER_COMPOSE -f docker-compose.production.yml build
+            $DOCKER_COMPOSE -f docker-compose.production.yml down --remove-orphans
+            $DOCKER_COMPOSE -f docker-compose.production.yml up -d
 
             echo "Waiting for health check..."
             for i in $(seq 1 30); do
-              if docker exec portfolio wget --no-verbose --tries=1 --spider http://127.0.0.1:8080/health 2>/dev/null; then
+              if $DOCKER exec portfolio wget --no-verbose --tries=1 --spider http://127.0.0.1:8080/health 2>/dev/null; then
                 echo "Health check passed! Rollback complete."
                 exit 0
               fi
@@ -65,5 +85,5 @@ jobs:
             done
 
             echo "ERROR: Health check failed after rollback"
-            docker compose -f docker-compose.production.yml logs --tail=20
+            $DOCKER_COMPOSE -f docker-compose.production.yml logs --tail=20
             exit 1

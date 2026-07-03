@@ -59,5 +59,12 @@ jobs:
           port: ${{ secrets.VPS_SSH_PORT || 22 }}
           script: |
             set -e
-            cd /home/${{ secrets.VPS_USER }}/apps/portfolio
-            ./scripts/deploy.sh
+            APP_DIR="/home/${{ secrets.VPS_USER }}/apps/portfolio"
+            if [ ! -d "$APP_DIR" ]; then
+              echo "Directory $APP_DIR does not exist. Creating and cloning..."
+              mkdir -p "$(dirname "$APP_DIR")"
+              git clone https://github.com/1bitVscoder/PORTFOLIO.git "$APP_DIR"
+            fi
+            cd "$APP_DIR"
+            chmod +x scripts/deploy.sh 2>/dev/null || true
+            bash scripts/deploy.sh
