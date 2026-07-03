@@ -133,10 +133,14 @@ export const WelcomeScreen = () => {
         });
 
         // 2. The Smooth Sequential Transition (No Overlap)
-        const animDuration = 0.18; // Fade-in and slide-up duration
-        const fadeOutDuration = 0.18; // Fade-out and slide-up-away duration
-        const displayDuration = 0.10; // Time to hold fully visible
-        const totalWordDuration = animDuration + displayDuration + fadeOutDuration;
+        // Dynamically scale durations so the total animation time remains responsive
+        const totalGreetings = greetingElements.length;
+        const targetTotalTime = totalGreetings > 10 ? 3.6 : 2.5; 
+        const totalWordDuration = targetTotalTime / totalGreetings;
+
+        const animDuration = totalWordDuration * 0.38;
+        const fadeOutDuration = totalWordDuration * 0.38;
+        const displayDuration = totalWordDuration * 0.24;
 
         greetingElements.forEach((el, index) => {
             const startTime = index * totalWordDuration;
