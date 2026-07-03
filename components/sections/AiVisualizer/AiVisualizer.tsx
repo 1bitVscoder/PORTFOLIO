@@ -209,13 +209,13 @@ export function AiVisualizer() {
       const maxVal = Math.max(targetScores.code, targetScores.creative, targetScores.debug);
       if (maxVal === targetScores.code) {
         targetRoute = 'code';
-        modelName = 'gemini-2.5-pro';
+        modelName = 'gemini-3.5-flash';
       } else if (maxVal === targetScores.creative) {
         targetRoute = 'creative';
         modelName = 'gemini-2.5-flash';
       } else {
         targetRoute = 'debug';
-        modelName = 'gemini-1.5-flash';
+        modelName = 'gemini-3.1-flash-lite';
       }
 
       await addLogDeferred(`[ROUTER] Intent classification completed dynamically using server-side Gemini key.`, 100);
@@ -236,7 +236,7 @@ export function AiVisualizer() {
       ) {
         targetRoute = 'code';
         targetScores = { code: 92, creative: 3, debug: 5 };
-        modelName = 'gemini-2.5-pro';
+        modelName = 'gemini-3.5-flash';
       } else if (
         lowerQuery.includes('tagline') ||
         lowerQuery.includes('database product') ||
@@ -256,7 +256,7 @@ export function AiVisualizer() {
       ) {
         targetRoute = 'debug';
         targetScores = { code: 6, creative: 2, debug: 92 };
-        modelName = 'gemini-1.5-flash';
+        modelName = 'gemini-3.1-flash-lite';
       } else {
         targetRoute = 'generic';
         targetScores = { code: 34, creative: 33, debug: 33 };
@@ -451,7 +451,7 @@ pub fn sort() { ... }
                   className={`${styles.connLine} ${isRouting ? styles.activeConn : ''}`}
                 />
                 
-                {/* Route: Router -> Gemini 2.5 Pro (Code) */}
+                {/* Route: Router -> Gemini 3.5 Flash (Code) */}
                 <path
                   d="M 190 120 Q 280 40, 370 40"
                   className={`${styles.connLine} ${activeRoute === 'code' ? styles.activeRouteCode : ''}`}
@@ -464,7 +464,7 @@ pub fn sort() { ... }
                   className={`${styles.connLine} ${activeRoute === 'creative' ? styles.activeRouteCreative : ''}`}
                 />
 
-                {/* Route: Router -> Gemini 1.5 Flash (Debug) */}
+                {/* Route: Router -> Gemini 3.1 Flash Lite (Debug) */}
                 <path
                   d="M 190 120 Q 280 200, 370 200"
                   className={`${styles.connLine} ${activeRoute === 'debug' ? styles.activeRouteDebug : ''}`}
@@ -486,7 +486,7 @@ pub fn sort() { ... }
                   className={`${styles.nodeRect} ${activeRoute === 'code' ? styles.pulsePro : ''}`} 
                   data-node="pro" 
                 />
-                <text x="420" y="44" textAnchor="middle" className={styles.modelLabel}>Gemini 2.5 Pro</text>
+                <text x="420" y="44" textAnchor="middle" className={styles.modelLabel}>Gemini 3.5 Flash</text>
 
                 {/* Node: Gemini 2.5 Flash */}
                 <rect 
@@ -496,13 +496,13 @@ pub fn sort() { ... }
                 />
                 <text x="420" y="124" textAnchor="middle" className={styles.modelLabel}>Gemini 2.5 Flash</text>
 
-                {/* Node: Gemini 1.5 Flash */}
+                {/* Node: Gemini 3.1 Flash Lite */}
                 <rect 
                   x="370" y="180" width="100" height="40" rx="6" 
                   className={`${styles.nodeRect} ${activeRoute === 'debug' ? styles.pulseFlash : ''}`} 
                   data-node="flash" 
                 />
-                <text x="420" y="204" textAnchor="middle" className={styles.modelLabel}>Gemini 1.5 Flash</text>
+                <text x="420" y="204" textAnchor="middle" className={styles.modelLabel}>Gemini 3.1 Lite</text>
               </svg>
             </div>
           </div>
