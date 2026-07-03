@@ -1,79 +1,13 @@
 .scroll-reveal {
   margin: 20px 0;
-  width: 100%;
 }
 
 .scroll-reveal-text {
-  font-size: clamp(0.85rem, 1.8vw, 1.5rem);
-  line-height: 1.6;
+  font-size: clamp(1.6rem, 4vw, 3rem);
+  line-height: 1.5;
   font-weight: 600;
-  text-align: center;
 }
 
 .word {
   display: inline-block;
-}
-
-/* Container for each line of the quote */
-.reveal-line {
-  display: block;
-  margin-bottom: 2.2rem; /* Creates one line of vertical space between sentences */
-  white-space: normal;   /* Allow text to wrap naturally to prevent overflow on mobile */
-}
-
-@media (min-width: 769px) {
-  .reveal-line {
-    white-space: nowrap; /* Keep every line on a single horizontal line on desktop */
-  }
-}
-
-/* Dynamic theme-colored highlight word */
-.highlight-word {
-  color: var(--color-accent-purple);
-  transition: color 0.4s var(--ease-out-quart, ease-out);
-}
-
-/* Portal mask for sliding letter elements */
-.portal-mask {
-  display: inline-flex;
-  overflow: hidden;
-  position: relative;
-  vertical-align: baseline;
-}
-
-.portal-letter {
-  display: inline-block;
-  position: relative;
-  will-change: transform;
-}
-
-/* Glitch terminal output line */
-.glitch-line {
-  font-size: clamp(0.75rem, 1.25vw, 1.0rem) !important;
-  text-align: left;
-  padding-left: 6%;
-  margin-top: 1.8rem;
-  opacity: 0.8;
-  font-family: var(--font-navbar), monospace;
-  white-space: pre-wrap !important; /* Enable console wrap for terminal comment */
-}
-
-/* Typewriter letters */
-.typewriter-char {
-  display: inline;
-  white-space: pre;
-}
-
-/* Blinking terminal console block cursor */
-.terminal-cursor {
-  display: inline-block;
-  margin-left: 2px;
-  animation: cursor-blink 1s step-end infinite;
-  color: var(--color-accent-purple);
-  vertical-align: middle;
-}
-
-@keyframes cursor-blink {
-  from, to { opacity: 0; }
-  50% { opacity: 1; }
 }
