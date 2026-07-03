@@ -119,12 +119,12 @@ export const WelcomeScreen = () => {
     const greetingElements = containerRef.current?.querySelectorAll(`.${styles.greeting}`);
 
     if (greetingElements && greetingElements.length > 0) {
-        // 1. Initial Setup: Stack all greetings in the center
+        // 1. Initial Setup: Stack all greetings in the center with initial y and scale
         gsap.set(greetingElements, { 
             x: 0, 
-            y: 0, 
+            y: 15, 
             opacity: 0, 
-            scale: 1,
+            scale: 0.95,
             position: 'absolute',
             left: '50%',
             top: '50%',
@@ -132,27 +132,30 @@ export const WelcomeScreen = () => {
             yPercent: -50
         });
 
-        // Initial state for initials is set by the fromTo tween below
-        // (scale: 1.2, opacity: 0). A standalone gsap.set here would be
-        // overwritten by fromTo's starting frame — dead code.
+        // 2. The Smooth Cross-Fade Sequence
+        const animDuration = 0.25; // Fade-in and slide-up duration
+        const fadeOutDuration = 0.25; // Fade-out and slide-up-away duration
+        const displayDuration = 0.15; // Time to hold fully visible
+        const overlap = 0.15; // Overlap between consecutive words
 
-        // 2. The Rapid Flash Sequence
-        // Show each greeting for a short burst
-        const flashDuration = 0.25; // Increased to 250ms per word for better readability
+        greetingElements.forEach((el, index) => {
+            const startTime = index * (animDuration + displayDuration - overlap);
 
-        greetingElements.forEach((el) => {
             tl.to(el, {
                 opacity: 1,
-                duration: 0, // Instant ON
-            })
+                y: 0,
+                scale: 1,
+                duration: animDuration,
+                ease: "power2.out"
+            }, startTime)
             .to(el, {
-                opacity: 1, // Hold
-                duration: flashDuration 
-            })
-            .to(el, {
-                opacity: 0, // Instant OFF
-                duration: 0
-            });
+                opacity: 0,
+                y: -15,
+                scale: 1.05,
+                duration: fadeOutDuration,
+                ease: "power2.in",
+                delay: displayDuration
+            }, startTime + animDuration);
         });
 
         // 3. Initials Reveal
