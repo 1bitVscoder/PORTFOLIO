@@ -61,47 +61,18 @@ const BOOTSTRAP_SCRIPT = `
 if("scrollRestoration"in history){history.scrollRestoration="manual"}
 window.scrollTo(0,0);
 window.__freshLoad=true;
-if(document.body){document.body.classList.remove("welcome-done")}
+if(window.location.pathname==="/"){
+  var _ws=document.createElement("style");
+  _ws.id="welcome-gate";
+  _ws.textContent="body{visibility:hidden!important}[data-welcome-wrapper]{visibility:visible!important;position:fixed!important;inset:0!important;z-index:9000!important;display:flex!important;justify-content:center!important;align-items:center!important;overflow:hidden!important;background-color:var(--color-background,#FFFFFF)!important}[data-initials-container]{visibility:visible!important;position:absolute!important;top:50%!important;left:50%!important;transform:translate(-50%,-50%)!important;display:flex!important;align-items:center!important;justify-content:center!important}[data-theme=dark] [data-welcome-wrapper]{background-color:#171717!important}";
+  document.head.appendChild(_ws);
+}
 document.addEventListener("dragstart", function(e) {
   if (e.target && e.target.tagName === "IMG") {
     e.preventDefault();
   }
 }, { passive: false });
 `;
-
-// Critical inline CSS that MUST be present before first paint:
-// 1. Hides all body content until welcome animation completes (FOUC gate)
-// 2. Duplicates the welcome wrapper's positioning so it works even before
-//    CSS module chunks load on cached refreshes
-// Deactivated by adding .welcome-done to <body> in WelcomeScreen.tsx.
-const WELCOME_GATE_CSS = [
-  'body:not(.welcome-done){visibility:hidden!important}',
-  'body:not(.welcome-done) [data-welcome-wrapper]{',
-  '  visibility:visible!important;',
-  '  position:fixed!important;',
-  '  inset:0!important;',
-  '  z-index:9000!important;',
-  '  display:flex!important;',
-  '  justify-content:center!important;',
-  '  align-items:center!important;',
-  '  overflow:hidden!important;',
-  '  background-color:var(--color-background,#FFFFFF)!important;',
-  '}',
-  'body:not(.welcome-done) [data-initials-container]{',
-  '  visibility:visible!important;',
-  '  position:absolute!important;',
-  '  top:50%!important;',
-  '  left:50%!important;',
-  '  transform:translate(-50%,-50%)!important;',
-  '  display:flex!important;',
-  '  align-items:center!important;',
-  '  justify-content:center!important;',
-  '}',
-  // Dark theme: if the bootstrap script has already set data-theme="dark"
-  // but variables.css hasn't loaded yet, this hardcoded fallback keeps the
-  // welcome overlay matching the dark background.
-  '[data-theme=dark] [data-welcome-wrapper]{background-color:#171717!important}',
-].join('');
 
 const personJsonLd = {
   "@context": "https://schema.org",
@@ -121,14 +92,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={doppioOne.variable} suppressHydrationWarning>
-        {/* FOUC gate: inline CSS parsed before ANY body content renders.
-            Hides everything except the welcome overlay. Deactivated when
-            WelcomeScreen adds .welcome-done to <body>. */}
-        <style
-          dangerouslySetInnerHTML={{
-            __html: WELCOME_GATE_CSS,
-          }}
-        />
         {/* See BOOTSTRAP_SCRIPT above — pre-paint theme + scroll-restoration bootstrap. */}
         <script
           dangerouslySetInnerHTML={{
