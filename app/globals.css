@@ -178,6 +178,22 @@ html:hover {
 }
 
 /* ============================================
+   WELCOME SCREEN CONTENT GATE
+   Prevents FOUC in production: all page content
+   behind the welcome overlay is made invisible at
+   the CSS level until the welcome animation completes.
+   The bootstrap script sets [data-welcome-pending]
+   on <html> pre-paint; WelcomeScreen's onComplete
+   removes it, revealing content.
+   ============================================ */
+html[data-welcome-pending] body > *:not(script) {
+    visibility: hidden;
+}
+html[data-welcome-pending] [data-welcome-wrapper] {
+    visibility: visible;
+}
+
+/* ============================================
    SECTION LAYERING
    Content sections scroll over the fixed hero.
    They need opaque backgrounds and higher z-index.

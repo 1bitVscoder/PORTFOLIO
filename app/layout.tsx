@@ -61,6 +61,7 @@ const BOOTSTRAP_SCRIPT = `
 if("scrollRestoration"in history){history.scrollRestoration="manual"}
 window.scrollTo(0,0);
 window.__freshLoad=true;
+document.documentElement.setAttribute("data-welcome-pending","");
 document.addEventListener("dragstart", function(e) {
   if (e.target && e.target.tagName === "IMG") {
     e.preventDefault();
