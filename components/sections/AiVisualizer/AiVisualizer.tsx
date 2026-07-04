@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { useReducedMotion } from '@/lib/useReducedMotion';
 import { playClick } from '@/lib/audio';
 import { useDynamicLenisPrevent } from '@/lib/useDynamicLenisPrevent';
 import styles from './AiVisualizer.module.css';
@@ -118,7 +117,6 @@ export function AiVisualizer() {
   const [lockedRoute, setLockedRoute] = useState<'code' | 'creative' | 'debug' | null>(null);
   const [displayedNodeId, setDisplayedNodeId] = useState<'input' | 'router' | 'code' | 'creative' | 'debug' | null>(null);
 
-  const reducedMotion = useReducedMotion();
   const logsBodyRef = useRef<HTMLDivElement>(null);
   const outputConsoleRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -147,6 +145,7 @@ export function AiVisualizer() {
         });
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hoveredNodeId, lockedRoute]);
 
   // Apply dynamic lenis-prevent to scrollable containers

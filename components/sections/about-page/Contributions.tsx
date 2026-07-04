@@ -260,15 +260,16 @@ export function AboutPageContributions() {
 
       // 3D Tilt Hover effect on the grid wrap container
       const gridWrap = section.querySelector<HTMLElement>(`.${styles.gridWrap}`);
-      const listeners: { element: HTMLElement; type: string; fn: any }[] = [];
+      const listeners: { element: HTMLElement; type: string; fn: EventListenerOrEventListenerObject }[] = [];
       
       if (gridWrap && !reduced) {
         gsap.set(gridWrap, { transformPerspective: 1000, transformStyle: "preserve-3d" });
         
-        const handleMouseMove = (e: MouseEvent) => {
+        const handleMouseMove = (e: Event) => {
+          const mouseEvent = e as unknown as MouseEvent;
           const rect = gridWrap.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
+          const x = mouseEvent.clientX - rect.left;
+          const y = mouseEvent.clientY - rect.top;
           const normX = (x / rect.width) - 0.5;
           const normY = (y / rect.height) - 0.5;
           

@@ -31,7 +31,7 @@ export function QuoteReveal() {
 
           The same is true for unspoken pain...
 
-        //NO ERRORS LOGGED. ▒▒░░█[0x44]DΔMAGE DETECTED...
+          {"//NO ERRORS LOGGED. ▒▒░░█[0x44]DΔMAGE DETECTED..."}
         </ScrollReveal>
       </div>
     </section>

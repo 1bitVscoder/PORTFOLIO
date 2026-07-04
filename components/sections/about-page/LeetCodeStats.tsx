@@ -95,11 +95,19 @@ export function AboutPageLeetCodeStats() {
 
     // 4. Counter ticking numbers animation
     const startRanking = Math.max(0, ranking - 150);
-    const countTarget = { solved: 0, ranking: startRanking, acceptance: 0 };
+    const countTarget = { 
+      solved: 0, 
+      ranking: startRanking, 
+      acceptance: 0,
+      streakCurrent: 0,
+      streakMax: 0
+    };
     gsap.to(countTarget, {
       solved: totalSolved,
       ranking: ranking,
       acceptance: acceptanceRate,
+      streakCurrent: leetcodeStats.streakCurrent || 0,
+      streakMax: leetcodeStats.streakMax || 0,
       duration: 1.8,
       ease: "power2.out",
       scrollTrigger: {
@@ -111,15 +119,19 @@ export function AboutPageLeetCodeStats() {
         const solvedEl = sectionRef.current?.querySelector(`.${styles.radialNumber}`);
         const rankEl = sectionRef.current?.querySelectorAll(`.${styles.vitalValue}`)[0];
         const acceptEl = sectionRef.current?.querySelectorAll(`.${styles.vitalValue}`)[1];
+        const streakCurEl = sectionRef.current?.querySelectorAll(`.${styles.vitalValue}`)[2];
+        const streakMaxEl = sectionRef.current?.querySelectorAll(`.${styles.vitalValue}`)[3];
         
         if (solvedEl) solvedEl.textContent = String(Math.floor(countTarget.solved));
         if (rankEl) rankEl.textContent = Math.floor(countTarget.ranking).toLocaleString('en-US');
         if (acceptEl) acceptEl.textContent = countTarget.acceptance.toFixed(1) + "%";
+        if (streakCurEl) streakCurEl.textContent = String(Math.floor(countTarget.streakCurrent));
+        if (streakMaxEl) streakMaxEl.textContent = String(Math.floor(countTarget.streakMax));
       }
     });
 
     // 5. 3D Tilt Hover effect on cardMain and cardBars
-    const listeners: { element: HTMLElement; type: string; fn: any }[] = [];
+    const listeners: { element: HTMLElement; type: string; fn: EventListenerOrEventListenerObject }[] = [];
     
     if (!reducedMotion) {
       const cards = [
@@ -132,10 +144,11 @@ export function AboutPageLeetCodeStats() {
         
         gsap.set(card, { transformPerspective: 1000, transformStyle: "preserve-3d" });
         
-        const handleMouseMove = (e: MouseEvent) => {
+        const handleMouseMove = (e: Event) => {
+          const mouseEvent = e as unknown as MouseEvent;
           const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
+          const x = mouseEvent.clientX - rect.left;
+          const y = mouseEvent.clientY - rect.top;
           const normX = (x / rect.width) - 0.5;
           const normY = (y / rect.height) - 0.5;
           const rotateX = -normY * 10;
@@ -235,6 +248,17 @@ export function AboutPageLeetCodeStats() {
               <div className={styles.vitalItem}>
                 <span className={styles.vitalValue}>{acceptanceRate}%</span>
                 <span className={styles.vitalLabel}>Acceptance</span>
+              </div>
+            </div>
+
+            <div className={styles.vitalsRow} style={{ marginTop: "12px", borderTop: "none", paddingTop: 0 }}>
+              <div className={styles.vitalItem}>
+                <span className={styles.vitalValue}>{leetcodeStats.streakCurrent || 0}</span>
+                <span className={styles.vitalLabel}>Active Streak</span>
+              </div>
+              <div className={styles.vitalItem}>
+                <span className={styles.vitalValue}>{leetcodeStats.streakMax || 0}</span>
+                <span className={styles.vitalLabel}>Max Streak</span>
               </div>
             </div>
           </div>

@@ -40,7 +40,8 @@ export async function POST(request: Request) {
     const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
     
     return NextResponse.json({ text });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message || 'Internal server error' }, { status: 500 });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Internal server error';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

@@ -28,8 +28,55 @@ const DEFAULT_STATS = {
   acceptanceRate: 64.5,
   ranking: 125340,
   contributionPoints: 1250,
-  reputation: 35
+  reputation: 35,
+  streakCurrent: 8,
+  streakMax: 15
 };
+
+function calculateStreaks(submissionCalendar) {
+  let streakCurrent = 0;
+  let streakMax = 0;
+
+  if (!submissionCalendar || typeof submissionCalendar !== 'object') {
+    return { streakCurrent, streakMax };
+  }
+
+  // Convert keys (Unix timestamps) to day index since epoch
+  const dayIndices = Object.keys(submissionCalendar)
+    .map(t => Math.floor(Number(t) / 86400))
+    .sort((a, b) => a - b);
+
+  if (dayIndices.length > 0) {
+    let tempStreak = 1;
+    streakMax = 1;
+    for (let i = 1; i < dayIndices.length; i++) {
+      if (dayIndices[i] === dayIndices[i - 1] + 1) {
+        tempStreak++;
+      } else if (dayIndices[i] > dayIndices[i - 1] + 1) {
+        tempStreak = 1;
+      }
+      if (tempStreak > streakMax) {
+        streakMax = tempStreak;
+      }
+    }
+
+    const todayIndex = Math.floor(Date.now() / 1000 / 86400);
+    const yesterdayIndex = todayIndex - 1;
+
+    const hasToday = dayIndices.includes(todayIndex);
+    const hasYesterday = dayIndices.includes(yesterdayIndex);
+
+    if (hasToday || hasYesterday) {
+      let traceIndex = hasToday ? todayIndex : yesterdayIndex;
+      while (dayIndices.includes(traceIndex)) {
+        streakCurrent++;
+        traceIndex--;
+      }
+    }
+  }
+
+  return { streakCurrent, streakMax };
+}
 
 async function fetchStats() {
   console.log(`\n→ Fetching LeetCode stats for '${USERNAME}'...`);
@@ -47,6 +94,9 @@ async function fetchStats() {
           const allSubmissions = totalSubmissions.find(x => x.difficulty === 'All')?.submissions || 1;
           const computedAcceptance = Number(((data.totalSolved / allSubmissions) * 100).toFixed(1));
           
+          const calendar = data.submissionCalendar || {};
+          const { streakCurrent, streakMax } = calculateStreaks(calendar);
+          
           const stats = {
             username: USERNAME,
             totalSolved: data.totalSolved,
@@ -60,7 +110,9 @@ async function fetchStats() {
             acceptanceRate: data.acceptanceRate || computedAcceptance || 31.8,
             ranking: data.ranking || 5000001,
             contributionPoints: data.contributionPoints || data.contributionPoint || 0,
-            reputation: data.reputation || 0
+            reputation: data.reputation || 0,
+            streakCurrent,
+            streakMax
           };
           
           await writeFile(OUT_PATH, JSON.stringify(stats, null, 2));

@@ -93,6 +93,9 @@ export const Projects = () => {
             const isLast = section.dataset.last === 'true';
             const handoff = isLast && overlapEnabled;
 
+            // Set initial states to ensure badge starts hidden before scroll trigger activates
+            gsap.set(badge, { scale: 0, rotation: 0 });
+
             // Open-state click gate: flip `data-open` on the sticky card from the
             // TIMELINE progress (visual truth — accounts for the scrub lag) so the
             // affordance matches what's on screen. CSS keys clickability off it.
@@ -308,7 +311,8 @@ export const Projects = () => {
                         style={{
                             backgroundColor: project.badgeColor,
                             color: project.badgeTextColor,
-                            boxShadow: `5px 5px 0px ${project.badgeShadowColor || 'black'}`
+                            boxShadow: `5px 5px 0px ${project.badgeShadowColor || 'black'}`,
+                            transform: 'scale(0)'
                         }}
                        >
                            <span>

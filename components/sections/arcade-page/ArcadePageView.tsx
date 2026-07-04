@@ -23,25 +23,11 @@ export function ArcadePageView() {
 
       {/* Section 1: Complexity Race Arena */}
       <section className={styles.section} id="race-arena">
-        <div className={styles.sectionHeader}>
-          <span className={styles.sectionEyebrow}>SYSTEM_01</span>
-          <h2 className={styles.sectionTitle}>Complexity Race Arena</h2>
-        </div>
-        <div className={styles.sectionBody}>
-          <DsaRaceTrack />
-        </div>
+        <DsaRaceTrack />
       </section>
 
       {/* Section 2: Agentic AI Flow */}
-      <section className={styles.section} id="agentic-flow">
-        <div className={styles.sectionHeader}>
-          <span className={styles.sectionEyebrow}>SYSTEM_02</span>
-          <h2 className={styles.sectionTitle}>Agentic AI Flow</h2>
-        </div>
-        <div className={styles.sectionBody}>
-          <AiVisualizer />
-        </div>
-      </section>
+      <AiVisualizer />
 
       {/* Contact Footer */}
       <Contact />

@@ -393,7 +393,7 @@ export function DsaRaceTrack() {
           </div>
           <div ref={terminalBodyRef} className={styles.terminalBody}>
             {logs.length === 0 ? (
-              <span className={styles.terminalPlaceholder}>Terminal idle. Click "Run Simulation" to execute complexity check...</span>
+              <span className={styles.terminalPlaceholder}>Terminal idle. Click &quot;Run Simulation&quot; to execute complexity check...</span>
             ) : (
               logs.map((log, index) => {
                 let colorClass = styles.logInfo;

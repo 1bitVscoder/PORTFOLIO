@@ -5,13 +5,14 @@
    sticky marginalia column of facts beside a single editorial reading
    column of profile narrative. From content.about.bio. */
 
-import { useId, useRef } from "react";
+import { useId, useRef, useState } from "react";
 import Image from "next/image";
 import { useBlockFadeIn } from "@/lib/useBlockFadeIn";
 import { useWordLineReveal } from "@/lib/useWordLineReveal";
 import { renderInline } from "@/lib/renderInline";
 import { animationConfig, content, navigation } from "@/data";
 import { SectionLabel } from "@/components/sections/case-study/SectionLabel";
+import { ScratchCard } from "./ScratchCard";
 import styles from "./Intro.module.css";
 
 const cs = animationConfig.caseStudy;
@@ -29,6 +30,14 @@ export function AboutPageIntro() {
   const colRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const eyebrowId = useId();
+  const [isGlitching, setIsGlitching] = useState(false);
+
+  const handleReveal = () => {
+    setIsGlitching(true);
+    setTimeout(() => {
+      setIsGlitching(false);
+    }, 500);
+  };
 
   useBlockFadeIn(sectionRef, {
     start: cs.scrollTrigger.early,
@@ -66,15 +75,21 @@ export function AboutPageIntro() {
       <aside ref={cardRef} className={styles.cardCol}>
         <div className={styles.profileCard}>
           <div className={styles.cardFrame}>
-            <Image
-              src="/profile1.png"
-              alt="Zenith Soumya"
-              width={280}
-              height={280}
-              priority
-              className={styles.profileImage}
-            />
-            <div className={styles.scanlines} />
+            <ScratchCard onReveal={handleReveal}>
+              <div
+                className={`${styles.glitchImageWrapper} ${isGlitching ? styles.glitchActive : ""}`}
+                style={{ "--img-url": "url('/profile1.png')" } as React.CSSProperties}
+              >
+                <Image
+                  src="/profile1.png"
+                  alt="Zenith Soumya"
+                  width={280}
+                  height={280}
+                  priority
+                  className={styles.profileImage}
+                />
+              </div>
+            </ScratchCard>
           </div>
           <div className={styles.cardMeta}>
             <span className={styles.metaLabel}>SYS_OP: ZENITH</span>

@@ -440,9 +440,38 @@ export function CustomCursor() {
       // Trail will reappear naturally on next movement
     };
 
+    const handleScratchcardEnter = () => {
+      gsap.to(cursor, {
+        opacity: 0,
+        duration: 0.2,
+        ease: 'power2.out',
+      });
+
+      trailSpheresRef.current.forEach((sphere) => {
+        if (sphere.element) {
+          gsap.to(sphere.element, {
+            opacity: 0,
+            duration: 0.2,
+            ease: 'power2.out',
+          });
+        }
+      });
+    };
+
+    const handleScratchcardLeave = () => {
+      gsap.to(cursor, {
+        opacity: 1,
+        duration: 0.3,
+        ease: 'power2.out',
+      });
+      trailVisibleRef.current = false;
+    };
+
     // Listen for spotlight events
     window.addEventListener('tagline-spotlight-enter', handleSpotlightEnter);
     window.addEventListener('tagline-spotlight-leave', handleSpotlightLeave);
+    window.addEventListener('scratchcard-hover-enter', handleScratchcardEnter);
+    window.addEventListener('scratchcard-hover-leave', handleScratchcardLeave);
 
     // Event delegation via bubbling pointerover / pointerout instead of
     // capture-phase mouseenter / mouseleave. The capture-phase pair fires for
@@ -489,6 +518,8 @@ export function CustomCursor() {
       document.removeEventListener('mouseenter', handleMouseEnter);
       window.removeEventListener('tagline-spotlight-enter', handleSpotlightEnter);
       window.removeEventListener('tagline-spotlight-leave', handleSpotlightLeave);
+      window.removeEventListener('scratchcard-hover-enter', handleScratchcardEnter);
+      window.removeEventListener('scratchcard-hover-leave', handleScratchcardLeave);
 
       // PERF: Clean up ticker properly
       if (animateFnRef.current) {
