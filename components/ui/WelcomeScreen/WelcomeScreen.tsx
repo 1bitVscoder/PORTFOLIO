@@ -51,9 +51,17 @@ export const WelcomeScreen = () => {
       }, 0);
       return () => clearTimeout(handoffTimer);
     }
-    // Consume the flag so a same-tab client-nav back here is treated as a
-    // return visit (no re-greeting).
-    delete window.__freshLoad;
+    // Defer consuming the flag so hydration double-mounts (StrictMode or recovery)
+    // do not consume it on the first pass and trigger skipOnReturn on the second.
+    const freshLoadTimer = setTimeout(() => {
+      delete window.__freshLoad;
+    }, 1000);
+
+    // Synchronously scroll to top on client-mount to cancel any scroll restoration
+    // applied by the browser before React mounted the layout
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+    }
 
     // Reduced-motion path: skip flash + flight; hide welcome and dispatch
     // handoff/complete events so Hero & HeroText proceed normally.
@@ -316,9 +324,8 @@ export const WelcomeScreen = () => {
       bailOut(err);
     }
 
-    // Cleanup on unmount. The scroll lock itself is released by useScrollLock's
-    // own effect cleanup (ref-counted), so we don't touch body styles here.
     return () => {
+      clearTimeout(freshLoadTimer);
       handoffCall?.kill();
       tl.kill();
       flightCtx.revert();
