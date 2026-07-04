@@ -61,6 +61,7 @@ const BOOTSTRAP_SCRIPT = `
 if("scrollRestoration"in history){history.scrollRestoration="manual"}
 window.scrollTo(0,0);
 window.__freshLoad=true;
+if(document.body){document.body.classList.remove("welcome-done")}
 document.addEventListener("dragstart", function(e) {
   if (e.target && e.target.tagName === "IMG") {
     e.preventDefault();
@@ -85,6 +86,16 @@ const WELCOME_GATE_CSS = [
   '  align-items:center!important;',
   '  overflow:hidden!important;',
   '  background-color:var(--color-background,#FFFFFF)!important;',
+  '}',
+  'body:not(.welcome-done) [data-initials-container]{',
+  '  visibility:visible!important;',
+  '  position:absolute!important;',
+  '  top:50%!important;',
+  '  left:50%!important;',
+  '  transform:translate(-50%,-50%)!important;',
+  '  display:flex!important;',
+  '  align-items:center!important;',
+  '  justify-content:center!important;',
   '}',
   // Dark theme: if the bootstrap script has already set data-theme="dark"
   // but variables.css hasn't loaded yet, this hardcoded fallback keeps the

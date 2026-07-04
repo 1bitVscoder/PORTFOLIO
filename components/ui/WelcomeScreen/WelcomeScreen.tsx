@@ -335,7 +335,7 @@ export const WelcomeScreen = () => {
         ))}
 
         {/* Initials (Center Target) */}
-        <div ref={initialsRef} className={styles.initialsContainer}>
+        <div ref={initialsRef} data-initials-container className={styles.initialsContainer}>
           <span ref={mRef} className={styles.letterM} data-text={INITIALS.first}>{INITIALS.first}</span>
           <span style={{ width: '0.1em' }}></span> {/* Spacer */}
           <span ref={aRef} className={styles.letterA} data-text={INITIALS.last}>{INITIALS.last}</span>
