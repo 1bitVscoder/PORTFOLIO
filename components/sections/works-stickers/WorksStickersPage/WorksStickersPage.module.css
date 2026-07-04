@@ -124,6 +124,12 @@
     white-space: nowrap;
 }
 
+@media (max-width: 768px) {
+    .headline {
+        font-size: clamp(70px, 22vw, 150px);
+    }
+}
+
 .headline > span {
     display: inline-block;
 }

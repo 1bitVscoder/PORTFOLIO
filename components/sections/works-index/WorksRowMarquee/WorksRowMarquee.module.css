@@ -117,3 +117,19 @@
 .inverted .tag {
     color: rgba(255, 255, 255, 0.8);
 }
+
+@media (max-width: 768px) {
+    .viewport {
+        height: clamp(56px, 10vh, 96px);
+    }
+    .chunk {
+        font-size: clamp(32px, 7.2vw, 56px);
+    }
+    .star {
+        width: 18px;
+        height: 18px;
+    }
+    .tag {
+        font-size: 11px;
+    }
+}

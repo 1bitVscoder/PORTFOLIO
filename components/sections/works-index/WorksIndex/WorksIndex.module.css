@@ -22,3 +22,9 @@
     text-transform: uppercase;
     color: rgba(27, 32, 40, 0.5);
 }
+
+@media (max-width: 768px) {
+    .legend {
+        display: none;
+    }
+}

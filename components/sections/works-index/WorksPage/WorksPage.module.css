@@ -38,6 +38,23 @@
     margin-left: -0.06em;
 }
 
+@media (max-width: 1024px) {
+    .intro {
+        grid-template-columns: 1fr;
+        row-gap: 0;
+    }
+    
+    .lede {
+        margin-top: clamp(20px, 4vh, 40px);
+    }
+}
+
+@media (max-width: 768px) {
+    .headline {
+        font-size: clamp(70px, 22vw, 150px);
+    }
+}
+
 .headline > span {
     display: inline-block;
 }

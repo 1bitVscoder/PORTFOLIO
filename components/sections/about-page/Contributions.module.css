@@ -38,12 +38,28 @@
 }
 
 /* ── grid ── */
-.gridWrap { width: 100%; }
+.gridWrap {
+  width: 100%;
+  transition: padding 0.3s ease;
+}
+
 .grid {
   display: block;
   width: 100%;
   height: auto;
   overflow: visible; /* let the bite-pulse scale spill past the viewBox edge */
+}
+
+@media (max-width: 880px) {
+  .gridWrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 12px;
+  }
+  
+  .grid {
+    width: 845px !important;
+  }
 }
 
 .cell {

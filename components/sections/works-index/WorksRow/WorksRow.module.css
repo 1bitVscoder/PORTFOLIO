@@ -98,3 +98,39 @@
 .row.isHover .meta {
     color: rgba(255, 255, 255, 0.7);
 }
+
+@media (max-width: 768px) {
+    .row {
+        grid-template-columns: 48px 1fr;
+        grid-template-areas:
+            'num title'
+            '. meta';
+        gap: 8px 16px;
+        padding: 16px 0;
+    }
+    
+    .num {
+        align-self: center;
+        padding-left: 0;
+    }
+    
+    .row > div:nth-child(2) {
+        grid-area: title;
+    }
+    
+    .meta {
+        grid-area: meta;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: baseline;
+        justify-content: flex-start;
+        gap: 8px 16px;
+        text-align: left;
+        padding-top: 4px;
+        font-size: 11px;
+    }
+    
+    .arrow {
+        display: none !important;
+    }
+}

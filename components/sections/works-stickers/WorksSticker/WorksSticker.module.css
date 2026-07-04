@@ -191,6 +191,7 @@
     .meta {
         align-items: flex-start;
         padding-top: 8px;
+        text-align: left;
     }
     .decal {
         right: -14px;
