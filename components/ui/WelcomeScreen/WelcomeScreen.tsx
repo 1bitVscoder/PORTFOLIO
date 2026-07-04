@@ -42,8 +42,7 @@ export const WelcomeScreen = () => {
         containerRef.current.style.display = 'none';
       }
       const handoffTimer = setTimeout(() => {
-        document.body.style.visibility = '';
-        var _g = document.getElementById('welcome-gate'); if (_g) _g.remove();
+        document.body.classList.add('welcome-done');
         window.__welcomeHandoff = true;
         window.dispatchEvent(new CustomEvent('welcome-handoff'));
         window.__welcomeComplete = true;
@@ -66,8 +65,7 @@ export const WelcomeScreen = () => {
       }
       // Defer to next tick so sibling components have attached their listeners.
       const handoffTimer = setTimeout(() => {
-        document.body.style.visibility = '';
-        var _g = document.getElementById('welcome-gate'); if (_g) _g.remove();
+        document.body.classList.add('welcome-done');
         window.__welcomeHandoff = true;
         window.dispatchEvent(new CustomEvent('welcome-handoff'));
         window.__welcomeComplete = true;
@@ -97,8 +95,7 @@ export const WelcomeScreen = () => {
         containerRef.current.setAttribute('aria-hidden', 'true');
         containerRef.current.style.display = 'none';
       }
-      document.body.style.visibility = '';
-      var _g = document.getElementById('welcome-gate'); if (_g) _g.remove();
+      document.body.classList.add('welcome-done');
       window.__welcomeHandoff = true;
       window.dispatchEvent(new CustomEvent('welcome-handoff'));
       window.__welcomeComplete = true;
@@ -215,8 +212,7 @@ export const WelcomeScreen = () => {
             });
           }
           // Dispatch handoff anyway to prevent UI from being stuck
-          document.body.style.visibility = '';
-          var _g = document.getElementById('welcome-gate'); if (_g) _g.remove();
+          document.body.classList.add('welcome-done');
           window.__welcomeHandoff = true;
           window.dispatchEvent(new CustomEvent('welcome-handoff'));
           return;
@@ -226,8 +222,7 @@ export const WelcomeScreen = () => {
           if (process.env.NODE_ENV !== 'production') {
             console.warn('[WelcomeScreen] Letter refs not available');
           }
-          document.body.style.visibility = '';
-          var _g = document.getElementById('welcome-gate'); if (_g) _g.remove();
+          document.body.classList.add('welcome-done');
           window.__welcomeHandoff = true;
           window.dispatchEvent(new CustomEvent('welcome-handoff'));
           return;
@@ -292,8 +287,7 @@ export const WelcomeScreen = () => {
         // Kept OUTSIDE flightCtx (revert() would kill it) but captured in
         // handoffCall so the cleanup path can kill it on unmount.
         handoffCall = gsap.delayedCall(flightDuration - handoffDuration, () => {
-          document.body.style.visibility = '';
-          var _g = document.getElementById('welcome-gate'); if (_g) _g.remove();
+          document.body.classList.add('welcome-done');
           window.__welcomeHandoff = true;
           window.dispatchEvent(new CustomEvent('welcome-handoff'));
         });
