@@ -50,7 +50,7 @@
   margin-bottom: 40px;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 950px) {
   .dashboard {
     grid-template-columns: 1fr;
   }
@@ -96,116 +96,233 @@
 
 .espSvg {
   width: 100%;
-  max-height: 260px;
+  max-height: 280px;
 }
 
+/* Matte Black PCB Board Background */
 .boardBg {
-  fill: #0F3D2A; /* PCB Green */
-  stroke: #1B5E3A;
+  fill: #121316;
+  stroke: #22262f;
   stroke-width: 2;
 }
 
-:global([data-theme="dark"]) .boardBg {
-  fill: #072216;
-  stroke: #0d3822;
+:global([data-theme="light"]) .boardBg {
+  fill: #15181e;
+  stroke: #282f3c;
 }
 
 .wireLine {
-  stroke: rgba(255, 255, 255, 0.08);
-  stroke-width: 1.5;
-  stroke-dasharray: 4, 4;
+  stroke: rgba(255, 255, 255, 0.06);
+  stroke-width: 1.2;
+  fill: none;
+}
+
+:global([data-theme="light"]) .wireLine {
+  stroke: rgba(0, 0, 0, 0.12);
 }
 
 .wireActive {
-  stroke: var(--color-accent-purple);
-  stroke-dasharray: 8, 4;
-  animation: pulseWire 1s infinite linear;
+  stroke: #62B6CB;
+  stroke-width: 1.5;
+  stroke-dasharray: 4, 3;
+  animation: pulseWire 0.8s infinite linear;
+}
+
+.wireSensorActive {
+  stroke: #FFB800;
+  stroke-width: 1.2;
+  stroke-dasharray: 6, 4;
+  animation: pulseWireReverse 1.5s infinite linear;
 }
 
 @keyframes pulseWire {
   to {
-    stroke-dashoffset: -12;
+    stroke-dashoffset: -14;
   }
 }
 
-.chipShield {
-  fill: #E5E5E5;
-  stroke: #999;
-  stroke-width: 1.5;
+@keyframes pulseWireReverse {
+  to {
+    stroke-dashoffset: 14;
+  }
 }
 
-:global([data-theme="dark"]) .chipShield {
-  fill: #222;
-  stroke: #444;
+/* Chip Styles */
+.interactiveChip {
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.interactiveChip:hover {
+  opacity: 0.95;
+}
+
+.chipBrand {
+  font-family: var(--font-navbar);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  fill: #374151;
+}
+
+:global([data-theme="dark"]) .chipBrand {
+  fill: #9ca3af;
 }
 
 .chipTitle {
   font-family: monospace;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
-  fill: #111;
+  fill: #1f2937;
+  letter-spacing: 0.05em;
 }
 
 :global([data-theme="dark"]) .chipTitle {
-  fill: #eee;
+  fill: #e5e7eb;
 }
 
 .chipSubtitle {
   font-family: monospace;
-  font-size: 8px;
-  fill: #555;
+  font-size: 6px;
+  fill: #4b5563;
 }
 
 :global([data-theme="dark"]) .chipSubtitle {
-  fill: #888;
+  fill: #9ca3af;
 }
 
+.chipDetails {
+  font-family: monospace;
+  font-size: 5px;
+  fill: #6b7280;
+}
+
+/* Tactile Button */
+.tactileBtn {
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.tactileBtn:hover {
+  filter: brightness(1.15);
+}
+
+.tactileBtn:active {
+  transform: scale(0.96);
+}
+
+/* Interactive pins */
+.pinInteractive {
+  cursor: pointer;
+}
+
+.pinInteractive:hover rect {
+  fill: #ffffff;
+  stroke: #62B6CB;
+  filter: drop-shadow(0 0 4px #62B6CB);
+}
+
+.pinInteractive:hover text {
+  fill: #62B6CB;
+  font-weight: bold;
+}
+
+.pinText {
+  font-family: monospace;
+  font-size: 8px;
+  fill: rgba(255, 255, 255, 0.45);
+}
+
+:global([data-theme="light"]) .pinText {
+  fill: rgba(0, 0, 0, 0.5);
+}
+
+.pinGlowActive {
+  fill: #62B6CB;
+  stroke: #62B6CB;
+  filter: drop-shadow(0 0 3px #62B6CB);
+  animation: pulseGlow 1.5s infinite ease-in-out;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.25); }
+}
+
+/* LEDs */
 .boardLed {
   fill: #333;
   stroke: #555;
-  stroke-width: 1;
-}
-
-.boardLedActive {
-  fill: var(--color-accent-purple);
-  stroke: var(--color-accent-purple);
-  filter: drop-shadow(0 0 6px var(--color-accent-purple));
-}
-
-.pinMetal {
-  fill: #C0C0C0;
-  stroke: #808080;
   stroke-width: 0.5;
 }
 
-.sensorChip {
+.boardLedActive {
+  fill: #62B6CB;
+  stroke: #62B6CB;
+  filter: drop-shadow(0 0 6px #62B6CB);
+}
+
+.powerLed {
   fill: #333;
   stroke: #555;
-  stroke-width: 1;
+  stroke-width: 0.5;
 }
 
-.schematicLabel {
+.powerLedActive {
+  fill: #da3036;
+  stroke: #da3036;
+  filter: drop-shadow(0 0 6px #da3036);
+}
+
+.ledOff {
+  fill: #222;
+  stroke: #444;
+}
+
+/* Schematic Tiny Text Labels */
+.schematicTinyLabel {
   font-family: monospace;
-  font-size: 8px;
-  fill: rgba(255, 255, 255, 0.4);
+  font-size: 6px;
+  fill: rgba(255, 255, 255, 0.35);
 }
 
-:global([data-theme="light"]) .schematicLabel {
-  fill: rgba(0, 0, 0, 0.4);
+:global([data-theme="light"]) .schematicTinyLabel {
+  fill: rgba(0, 0, 0, 0.5);
 }
 
-/* Controls */
+/* Interactive Sensor Chip */
+.interactiveSensor {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.interactiveSensor:hover {
+  transform: scale(1.05);
+}
+
+.interactiveSensor:hover rect {
+  stroke: #FFB800;
+}
+
+/* Controls Grid */
 .schematicControls {
   display: flex;
   flex-direction: column;
+  gap: 16px;
+}
+
+.controlButtonsRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
 
-.ledBtn {
+.ledBtn,
+.resetBtn {
   font-family: var(--font-navbar);
   font-size: 11px;
   letter-spacing: 0.08em;
-  padding: 12px 20px;
+  padding: 12px;
   background: none;
   border: 1px solid var(--color-primary-text);
   color: var(--color-primary-text);
@@ -213,24 +330,114 @@
   text-transform: uppercase;
   transition: all 0.3s var(--ease-out-expo);
   border-radius: 4px;
+  text-align: center;
 }
 
-.ledBtn:hover {
+.ledBtn:hover,
+.resetBtn:hover {
   background: var(--color-primary-text);
   color: var(--color-background);
 }
 
 .ledBtnActive {
-  border-color: var(--color-accent-purple);
-  color: var(--color-accent-purple);
+  border-color: #62B6CB;
+  color: #62B6CB;
 }
 
 .ledBtnActive:hover {
-  background: var(--color-accent-purple);
+  background: #62B6CB;
   color: #000;
+  border-color: #62B6CB;
 }
 
-/* Telemetry Panel */
+.resetBtn {
+  border-color: #da3036;
+  color: #da3036;
+}
+
+.resetBtn:hover {
+  background: #da3036;
+  color: #fff;
+  border-color: #da3036;
+}
+
+/* Pin Inspector */
+.inspectorContainer {
+  margin-top: 4px;
+}
+
+.pinInspector {
+  background: var(--color-background);
+  border: 1px solid var(--color-grid-line);
+  padding: 16px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 95px;
+  justify-content: center;
+}
+
+.pinInspectorPlaceholder {
+  background: rgba(0, 0, 0, 0.015);
+  border: 1px dashed var(--color-grid-line);
+  padding: 16px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  min-height: 95px;
+  line-height: 1.5;
+}
+
+:global([data-theme="dark"]) .pinInspectorPlaceholder {
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.inspectorHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.inspectorLabel {
+  font-family: var(--font-navbar);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-primary-text);
+  letter-spacing: 0.05em;
+}
+
+.inspectorDesc {
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--color-text-muted-strong);
+}
+
+.inspectorBadge {
+  font-family: var(--font-navbar);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 2px 6px;
+  border-radius: 2px;
+  text-transform: uppercase;
+}
+
+.power { background: #ffe599; color: #7f6000; }
+.analog { background: #cfe2f3; color: #1c4587; }
+.gpio { background: #d9ead3; color: #274e13; }
+.gnd { background: #f3f3f3; color: #434343; }
+
+:global([data-theme="dark"]) .power { background: rgba(255, 229, 153, 0.12); color: #ffe599; border: 1px solid rgba(255, 229, 153, 0.25); }
+:global([data-theme="dark"]) .analog { background: rgba(207, 226, 243, 0.12); color: #9fc5e8; border: 1px solid rgba(207, 226, 243, 0.25); }
+:global([data-theme="dark"]) .gpio { background: rgba(217, 234, 211, 0.12); color: #b6d7a8; border: 1px solid rgba(217, 234, 211, 0.25); }
+:global([data-theme="dark"]) .gnd { background: rgba(255, 255, 255, 0.06); color: #cccccc; border: 1px solid rgba(255, 255, 255, 0.1); }
+
+/* Telemetry Panel Controls */
 .controlsGroup {
   margin-bottom: 30px;
 }
@@ -295,17 +502,22 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  color: var(--color-accent-purple);
+  color: #62B6CB;
 }
 
 .scopeLiveDot::before {
   content: '';
   width: 6px;
   height: 6px;
-  background-color: var(--color-accent-purple);
+  background-color: #62B6CB;
   border-radius: 50%;
   display: inline-block;
   animation: pulseDot 1s infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
 }
 
 .canvasContainer {
@@ -425,7 +637,7 @@
 }
 
 .logInfo { color: #888; }
-.logGpio { color: var(--color-accent-purple); }
+.logGpio { color: #62B6CB; }
 .logSensor { color: var(--color-accent-gold); }
 .logSystem { color: #555; }
-.logAdc { color: #62B6CB; }
+.logAdc { color: #93b99e; }
