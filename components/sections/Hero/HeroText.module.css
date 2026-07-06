@@ -101,7 +101,7 @@
     display: grid;
     /* Removed place-items: end to allow stretch (default) so layers align perfectly */
     position: relative;
-    margin-top: -15px;
+    margin-top: 5px;
     max-width: clamp(280px, 28vw, 420px);
     margin-left: auto;
     margin-right: 0;
@@ -213,7 +213,7 @@
 /* Responsive adjustments for MacBook 14" and similar screens */
 @media (min-width: 1200px) and (max-width: 1600px) {
     .taglineContainer {
-        margin-top: -15px;
+        margin-top: 5px;
         max-width: 380px;
     }
 }
@@ -238,7 +238,7 @@
     }
 
     .taglineContainer {
-        margin-top: -15px;
+        margin-top: 5px;
     }
 }
 

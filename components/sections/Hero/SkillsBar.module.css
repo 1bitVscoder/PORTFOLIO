@@ -3,7 +3,7 @@
 
 .skillsBar {
     position: absolute;
-    bottom: clamp(20px, 4vh, 60px);
+    bottom: clamp(10px, 2.5vh, 45px);
     left: 0;
     width: 150vw;
     display: flex;
@@ -93,7 +93,7 @@
 
 @media (min-width: 769px) and (max-width: 1024px) {
     .skillsBar {
-        bottom: clamp(15px, 4vh, 45px);
+        bottom: clamp(8px, 2.5vh, 32px);
         width: 160vw;
     }
 
@@ -119,7 +119,7 @@
 @media (max-width: 768px) {
     .skillsBar {
         /* Move slightly higher on mobile to clear safe areas */
-        bottom: clamp(20px, 5vh, 45px);
+        bottom: clamp(10px, 3vh, 32px);
         width: 200vw; /* Make it even wider to ensure smooth diagonal if needed later */
     }
 
