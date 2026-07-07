@@ -1,0 +1,126 @@
+.mobileBlockOverlay {
+    display: none;
+}
+
+@media (max-width: 1024px), (max-height: 500px) and (max-width: 1180px) {
+    :global(html),
+    :global(body) {
+        overflow: hidden !important;
+        height: 100vh !important;
+        width: 100vw !important;
+        position: fixed !important;
+    }
+
+    .mobileBlockOverlay {
+        display: flex !important;
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #0a0a0a; /* Pitch dark matching portfolio main theme */
+        color: #ffffff;
+        z-index: 999999999; /* Cover absolutely everything, including cursor and overlays */
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 30px;
+        box-sizing: border-box;
+        font-family: var(--font-primary), -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    .warningBadge {
+        background-color: rgba(218, 48, 54, 0.1);
+        color: #da3036;
+        border: 1px solid rgba(218, 48, 54, 0.3);
+        padding: 6px 14px;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        font-weight: 700;
+        margin-bottom: 24px;
+        border-radius: 4px;
+    }
+
+    .message {
+        font-size: clamp(16px, 4vw, 22px);
+        font-weight: 700;
+        line-height: 1.5;
+        max-width: 480px;
+        margin-bottom: 24px;
+        color: #ffffff;
+    }
+
+    .separator {
+        width: 40px;
+        height: 2px;
+        background-color: var(--color-accent-teal, #62B6CB);
+        margin-bottom: 24px;
+    }
+
+    .secondaryMessage {
+        font-size: clamp(13px, 3vw, 15px);
+        color: rgba(255, 255, 255, 0.65);
+        max-width: 380px;
+        margin-bottom: 8px;
+        line-height: 1.5;
+    }
+
+    .arrowContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+        animation: bounce 1.5s infinite ease-in-out;
+    }
+
+    .arrowSvg {
+        width: 28px;
+        height: 28px;
+        stroke: var(--color-accent-teal, #62B6CB);
+        fill: none;
+    }
+
+    .shopButton {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #da3036 0%, #ff990a 100%);
+        color: #ffffff;
+        font-weight: 700;
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 15px 26px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(218, 48, 54, 0.35);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .shopButton:active {
+        transform: scale(0.96);
+        box-shadow: 0 2px 8px rgba(218, 48, 54, 0.2);
+    }
+
+    /* Hide the custom cursor elements on mobile viewports */
+    :global([class*="CustomCursor_cursorWrapper"]),
+    :global([class*="CustomCursor_trailContainer"]),
+    :global(.customCursor),
+    :global(.cursorWrapper),
+    :global(.trailContainer) {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+    }
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(6px);
+    }
+}
