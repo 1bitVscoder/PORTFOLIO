@@ -411,7 +411,7 @@
       "actions": [
         {
           "label": "Download APK ↗",
-          "href": "https://github.com/1bitVscoder/cartsnap/releases/download/v1.0.0/CartSnap_v1.0.0.apk"
+          "href": "https://github.com/byteWizard-zero/cartsnap/releases/download/v1.0.0/CartSnap_v1.0.0.apk"
         },
         {
           "label": "All work",
@@ -563,7 +563,7 @@
     "colophon": {
       "leftLabel": "Colophon",
       "titleLine1": "Engineered by",
-      "titleAccent": "1bitVscoder.",
+      "titleAccent": "byteWizard-zero.",
       "credits": [
         {
           "role": "Creative Technologist",
@@ -782,7 +782,7 @@
       "actions": [
         {
           "label": "Download APK ↗",
-          "href": "https://github.com/1bitVscoder/flow-state-habit-rpg/releases/download/v2.0.0/FlowState.apk"
+          "href": "https://github.com/byteWizard-zero/flow-state-habit-rpg/releases/download/v2.0.0/FlowState.apk"
         },
         {
           "label": "All work",
@@ -972,7 +972,7 @@
     "colophon": {
       "leftLabel": "Colophon",
       "titleLine1": "Engineered by",
-      "titleAccent": "1bitVscoder.",
+      "titleAccent": "byteWizard-zero.",
       "credits": [
         {
           "role": "Full-Stack Architecture & API",
@@ -988,7 +988,7 @@
       "actions": [
         {
           "label": "Download APK ↗",
-          "href": "https://github.com/1bitVscoder/Lumina-AI/releases/download/v1.0.1/app-release.apk"
+          "href": "https://github.com/byteWizard-zero/Lumina-AI/releases/download/v1.0.1/app-release.apk"
         },
         {
           "label": "All work",
@@ -1177,7 +1177,7 @@
     "colophon": {
       "leftLabel": "Colophon",
       "titleLine1": "Engineered by",
-      "titleAccent": "1bitVscoder.",
+      "titleAccent": "byteWizard-zero.",
       "credits": [
         {
           "role": "Full-Stack & Generative Design",
@@ -1318,7 +1318,7 @@
       "titleLine2": "and setup",
       "titleAccent": "guidelines.",
       "body": [
-        "**1. Clone & Install**: Run **git clone https://github.com/1bitVscoder/my-freellmapi-proxy.git** and run **npm install** in the directory to pull the dependencies.",
+        "**1. Clone & Install**: Run **git clone https://github.com/byteWizard-zero/my-freellmapi-proxy.git** and run **npm install** in the directory to pull the dependencies.",
         "**2. Setup Keys**: Copy **.env.example** to **.env** and run **node -e \"console.log(require('crypto').randomBytes(32).toString('hex'))\"** to append a unique **ENCRYPTION_KEY**.",
         "**3. Launch**: Run **npm run dev** to start both the Express proxy server (listening on port **3001**) and the React admin dashboard (listening on port **5173**).",
         "**4. Configure**: Open **http://localhost:5173** in your browser, enter your provider API keys (Google, Groq, Cerebras, etc.), prioritize the fallback list, and grab the unified API key.",
@@ -1386,7 +1386,7 @@
     "colophon": {
       "leftLabel": "Colophon",
       "titleLine1": "Engineered by",
-      "titleAccent": "1bitVscoder.",
+      "titleAccent": "byteWizard-zero.",
       "credits": [
         {
           "role": "Architecture & Design",
@@ -1402,7 +1402,7 @@
       "actions": [
         {
           "label": "View on GitHub ↗",
-          "href": "https://github.com/1bitVscoder/my-freellmapi-proxy"
+          "href": "https://github.com/byteWizard-zero/my-freellmapi-proxy"
         },
         {
           "label": "All work",
