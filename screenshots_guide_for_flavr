@@ -1,0 +1,262 @@
+# 📸 Lord Artificer's Portfolio Screenshot Capture Guide
+
+This guide details the exact steps to build, run, and capture high-fidelity production-quality screenshots for the **7 projects** showcased in your Next.js portfolio. By replacing the current AI-generated placeholders with these actual, localized UI shots, the portfolio will present a premium, verified developer narrative.
+
+---
+
+## 🎨 Global Image Specifications
+
+To ensure the portfolio grid and sliding animations render seamlessly, all screenshots must match these specifications:
+
+| Metric | Target Specification | Rationale |
+| :--- | :--- | :--- |
+| **Aspect Ratio** | **8:5 (or 16:10)** | Matches the GSAP layout scaling box (`width: 2400` by `height: 1500`) |
+| **Resolution** | **2400 × 1500 px** | Ensures sharp details on high-DPI retina displays |
+| **Format** | **Lossless PNG** | Keeps typography and boundaries crisp without compression artifacts |
+| **Theme Aesthetic** | **Dark Mode** (where applicable) | Complements the portfolio's deep cybernetic styling and custom accent colors |
+| **Data Quality** | **Populated & Active** | Never capture empty states. Run test commands to populate history logs |
+
+---
+
+## 🛠️ Project-by-Project Instructions
+
+```mermaid
+graph TD
+    A[Local Scratch Directory] --> B[FurinaCourt - Next.js]
+    A --> C[recipe-finder - Vite/React]
+    A --> D[flow-state-habit-rpg - Flutter]
+    A --> E[Lumina - Flutter/FastAPI/Supabase]
+    A --> F[nutrilens - Next.js 15 PWA]
+    A --> G[carrtsnap - Flutter POS]
+    A --> H[freellmapi - React/Express/SQLite]
+```
+
+---
+
+### 1. 🎭 FURINA
+* **Local Workspace**: `c:\Users\soumya\.gemini\antigravity\scratch\FurinaCourt`
+* **Tech Stack**: Next.js 14/16 (App Router) + Tailwind CSS + Groq SDK (Llama 3)
+* **Default Port**: `3000`
+
+#### Setup & Run Command
+Open a terminal in the project directory and execute:
+```bash
+npm install
+# Configure local key
+echo "GROQ_API_KEY=your_groq_api_key_here" > .env.local
+npm run dev
+```
+
+#### Screenshot Capture Checklist
+1. **`furina.png` (Cover Card)**
+   * **Scene**: The main landing page before initiating a chat.
+   * **Aesthetics**: Highlight the dramatic dark Fontaine theme, custom typography headers, and the "Request Audience" call to action.
+2. **`furina_dashboard.png` (System Flow)**
+   * **Scene**: Either a stylized architectural block diagram detailing the Next.js frontend connecting to the Groq LPU pipeline OR a full conversation view with complex theatrical text replies.
+3. **`furina_screen1.png` (Fontaine Theatre Chat)**
+   * **Scene**: An active, multi-turn chat interaction.
+   * **Focus**: The glamorous, custom-scroll chat area with flamboyant bubble messages from Furina de Fontaine.
+4. **`furina_screen2.png` (Model Selection Sidebar)**
+   * **Scene**: The model drawer panel open.
+   * **Focus**: Clearly show options for Llama 3 8B, Llama 3 70B, etc. with status toggles.
+5. **`furina_screen3.png` (Ambient Sound Player)**
+   * **Scene**: The audio player pop-up/control slider active.
+   * **Focus**: Display the mute/unmute indicators and active audio tracks.
+
+---
+
+### 2. 🍳 FLAVR
+* **Local Workspace**: `c:\Users\soumya\.gemini\antigravity\scratch\recipe-finder`
+* **Tech Stack**: React 19 + Vite + Tailwind CSS + Google Generative AI SDK (Gemini 2.5 Flash)
+* **Default Port**: `5173`
+
+#### Setup & Run Command
+```bash
+npm install
+# Add Google API key
+echo "VITE_GEMINI_API_KEY=your_gemini_api_key_here" > .env.local
+npm run dev
+```
+
+#### Screenshot Capture Checklist
+1. **`flavr.png` (Cover Card)**
+   * **Scene**: The main pantry input dashboard showing various tag chips and starter recommendations.
+2. **`flavr_dashboard.png` (System Flow)**
+   * **Scene**: System architecture mapping the React 19 client routing to Gemini structured JSON outputs and the Web Audio API synthesis scheduler.
+3. **`flavr_screen1.png` (Pantry Input & Autocomplete)**
+   * **Scene**: Typing a new ingredient (e.g. "onion") showing the dropdown suggestions and plural warning labels.
+4. **`flavr_screen2.png` (AI Sanity Check & Preferences)**
+   * **Scene**: Ingredient list screen showing validation checks (preventing culinary hazards) and dietary toggles (Keto, Vegan).
+5. **`flavr_screen3.png` (Cook Mode & Interactive Timers)**
+   * **Scene**: Step-by-step active cooking panel.
+   * **Focus**: High-contrast layout displaying TTS reader indicators, active countdown timers, and visual cooking descriptors.
+
+---
+
+### 3. 🌊 FLOWSTATE
+* **Local Workspace**: `c:\Users\soumya\.gemini\antigravity\scratch\flow-state-habit-rpg`
+* **Tech Stack**: Flutter Mobile (Dart) + Hive NoSQL Caching
+* **Platform**: Android/iOS Emulator
+
+#### Setup & Run Command
+Ensure your Android Emulator or iOS Simulator is running, then run:
+```bash
+flutter pub get
+flutter run
+```
+
+#### Screenshot Capture Checklist
+*(Tip: Capture the mobile emulator screen and center it on a clean canvas with dimensions 2400x1500 for a professional display)*
+1. **`flowstate.png` (Cover Card)**
+   * **Scene**: The primary home dashboard.
+   * **Aesthetics**: Show the ambient sky-phase gradient (capture during twilight or night for a stunning colored background) alongside the character avatar circular level indicators.
+2. **`flowstate_dashboard.png` (System Flow)**
+   * **Scene**: Architecture flowchart of the local Hive database engine, showing separation of daily progress boxes and status models.
+3. **`flowstate_screen1.png` (Habit Daily Quests)**
+   * **Scene**: List of active habits styled as quests.
+   * **Focus**: Show checkboxes, streak numbers, and potential XP/Gold bonuses per quest.
+4. **`flowstate_screen2.png` (Procedural Boss Combat)**
+   * **Scene**: The active raid screen featuring "The Glitch Lord."
+   * **Focus**: High-fidelity combat layout showing boss health percentages, attack indicators, and real-time state logs.
+5. **`flowstate_screen3.png` (Inventory Shop & Gear)**
+   * **Scene**: The gear catalog or items shop overlay.
+   * **Focus**: Show weapon items, descriptions, gold costs, and the active equipment slot manager.
+
+---
+
+### 4. 🌌 LUMINA
+* **Local Workspace**: `c:\Users\soumya\.gemini\antigravity\scratch\Lumina`
+* **Tech Stack**: FastAPI Backend + Supabase PostgreSQL Database + Flutter Mobile Client
+* **Default Ports**: Backend: `8000`, Client: Emulator run
+
+#### Setup & Run Command
+**First: Start FastAPI Backend**
+```bash
+cd backend
+python -m venv venv
+# Windows activate
+.\venv\Scripts\activate
+pip install -r requirements.txt
+# Populate local .env with Supabase keys before running
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
+**Second: Launch Flutter App**
+```bash
+cd ../client
+flutter pub get
+# Verify client/assets/.env is configured to target http://10.0.2.2:8000
+flutter run
+```
+
+#### Screenshot Capture Checklist
+1. **`lumina.png` (Cover Card)**
+   * **Scene**: A clean, glassmorphic active messaging screen with welcoming friend avatars.
+2. **`lumina_dashboard.png` (System Flow)**
+   * **Scene**: Block diagram mapping the Flutter interface requesting credentials via Google OAuth, passing JWT tokens to FastAPI, routing to Google AI, and logging history in the Supabase PostgreSQL database.
+3. **`lumina_screen1.png` (Personality Assessment Onboarding)**
+   * **Scene**: The onboarding questionnaire sliding cards.
+   * **Focus**: Dynamic tracks showing metrics like Empathy levels, Boundary configs, and Speech patterns.
+4. **`lumina_screen2.png` (Glassmorphic Chat Window)**
+   * **Scene**: Edge-to-edge dark chat with custom text bubble animations and the active text-typing indicator.
+5. **`lumina_screen3.png` (Voice Dictation Interface)**
+   * **Scene**: Microphone capture screen displaying sound wave visualizers.
+
+---
+
+### 5. 🥗 NUTRILENS
+* **Local Workspace**: `c:\Users\soumya\.gemini\antigravity\scratch\nutrilens`
+* **Tech Stack**: Next.js 15 (Turbopack) + Zustand + Google GenAI SDK (Gemini 2.5 Flash)
+* **Default Port**: `3000`
+
+#### Setup & Run Command
+```bash
+npm install
+# Set API Key
+echo "GEMINI_API_KEY=your_gemini_api_key_here" > .env.local
+npm run dev -- --turbopack
+```
+
+#### Screenshot Capture Checklist
+1. **`nutrilens.png` (Cover Card)**
+   * **Scene**: The main PWA health dashboard.
+   * **Focus**: Show calorie progress indicators, weekly heatmap charts, and scan logs.
+2. **`nutrilens_dashboard.png` (System Flow)**
+   * **Scene**: System schema displaying local Zustand data, service worker offline handlers, and SSE pipelines.
+3. **`nutrilens_screen1.png` (Visual Plate Analyzer)**
+   * **Scene**: Upload results page containing an image of food (e.g. salad/omelette) with macro overlays.
+   * **Focus**: Ingredient cards, serving weight approximations, and portion reliability metrics.
+4. **`nutrilens_screen2.png` (Calorie Macro Gauges)**
+   * **Scene**: The details page showing daily charts (carbs/protein/fat) and the portion adjustment slider actively modifying the numbers.
+5. **`nutrilens_screen3.png` (Streaming Nutritionist Chat)**
+   * **Scene**: Chat screen with active SSE streaming chat logs discussing daily calorie summaries.
+
+---
+
+### 6. 🛒 CARTSNAP
+* **Local Workspace**: `c:\Users\soumya\.gemini\antigravity\scratch\carrtsnap`
+* **Tech Stack**: Flutter (Mobile/Tablet POS) + Shared Preferences + ESC/POS protocol
+* **Platform**: Emulator (Tablet view layout is recommended)
+
+#### Setup & Run Command
+```bash
+flutter pub get
+flutter run
+```
+
+#### Screenshot Capture Checklist
+1. **`cartsnap.png` (Cover Card)**
+   * **Scene**: The main Bento UI panel layout optimized for store checkouts.
+2. **`cartsnap_dashboard.png` (System Flow)**
+   * **Scene**: Hardware integration diagram linking barcode scanning, local cache lookups (SQLite/Preferences), and thermal printer byte streams.
+3. **`cartsnap_screen1.png` (Checkout Basket & Cart)**
+   * **Scene**: Active sales cart populated with multiple items.
+   * **Focus**: Inline quantities, price discounts, and the glowing final total ticket.
+4. **`cartsnap_screen2.png` (Local Database Search)**
+   * **Scene**: The instant search dialog displaying stock status and prices.
+5. **`cartsnap_screen3.png` (Bluetooth Printer Connection)**
+   * **Scene**: Thermal printer pairing panel displaying search outcomes, green "Connected" states, and ticket tests.
+
+---
+
+### 7. 🛡️ FREELLMAPI
+* **Local Workspace**: `c:\Users\soumya\.gemini\antigravity\scratch\freellmapi\freellmapi`
+* **Tech Stack**: React (Vite client) + Node/Express Backend + SQLite Database
+* **Default Ports**: Backend: `3001`, Client Dev: `5173`
+
+#### Setup & Run Command
+Ensure you run this from the root workspace folder to launch both processes concurrently:
+```bash
+npm install
+# Setup local configuration keys
+cp .env.example .env
+# Generates a random crypto string for AES envelope storage
+node -e "console.log('ENCRYPTION_KEY=' + require('crypto').randomBytes(32).toString('hex'))" >> .env
+npm run dev
+```
+
+#### Screenshot Capture Checklist
+1. **`freellmapi.png` (Cover Card)**
+   * **Scene**: The main analytics dashboard.
+   * **Focus**: Graphs detailing request counts, RPM/TPM charts, and active providers.
+2. **`freellmapi_dashboard.png` (System Flow)**
+   * **Scene**: Visual flowchart showing how incoming headers authenticate, query the local database, decrypt key credentials, and route requests across Google, Groq, and Cerebras APIs.
+3. **`freellmapi_screen1.png` (API Keys Ledger Manager)**
+   * **Scene**: The credentials manager tab.
+   * **Focus**: Displays the active list of keys with masked passwords, health indicators, and last-checked timestamps.
+4. **`freellmapi_screen2.png` (Fallback Chain Configurator)**
+   * **Scene**: Chain configuration dashboard.
+   * **Focus**: Show prioritized fallback models (e.g. Gemini, Llama, Qwen) with draggable prioritization indicators.
+5. **`freellmapi_screen3.png` (Model Testing Playground)**
+   * **Scene**: Interactive testing playground.
+   * **Focus**: Displays a test query with prompt details and latency metadata logs in the response header card.
+
+---
+
+## ⚡ Developer Execution Strategy
+
+To capture these screenshots with the highest visual fidelity and consistency:
+
+1. **Simulate Live Data**: Before capturing, send several queries/tasks or add mock inventory so list tables and logs are filled. Empty panels ruin portfolio presentation.
+2. **Standardize Browser Windows**: When capturing web screens (Vite/Next.js), set your browser window resolution precisely using developer tools (e.g. Device Mode at `2400x1500`) to guarantee correct layout rendering.
+3. **Crop Mobile Emulators Cleanly**: Use device screenshots (e.g. from Android Studio's Emulator tools) and place them in a stylized mock frame or layout to maintain the 8:5 ratio.
+4. **Export Lossless**: Always export as PNG and save directly into the portfolio directory: `c:\Users\soumya\.gemini\antigravity\scratch\portfolio(org...)\public\images\projects\` to overwrite the old placeholder files.
