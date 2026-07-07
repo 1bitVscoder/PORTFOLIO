@@ -17,151 +17,292 @@
         inset: 0;
         width: 100vw;
         height: 100vh;
-        background-color: #0a0a0a; /* Pitch dark matching portfolio main theme */
+        background-color: #08090a;
+        background-image: 
+            radial-gradient(circle at 50% 50%, rgba(98, 182, 203, 0.03) 0%, transparent 80%),
+            linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+        background-size: 100% 100%, 30px 30px, 30px 30px;
         color: #ffffff;
-        z-index: 999999999; /* Cover absolutely everything, including cursor and overlays */
+        z-index: 999999999;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        text-align: center;
-        padding: 30px;
+        padding: 24px;
         box-sizing: border-box;
-        font-family: var(--font-primary), -apple-system, BlinkMacSystemFont, sans-serif;
+        font-family: var(--font-primary), monospace;
+        overflow: hidden;
     }
 
-    .warningBadge {
-        background-color: rgba(218, 48, 54, 0.1);
-        color: #da3036;
-        border: 1px solid rgba(218, 48, 54, 0.3);
-        padding: 6px 14px;
-        font-size: 11px;
+    /* Ambient background glows */
+    .ambientGlowTeal {
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(98, 182, 203, 0.08) 0%, transparent 70%);
+        top: 20%;
+        left: 10%;
+        pointer-events: none;
+        filter: blur(40px);
+    }
+
+    .ambientGlowPurple {
+        position: absolute;
+        width: 350px;
+        height: 350px;
+        background: radial-gradient(circle, rgba(168, 85, 247, 0.06) 0%, transparent 70%);
+        bottom: 15%;
+        right: 5%;
+        pointer-events: none;
+        filter: blur(40px);
+    }
+
+    /* CRT scanlines effect */
+    .scanlines {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            rgba(18, 16, 16, 0) 50%, 
+            rgba(0, 0, 0, 0.2) 50%
+        ), linear-gradient(
+            90deg, 
+            rgba(255, 0, 0, 0.03), 
+            rgba(0, 255, 0, 0.01), 
+            rgba(0, 0, 255, 0.03)
+        );
+        background-size: 100% 4px, 6px 100%;
+        pointer-events: none;
+        opacity: 0.15;
+    }
+
+    /* Floating telemetry status readouts */
+    .cornerStatsTopLeft {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        font-family: monospace;
+        font-size: 9px;
+        color: rgba(255, 255, 255, 0.35);
+        letter-spacing: 0.1em;
         text-transform: uppercase;
-        letter-spacing: 0.15em;
+    }
+
+    .cornerStatsTopRight {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-family: monospace;
+        font-size: 9px;
+        color: rgba(255, 255, 255, 0.35);
+        letter-spacing: 0.1em;
+    }
+
+    .blinkText {
+        color: #da3036;
+        animation: pulseBlink 2s infinite steps(1);
         font-weight: 700;
-        margin-bottom: 24px;
-        border-radius: 4px;
     }
 
-    .message {
-        font-size: clamp(16px, 4vw, 22px);
-        font-weight: 700;
-        line-height: 1.5;
-        max-width: 480px;
-        margin-bottom: 24px;
-        color: #ffffff;
+    /* Premium Console Card */
+    .consoleCard {
+        background: rgba(17, 18, 20, 0.45);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 16px;
+        width: 100%;
+        max-width: 440px;
+        box-shadow: 
+            0 20px 50px rgba(0, 0, 0, 0.6),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        box-sizing: border-box;
+        overflow: hidden;
     }
 
-    .separator {
-        width: 40px;
-        height: 2px;
-        background-color: var(--color-accent-teal, #62B6CB);
-        margin-bottom: 24px;
-    }
-
-    .secondaryMessage {
-        font-size: clamp(13px, 3vw, 15px);
-        color: rgba(255, 255, 255, 0.65);
-        max-width: 380px;
-        margin-bottom: 8px;
-        line-height: 1.5;
-    }
-
-    .arrowContainer {
+    .consoleHeader {
         display: flex;
-        justify-content: center;
         align-items: center;
+        gap: 10px;
+        background: rgba(0, 0, 0, 0.3);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 14px 20px;
+    }
+
+    .pulseDot {
+        width: 8px;
+        height: 8px;
+        background-color: #da3036;
+        border-radius: 50%;
+        box-shadow: 0 0 10px #da3036;
+        animation: pulseLight 1.5s infinite ease-in-out;
+    }
+
+    .consoleTitle {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    .consoleContent {
+        padding: 28px 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .warningMessage {
+        font-size: clamp(14px, 3.8vw, 18px);
+        font-weight: 500;
+        line-height: 1.6;
+        color: #ffffff;
+        margin: 0 0 20px 0;
+        font-family: var(--font-primary), sans-serif;
+    }
+
+    .divider {
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
         margin-bottom: 20px;
-        animation: bounce 1.5s infinite ease-in-out;
     }
 
-    .arrowSvg {
-        width: 28px;
+    .hintMessage {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.55);
+        max-width: 320px;
+        line-height: 1.55;
+        margin: 0 0 16px 0;
+    }
+
+    /* Stylized guide arrow line */
+    .arrowGuideline {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 36px;
+        margin-bottom: 16px;
+    }
+
+    .arrowLine {
+        width: 1px;
         height: 28px;
-        stroke: var(--color-accent-teal, #62B6CB);
-        fill: none;
+        background: linear-gradient(to bottom, rgba(98, 182, 203, 0.2), rgba(98, 182, 203, 0.8));
+        position: relative;
     }
 
-    .shopButton {
+    .arrowHead {
+        width: 0;
+        height: 0;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 5px solid rgba(98, 182, 203, 0.8);
+        margin-top: -1px;
+        animation: floatArrow 1.5s infinite ease-in-out;
+    }
+
+    /* Action button matching portfolio glassmorphism */
+    .actionButton {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(135deg, #da3036 0%, #ff990a 100%);
-        color: #ffffff;
+        background: rgba(98, 182, 203, 0.08);
+        border: 1px solid rgba(98, 182, 203, 0.35);
+        color: var(--color-accent-teal, #62B6CB);
+        font-family: var(--font-primary), sans-serif;
         font-weight: 700;
         font-size: 12px;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.1em;
         text-transform: uppercase;
-        padding: 15px 26px;
-        border-radius: 6px;
-        border: none;
+        padding: 14px 44px;
+        border-radius: 8px;
         cursor: pointer;
-        box-shadow: 0 4px 15px rgba(218, 48, 54, 0.35);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        transition: background-color 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+        box-shadow: 0 4px 15px rgba(98, 182, 203, 0.06);
     }
 
-    .shopButton:active {
-        transform: scale(0.96);
-        box-shadow: 0 2px 8px rgba(218, 48, 54, 0.2);
+    .actionButton:active {
+        transform: scale(0.97);
+        background: rgba(98, 182, 203, 0.15);
+        border-color: rgba(98, 182, 203, 0.6);
+        box-shadow: 0 2px 5px rgba(98, 182, 203, 0.1);
     }
 
-    /* CAPTCHA Card Layout Styles */
+    /* CAPTCHA Card styling (glassmorphic) */
     .captchaCard {
-        background-color: #111111;
-        border: 1px solid #222222;
-        border-radius: 12px;
-        padding: 24px;
+        background: rgba(17, 18, 20, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 16px;
+        padding: 28px 24px;
         width: 100%;
-        max-width: 340px;
+        max-width: 350px;
         text-align: left;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
         box-sizing: border-box;
     }
 
     .captchaHeader {
         display: flex;
         align-items: center;
-        gap: 14px;
-        border-bottom: 1px solid #222222;
-        padding-bottom: 16px;
-        margin-bottom: 20px;
+        gap: 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        padding-bottom: 18px;
+        margin-bottom: 22px;
     }
 
-    .captchaIcon {
-        font-size: 28px;
+    .shieldWrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        background: rgba(98, 182, 203, 0.08);
+        border: 1px solid rgba(98, 182, 203, 0.25);
+        color: var(--color-accent-teal, #62B6CB);
+    }
+
+    .shieldSvg {
+        width: 20px;
+        height: 20px;
     }
 
     .captchaTitle {
-        font-size: 15px;
+        font-size: 14px;
         font-weight: 700;
         color: #ffffff;
-        margin: 0 0 2px 0;
-        letter-spacing: 0.02em;
+        margin: 0 0 3px 0;
+        letter-spacing: 0.03em;
     }
 
     .captchaSubtitle {
         font-size: 11px;
-        color: rgba(255, 255, 255, 0.5);
+        color: rgba(255, 255, 255, 0.45);
         margin: 0;
         line-height: 1.3;
     }
 
     .captchaBody {
         min-height: 120px;
-        margin-bottom: 20px;
+        margin-bottom: 24px;
         display: flex;
         flex-direction: column;
         justify-content: center;
+        box-sizing: border-box;
     }
 
-    /* Checkbox Trigger Styles */
+    /* Checkbox list and trigger */
     .checkboxWrapper {
         display: flex;
         align-items: center;
         gap: 16px;
         width: 100%;
-        padding: 18px 16px;
-        background-color: #181818;
-        border: 1px solid #2d2d2d;
+        padding: 16px;
+        background-color: rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.05);
         border-radius: 8px;
         cursor: pointer;
         transition: border-color 0.2s, background-color 0.2s;
@@ -169,14 +310,14 @@
     }
 
     .checkboxWrapper:hover {
-        border-color: var(--color-accent-teal, #62B6CB);
-        background-color: #1e1e1e;
+        border-color: rgba(98, 182, 203, 0.4);
+        background-color: rgba(255, 255, 255, 0.02);
     }
 
     .checkboxSquare {
         width: 22px;
         height: 22px;
-        border: 2px solid #555555;
+        border: 2px solid rgba(255, 255, 255, 0.15);
         border-radius: 4px;
         background-color: transparent;
         flex-shrink: 0;
@@ -185,27 +326,27 @@
 
     .checkboxLabel {
         font-size: 13px;
-        color: #ffffff;
+        color: rgba(255, 255, 255, 0.9);
         font-weight: 600;
         letter-spacing: 0.01em;
     }
 
-    /* Telemetry Diagnostics Logs */
+    /* Telemetry logs block */
     .telemetryLogs {
         font-family: 'Courier New', Courier, monospace;
         font-size: 11px;
-        line-height: 1.7;
+        line-height: 1.8;
         display: flex;
         flex-direction: column;
         gap: 8px;
     }
 
     .logSuccess {
-        color: #93b99e; /* Muted Green */
+        color: #93b99e;
     }
 
     .logPending {
-        color: #ff990a; /* Warning Orange */
+        color: #ff990a;
     }
 
     .loaderRow {
@@ -226,19 +367,19 @@
     }
 
     .loadingText {
-        color: rgba(255, 255, 255, 0.4);
+        color: rgba(255, 255, 255, 0.3);
         font-style: italic;
     }
 
     .captchaCancel {
         background: transparent;
         border: none;
-        color: rgba(255, 255, 255, 0.4);
-        font-size: 11px;
+        color: rgba(255, 255, 255, 0.35);
+        font-size: 10px;
         text-transform: uppercase;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.1em;
         cursor: pointer;
-        padding: 4px;
+        padding: 6px;
         display: block;
         margin: 0 auto;
         transition: color 0.2s;
@@ -266,11 +407,31 @@
     }
 }
 
-@keyframes bounce {
+@keyframes floatArrow {
     0%, 100% {
         transform: translateY(0);
     }
     50% {
-        transform: translateY(6px);
+        transform: translateY(4px);
+    }
+}
+
+@keyframes pulseLight {
+    0%, 100% {
+        opacity: 0.6;
+        box-shadow: 0 0 4px #da3036;
+    }
+    50% {
+        opacity: 1;
+        box-shadow: 0 0 12px #da3036;
+    }
+}
+
+@keyframes pulseBlink {
+    0%, 49% {
+        opacity: 1;
+    }
+    50%, 100% {
+        opacity: 0.3;
     }
 }
