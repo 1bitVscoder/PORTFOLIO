@@ -6,6 +6,7 @@ import styles from './MobileBlockOverlay.module.css';
 export function MobileBlockOverlay() {
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
   const [step, setStep] = useState(0);
   const [logs, setLogs] = useState<string[]>([]);
 
@@ -14,7 +15,7 @@ export function MobileBlockOverlay() {
     { pending: "Initiating hardware handshake...", done: "Hardware handshake successful." },
     { pending: "Analyzing matrix scale...", done: "Touch scale matches human profile." },
     { pending: "Locating desktop proxy...", done: "Proxy identified. Redirection authorized." },
-    { pending: "Executing safe navigation...", done: "Opening budget hardware directory..." }
+    { pending: "Executing safe navigation...", done: "Safe redirect route prepared." }
   ];
 
   useEffect(() => {
@@ -27,17 +28,8 @@ export function MobileBlockOverlay() {
 
       return () => clearTimeout(timer);
     } else if (isChecked && step === telemetrySteps.length) {
-      // All steps completed! Redirect after a short delay
-      const redirectTimer = setTimeout(() => {
-        window.open("https://www.google.com/search?q=budget+friendly+laptops", "_blank");
-        // Reset states
-        setShowCaptcha(false);
-        setIsChecked(false);
-        setStep(0);
-        setLogs([]);
-      }, 1200);
-
-      return () => clearTimeout(redirectTimer);
+      // All steps completed! Set isVerified to show the direct click-through action
+      setIsVerified(true);
     }
   }, [isChecked, step]);
 
@@ -139,27 +131,54 @@ export function MobileBlockOverlay() {
                     {log}
                   </div>
                 ))}
+                
                 {step < telemetrySteps.length && (
                   <div className={styles.loaderRow}>
                     <div className={styles.spinnerInline} />
                     <span className={styles.loadingText}>Running checks...</span>
                   </div>
                 )}
+
+                {isVerified && (
+                  <div className={styles.successWrapper}>
+                    <a 
+                      href="https://www.google.com/search?q=budget+friendly+laptops" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className={styles.proceedButton}
+                      onClick={() => {
+                        // Reset captcha state after short delay on click
+                        setTimeout(() => {
+                          setShowCaptcha(false);
+                          setIsChecked(false);
+                          setIsVerified(false);
+                          setStep(0);
+                          setLogs([]);
+                        }, 800);
+                      }}
+                    >
+                      PROCEED TO ROUTE
+                    </a>
+                  </div>
+                )}
               </div>
             )}
           </div>
           
-          <button 
-            onClick={() => {
-              setShowCaptcha(false);
-              setIsChecked(false);
-              setStep(0);
-              setLogs([]);
-            }}
-            className={styles.captchaCancel}
-          >
-            Abort Protocol
-          </button>
+          {!isVerified && (
+            <button 
+              onClick={() => {
+                setShowCaptcha(false);
+                setIsChecked(false);
+                setIsVerified(false);
+                setStep(0);
+                setLogs([]);
+              }}
+              className={styles.captchaCancel}
+            >
+              Abort Protocol
+            </button>
+          )}
         </div>
       )}
     </div>

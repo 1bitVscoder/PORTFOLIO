@@ -389,6 +389,40 @@
         color: #ffffff;
     }
 
+    /* CAPTCHA Proceed Button Link */
+    .successWrapper {
+        margin-top: 16px;
+        animation: fadeIn 0.4s ease-out forwards;
+    }
+
+    .proceedButton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(147, 185, 158, 0.08);
+        border: 1px solid rgba(147, 185, 158, 0.35);
+        color: #93b99e;
+        font-family: var(--font-primary), monospace;
+        font-weight: 700;
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        padding: 12px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        text-decoration: none;
+        box-shadow: 0 4px 15px rgba(147, 185, 158, 0.05);
+        transition: background-color 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+        text-align: center;
+    }
+
+    .proceedButton:active {
+        transform: scale(0.96);
+        background: rgba(147, 185, 158, 0.18);
+        border-color: rgba(147, 185, 158, 0.6);
+        box-shadow: 0 2px 5px rgba(147, 185, 158, 0.1);
+    }
+
     /* Hide the custom cursor elements on mobile viewports */
     :global([class*="CustomCursor_cursorWrapper"]),
     :global([class*="CustomCursor_trailContainer"]),
@@ -433,5 +467,16 @@
     }
     50%, 100% {
         opacity: 0.3;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
