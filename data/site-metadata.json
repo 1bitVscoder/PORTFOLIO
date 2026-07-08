@@ -1,8 +1,8 @@
 {
   "title": "ZENITH SOUMYA - IoT & AI Developer",
   "description": "Portfolio of Zenith Soumya - IoT & AI Developer building next-gen systems, Java/DSA optimized tools, and agentic AI full-stack applications.",
-  "author": "Zenith Soumya",
-  "siteUrl": "https://portfolio-gamma-six-yv2wreaisi.vercel.app",
+  "author": "Soumya Ranjan Jana",
+  "siteUrl": "https://portfolio-zenith-zero.vercel.app",
   "themeColor": "#1b2028",
   "keywords": [
     "IoT & AI Developer",
@@ -24,14 +24,14 @@
     "description": "Portfolio of Zenith Soumya - IoT & AI Developer building next-gen systems, Java/DSA optimized tools, and agentic AI full-stack applications.",
     "type": "website",
     "locale": "en_US",
-    "siteName": "Zenith Soumya Portfolio"
+    "siteName": "Soumya Portfolio"
   },
   "twitter": {
     "card": "summary_large_image",
     "creator": "@byte_wizard1"
   },
   "person": {
-    "name": "Zenith Soumya",
+    "name": "Soumya Ranjan Jana",
     "jobTitle": "IoT & AI Developer",
     "sameAs": [
       "https://www.linkedin.com/in/soumya-ranjan-jana-414586370",

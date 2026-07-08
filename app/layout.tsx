@@ -46,6 +46,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     creator: siteMetadata.twitter.creator,
   },
+  verification: {
+    google: "is3luZHcfrQGitGlHhobsUHecT6KGQqqlKphDNLZ9_s",
+  },
 };
 
 export const viewport: Viewport = {
