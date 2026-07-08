@@ -17,25 +17,19 @@ export function ScratchCard({ children, onReveal }: ScratchCardProps) {
   const lastPointRef = useRef<{ x: number; y: number } | null>(null);
   const strokeCountRef = useRef(0);
 
+  const revealedRef = useRef(false);
+
+  useEffect(() => {
+    revealedRef.current = revealed;
+  }, [revealed]);
+
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    const container = containerRef.current;
+    if (!canvas || !container) return;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-
-    // Handle high DPI retina screens
-    const handleResize = () => {
-      const rect = canvas.getBoundingClientRect();
-      const dpr = window.devicePixelRatio || 1;
-      
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
-      ctx.scale(dpr, dpr);
-
-      // Re-draw the cover on resize
-      drawCover(rect.width, rect.height, ctx);
-    };
 
     const drawCover = (w: number, h: number, context: CanvasRenderingContext2D) => {
       const theme = document.documentElement.getAttribute('data-theme') || 'light';
@@ -73,12 +67,27 @@ export function ScratchCard({ children, onReveal }: ScratchCardProps) {
       context.stroke();
     };
 
-    handleResize();
+    const resizeObserver = new ResizeObserver((entries) => {
+      if (revealedRef.current) return;
+      for (let entry of entries) {
+        const { width, height } = entry.contentRect;
+        if (width === 0 || height === 0) continue;
+        
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        
+        ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform matrix
+        ctx.scale(dpr, dpr);
 
-    // Check resize and update
-    window.addEventListener('resize', handleResize);
+        drawCover(width, height, ctx);
+      }
+    });
+
+    resizeObserver.observe(container);
+
     return () => {
-      window.removeEventListener('resize', handleResize);
+      resizeObserver.disconnect();
     };
   }, []);
 
