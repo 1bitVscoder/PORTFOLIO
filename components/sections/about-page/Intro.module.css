@@ -211,6 +211,7 @@
   background-color: #ff0055;
   background-blend-mode: multiply;
   mix-blend-mode: screen;
+  opacity: 0.45;
 }
 
 /* Cyan Channel - Shifted Right Slice */
@@ -220,6 +221,7 @@
   background-color: #00f0ff;
   background-blend-mode: multiply;
   mix-blend-mode: screen;
+  opacity: 0.45;
 }
 
 @keyframes glitch-shadow-flicker {
