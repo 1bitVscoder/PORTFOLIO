@@ -244,13 +244,13 @@
     color: var(--color-background);
 }
 
-/* Clone text layer - teal, positioned below, reveals on hover */
+/* Clone text layer - dynamic, positioned below, reveals on hover */
 .socialTextClone {
     position: absolute;
     top: 0;
     left: 0;
     display: flex;
-    color: var(--color-accent-teal);
+    color: var(--color-primary-text);
 }
 
 /* Individual character for stagger animation */
@@ -275,7 +275,7 @@
 
 /* Focus states */
 .socialLink:focus-visible {
-    outline: 2px solid var(--color-accent-teal);
+    outline: 2px solid var(--color-primary-text);
     outline-offset: 8px;
 }
 
@@ -308,7 +308,7 @@
     gap: 8px;
     width: 80px;
     height: 80px;
-    border: 2px solid var(--color-accent-teal);
+    border: 2px solid var(--color-primary-text);
     border-radius: 50%;
     background: transparent;
     cursor: pointer;
@@ -327,7 +327,7 @@
 }
 
 .backArrow {
-    color: var(--color-accent-teal);
+    color: var(--color-primary-text);
     transition: color 0.3s ease;
 }
 
@@ -348,7 +348,7 @@
 
 .backTextBase {
     display: flex;
-    color: var(--color-accent-teal);
+    color: var(--color-primary-text);
     transition: color 0.3s ease;
 }
 
@@ -519,7 +519,7 @@
     font-weight: 700;
     text-transform: none;
     letter-spacing: 0.02em;
-    color: var(--color-accent-teal);
+    color: var(--color-primary-text);
     margin-top: 10px;
     opacity: 1;
 }
