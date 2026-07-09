@@ -104,4 +104,4 @@
 
 * **LinkedIn**: [Soumya Ranjan Jana](https://www.linkedin.com/in/soumya-ranjan-jana-414586370)
 * **Instagram**: [@zenith.soumya](https://www.instagram.com/zenith.soumya)
-* **Heart Status**: `[basically in your heart baby... 😏]`
+* **Heart Status**: `[current location]`
