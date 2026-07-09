@@ -67,7 +67,7 @@ total 4
 
 ### `$ uptime && sensors --diagnostics`
 ```
-uptime: 20 years, 345 days, 18:42, 1 active developer
+uptime: 19 years, 93 days, 15 hours, 12 mins, 1 active developer
 load average: 0.18, 0.42, 0.99
 ```
 
