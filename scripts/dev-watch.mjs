@@ -74,4 +74,7 @@ FILES_TO_WATCH.forEach(relPath => {
     }
   });
   console.log(`👀 [Watcher] Tracking for auto-sync: ${relPath}`);
+
+  // Sync immediately on startup if already modified
+  syncFileToGit(fullPath);
 });
