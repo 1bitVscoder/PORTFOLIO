@@ -31,7 +31,7 @@ const socialLinks = navigation.socialLinks.map(link => ({
   href: link.href,
 }));
 
-const BACK_BUTTON_TEXT = content.ui.buttons.back;
+
 
 // Custom easing matching Framer Motion [0.76, 0, 0.24, 1]
 const MENU_EASE = 'power4.inOut';
@@ -197,15 +197,10 @@ export function Menu({ isOpen, onClose, onCloseComplete, onRevealStart }: MenuPr
     const socialLabels = socialSectionRef.current.querySelectorAll(`.${styles.socialLabel}`);
     const socialLinks = socialSectionRef.current.querySelectorAll(`.${styles.socialLink}`);
     const locationText = socialSectionRef.current.querySelector(`.${styles.locationText}`);
-    const backButton = socialSectionRef.current.querySelector(`.${styles.backButton}`);
-    const backCharsBase = socialSectionRef.current.querySelectorAll(`.${styles.backTextBase} .${styles.backChar}`);
-    const backCharsClone = socialSectionRef.current.querySelectorAll(`.${styles.backTextClone} .${styles.backChar}`);
-
     // Kill any running animations
     gsap.killTweensOf([
       menuRef.current, overlayRef.current, links, linkNumbers,
-      socialLabels, socialLinks, locationText, backButton,
-      backCharsBase, backCharsClone
+      socialLabels, socialLinks, locationText
     ]);
 
     isAnimating.current = true;
@@ -225,17 +220,9 @@ export function Menu({ isOpen, onClose, onCloseComplete, onRevealStart }: MenuPr
       gsap.set(socialLabels, { opacity: 0, x: 20 });
       gsap.set(socialLinks, { opacity: 0, y: 30 });
       gsap.set(locationText, { opacity: 0 });
-      gsap.set(backButton, { opacity: 0, scale: 0.8 });
-      
-      // Ensure characters are in default state and transitions are off during setup
-      gsap.set(backCharsBase, { y: '0%', transition: 'none' });
-      gsap.set(backCharsClone, { y: '100%', transition: 'none' });
-
       // Create timeline
       const tl = gsap.timeline({
         onComplete: () => {
-          // Restore CSS transitions for hover effects
-          gsap.set([backCharsBase, backCharsClone], { transition: '' });
           isAnimating.current = false;
         }
       });
@@ -282,14 +269,7 @@ export function Menu({ isOpen, onClose, onCloseComplete, onRevealStart }: MenuPr
         opacity: 1,
         duration: 0.4,
         ease: 'power2.out',
-      }, 0.7)
-      // 7. Back button scales up (last element)
-      .to(backButton, {
-        opacity: 1,
-        scale: 1,
-        duration: 0.5,
-        ease: 'back.out(1.7)',
-      }, 0.8);
+      }, 0.7);
 
     } else {
       // === CLOSE ANIMATION ===
@@ -313,42 +293,14 @@ export function Menu({ isOpen, onClose, onCloseComplete, onRevealStart }: MenuPr
           if (overlayRef.current) {
             overlayRef.current.style.backgroundColor = '';
           }
-          // Reset back button characters to initial state for next open
-          gsap.set(backCharsBase, { y: '0%' });
-          gsap.set(backCharsClone, { y: '100%' });
-          // Restore CSS transitions for hover effects
-          gsap.set([backCharsBase, backCharsClone], { transition: '' });
-
           isAnimating.current = false;
           // Trigger callback after close animation completes
           onCloseComplete?.();
         }
       });
 
-      // Disable CSS transitions during GSAP animation to avoid conflicts
-      gsap.set([backCharsBase, backCharsClone], { transition: 'none' });
-
-      // 1. Back button characters roll over + scale down
-      tl.to(backCharsBase, {
-        y: '-100%',
-        duration: 0.4,
-        stagger: 0.03,
-        ease: 'power2.inOut'
-      })
-      .to(backCharsClone, {
-        y: '0%',
-        duration: 0.4,
-        stagger: 0.03,
-        ease: 'power2.inOut'
-      }, 0)
-      .to(backButton, {
-        opacity: 0,
-        scale: 0.8,
-        duration: 0.4,
-        ease: 'power2.in',
-      }, 0.1)
       // 2. Location text fades out
-      .to(locationText, {
+      tl.to(locationText, {
         opacity: 0,
         duration: 0.2,
         ease: 'power2.in',
@@ -561,51 +513,7 @@ export function Menu({ isOpen, onClose, onCloseComplete, onRevealStart }: MenuPr
             </p>
           </div>
 
-          <button
-            className={styles.backButton}
-            onClick={onClose}
-            tabIndex={isOpen ? 0 : -1}
-            aria-label="Close menu"
-          >
-            <svg
-              className={styles.backArrow}
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <line x1="7" y1="17" x2="17" y2="7" />
-              <polyline points="7 7 17 7 17 17" />
-            </svg>
-            <div className={styles.backText}>
-              <span className={styles.backTextBase}>
-                {BACK_BUTTON_TEXT.split('').map((char, index) => (
-                  <span
-                    key={`${char}-${index}`}
-                    className={styles.backChar}
-                    style={{ transitionDelay: `${index * 0.025}s` }}
-                  >
-                    {char}
-                  </span>
-                ))}
-              </span>
-              <span className={styles.backTextClone} aria-hidden="true">
-                {BACK_BUTTON_TEXT.split('').map((char, index) => (
-                  <span
-                    key={`${char}-${index}`}
-                    className={styles.backChar}
-                    style={{ transitionDelay: `${index * 0.025}s` }}
-                  >
-                    {char}
-                  </span>
-                ))}
-              </span>
-            </div>
-          </button>
+
         </aside>
       </div>
     </div>
