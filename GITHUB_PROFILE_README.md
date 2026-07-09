@@ -66,10 +66,8 @@ total 4
 ---
 
 ### `$ uptime && sensors --diagnostics`
-```
-uptime: 19 years, 93 days, 15 hours, 12 mins, 1 active developer
-load average: 0.18, 0.42, 0.99
-```
+
+![Uptime Telemetry](https://portfolio-zenith-zero.vercel.app/api/uptime-svg)
 
 <div align="center">
   <table border="0">
