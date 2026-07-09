@@ -28,13 +28,11 @@
     "Local-First/Offline-First mobile layouts",
     "Embedded IoT systems",
     "Highly optimized Java/DSA algorithms"
-  ],
-  "coordinates": {
-    "location": "[hidden leaf village...]",
-    "web": "https://portfolio-zenith-zero.vercel.app"
-  }
+  ]
 }
 ```
+* **🌐 Portfolio Hub**: [portfolio-zenith-zero.vercel.app](https://portfolio-zenith-zero.vercel.app)
+* **📍 Current Location**: `[hidden leaf village...]`
 
 ---
 
@@ -56,15 +54,14 @@
 ---
 
 ### `$ ls -la projects/`
-```bash
-total 7
-drwxr-xr-x   1337 byteWizard  4.0K Jul  9 13:41 .
-drwxr-xr-x   1337 byteWizard  4.0K Jul  9 13:41 ..
-drwxr-xr-x   1337 byteWizard  4.0K Jul  9 13:41 🎭_furina/      # Fontaine Chat (Groq LPU) -> https://github.com/1bitVscoder/furina-de-fontaine1
-drwxr-xr-x   1337 byteWizard  4.0K Jul  9 13:41 🍳_flavr/       # AI Pantry Chef (React 19) -> https://github.com/1bitVscoder/recipe-finder
-drwxr-xr-x   1337 byteWizard  4.0K Jul  9 13:41 🌊_flowstate/   # Gamified Habit RPG (Flutter) -> https://github.com/1bitVscoder/flow-state-habit-rpg
-drwxr-xr-x   1337 byteWizard  4.0K Jul  9 13:41 🥗_nutrilens/   # PWA Vision Nutritionist (Next.js) -> https://github.com/1bitVscoder/nutrilens
+
 ```
+total 4
+```
+* `drwxr-xr-x` `1337` `byteWizard` **[🎭 furina](https://github.com/1bitVscoder/furina-de-fontaine1)** — *Fontaine Chat (Groq LPU)*
+* `drwxr-xr-x` `1337` `byteWizard` **[🍳 flavr](https://github.com/1bitVscoder/recipe-finder)** — *AI Pantry Chef (React 19)*
+* `drwxr-xr-x` `1337` `byteWizard` **[🌊 flowstate](https://github.com/1bitVscoder/flow-state-habit-rpg)** — *Gamified Habit RPG (Flutter)*
+* `drwxr-xr-x` `1337` `byteWizard` **[🥗 nutrilens](https://github.com/1bitVscoder/nutrilens)** — *PWA Vision Nutritionist (Next.js)*
 
 ---
 
@@ -90,13 +87,14 @@ load average: 0.18, 0.42, 0.99
 ---
 
 ### `$ ping -c 3 connections.net`
+
 ```
 PING connections.net (127.0.0.1) 56(84) bytes of data.
-64 bytes from linkedin.com: icmp_seq=1 ttl=64 time=0.32 ms -> [LinkedIn](https://www.linkedin.com/in/soumya-ranjan-jana-414586370)
-64 bytes from instagram.com: icmp_seq=2 ttl=64 time=0.45 ms -> [Instagram](https://www.instagram.com/zenith.soumya)
-64 bytes from heart.sys: icmp_seq=3 ttl=64 time=0.01 ms -> [Coordinates: C:\Users\soumya]
-
+```
+* `64 bytes from` **[linkedin.com](https://www.linkedin.com/in/soumya-ranjan-jana-414586370)**: `icmp_seq=1 ttl=64 time=0.32 ms`
+* `64 bytes from` **[instagram.com](https://www.instagram.com/zenith.soumya)**: `icmp_seq=2 ttl=64 time=0.45 ms`
+* `64 bytes from` **[heart.sys](file:///C:/Users/soumya)**: `icmp_seq=3 ttl=64 time=0.01 ms`
+```
 --- connections.net ping statistics ---
 3 packets transmitted, 3 received, 0% packet loss, time 2003ms
-rtt min/avg/max/mdev = 0.01/0.26/0.45/0.18 ms
 ```
