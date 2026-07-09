@@ -1,89 +1,78 @@
-# ✦ Zenith Soumya ✦
-### Full-Stack AI Engineer & IoT Systems Architect
+# ✦ ZENITH SOUMYA | MAIN_PID: 1337 ✦
 
 ```
- _____            _ _   _       _____                                 
-|__  /___ _ __  _(_) |_| |__   /  ___| ___  _   _ _ __ ___  _   _  __ _ 
-  / // _ \ '_ \| | | __| '_ \  \ `--. / _ \| | | | '_ ` _ \| | | |/ _` |
- / /|  __/ | | | | | |_| | | | /\__/ / (_) | |_| | | | | | | |_| | (_| |
-/____\___|_| |_|_|_|\__|_| |_| \____/ \___/ \__,_|_| |_| |_|\__, |\__,_|
-                                                             __/ |      
-                                                            |___/       
+[SYSTEM STARTUP TELEMETRY...]
+[  OK  ] Initializing zenith-mainframe.service
+[  OK  ] Loading model weights: Gemini 3.5 Flash
+[  OK  ] Binding IoT endpoints: ESP32 & Arduino Core
+[  OK  ] Locating network node: [hidden leaf village...]
+[  OK  ] Establishing link to Portfolio: portfolio-zenith-zero.vercel.app
 ```
 
-> "CPU cycles aren't free, and waiting is for humans. I write code that outruns your network lag and build offline-first systems that never sleep."
+> "CPU cycles aren't free, and waiting is for humans. I write code that outruns your network lag and design systems that never sleep."
 
 ---
 
-## 🚀 The Telemetry Ledger
-
-* **🏫 Academic Base**: Computer Science & Engineering student at **ITER College** (SOA University).
-* **🧠 Focus Areas**: Weaponizing Agentic AI pipelines, Local-First/Offline-First mobile layouts, Embedded IoT systems, and highly optimized Java/DSA loops.
-* **🌐 Portfolio Hub**: [portfolio-zenith-zero.vercel.app](https://portfolio-zenith-zero.vercel.app)
-* **📍 Current State**: `[currently in a deprecated situation]` (but actively debugging) 
-
----
-
-## 🛠️ The Armory (Tech Stack)
-
-<table>
-  <tr>
-    <td align="left" valign="top" width="50%">
-      <h4>🧠 Artificial Intelligence</h4>
-      <img src="https://img.shields.io/badge/Gemini_API-F9AB00?style=for-the-badge&logo=googlegemini&logoColor=white" />
-      <img src="https://img.shields.io/badge/Groq_LPU-orange?style=for-the-badge&logo=lightning&logoColor=white" />
-      <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" />
-      <img src="https://img.shields.io/badge/LangChain-1C3C3C?style=for-the-badge&logo=chainlink&logoColor=white" />
-    </td>
-    <td align="left" valign="top" width="50%">
-      <h4>⚡ Interfaces & Frontends</h4>
-      <img src="https://img.shields.io/badge/Next.js_15-000000?style=for-the-badge&logo=next.js&logoColor=white" />
-      <img src="https://img.shields.io/badge/React_19-61DAFB?style=for-the-badge&logo=react&logoColor=black" />
-      <img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" />
-      <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" />
-    </td>
-  </tr>
-  <tr>
-    <td align="left" valign="top" width="50%">
-      <h4>🔌 IoT & Devices</h4>
-      <img src="https://img.shields.io/badge/ESP32-E7352C?style=for-the-badge&logo=espressif&logoColor=white" />
-      <img src="https://img.shields.io/badge/Arduino-00979D?style=for-the-badge&logo=arduino&logoColor=white" />
-      <img src="https://img.shields.io/badge/Raspberry_Pi-A22846?style=for-the-badge&logo=raspberrypi&logoColor=white" />
-      <img src="https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white" />
-    </td>
-    <td align="left" valign="top" width="50%">
-      <h4>💾 Storage & Infrastructure</h4>
-      <img src="https://img.shields.io/badge/Java_DSA-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" />
-      <img src="https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white" />
-      <img src="https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white" />
-      <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" />
-    </td>
-  </tr>
-</table>
+### `$ cat bio.json`
+```json
+{
+  "name": "Zenith Soumya",
+  "alias": "byteWizard-zero",
+  "role": "Full-Stack AI Engineer & IoT Systems Architect",
+  "education": {
+    "college": "ITER College (Siksha 'O' Anusandhan)",
+    "major": "Computer Science & Engineering"
+  },
+  "focus": [
+    "Agentic AI pipelines",
+    "Local-First/Offline-First mobile layouts",
+    "Embedded IoT systems",
+    "Highly optimized Java/DSA algorithms"
+  ],
+  "coordinates": {
+    "location": "[hidden leaf village...]",
+    "web": "https://portfolio-zenith-zero.vercel.app"
+  }
+}
+```
 
 ---
 
-## 🏆 Flagship Projects (Selected Works)
+### `$ ./show_skills.sh --verbose`
+```bash
+# 🧠 Artificial Intelligence
+> Gemini API, Groq LPU, Python, LangChain, Agentic Workflows
 
-### 🎭 [FURINA](https://github.com/1bitVscoder/furina-de-fontaine1)
-* **Description**: A wild, theatrical AI chat client deployed on Vercel, integrated with Llama 3 via the Groq API for sub-300ms inference times.
-* **Stack**: Next.js (App Router) · Framer Motion · Groq LPU
+# ⚡ Interfaces & Frontends
+> Next.js 15, React 19, Flutter, TypeScript, Tailwind CSS
 
-### 🍳 [FLAVR](https://github.com/1bitVscoder/recipe-finder)
-* **Description**: High-performance AI pantry chef synthesizing sizzling cooking soundscapes (Web Audio API) and step-by-step interactive voice tutorials.
-* **Stack**: React 19 · Gemini 2.5 Flash · Web Audio API · Tailwind
+# 🔌 IoT & Embedded Devices
+> ESP32, Arduino, Raspberry Pi, C++, Hardware Serial Protocols
 
-### 🌊 [FLOWSTATE](https://github.com/1bitVscoder/flow-state-habit-rpg)
-* **Description**: Gamified mobile habit-cultivation RPG featuring a dynamic sky-phase rendering engine synced to local solar cycles.
-* **Stack**: Flutter · Dart · Hive NoSQL (Offline-First)
-
-### 🥗 [NUTRILENS](https://github.com/1bitVscoder/nutrilens)
-* **Description**: Next-gen Progressive Web App (PWA) extracting ingredients and calories from plate photos, with streaming Server-Sent Events (SSE) AI nutritionist chat.
-* **Stack**: Next.js 15 (Turbopack) · Zustand · Google GenAI SDK (Gemini 2.5 Flash)
+# 💾 Storage & Infrastructure
+> Java/DSA, SQLite, Supabase, PostgreSQL, REST/SSE APIs
+```
 
 ---
 
-## 📊 Live System Diagnostics
+### `$ ls -la projects/`
+```bash
+total 7
+drwxr-xr-x   1337 byteWizard  4.0K Jul  9 13:41 .
+drwxr-xr-x   1337 byteWizard  4.0K Jul  9 13:41 ..
+drwxr-xr-x   1337 byteWizard  4.0K Jul  9 13:41 🎭_furina/      # Fontaine Chat (Groq LPU) -> https://github.com/1bitVscoder/furina-de-fontaine1
+drwxr-xr-x   1337 byteWizard  4.0K Jul  9 13:41 🍳_flavr/       # AI Pantry Chef (React 19) -> https://github.com/1bitVscoder/recipe-finder
+drwxr-xr-x   1337 byteWizard  4.0K Jul  9 13:41 🌊_flowstate/   # Gamified Habit RPG (Flutter) -> https://github.com/1bitVscoder/flow-state-habit-rpg
+drwxr-xr-x   1337 byteWizard  4.0K Jul  9 13:41 🥗_nutrilens/   # PWA Vision Nutritionist (Next.js) -> https://github.com/1bitVscoder/nutrilens
+```
+
+---
+
+### `$ uptime && sensors --diagnostics`
+```
+uptime: 20 years, 345 days, 18:42, 1 active developer
+load average: 0.18, 0.42, 0.99
+```
 
 <div align="center">
   <table border="0">
@@ -100,8 +89,14 @@
 
 ---
 
-## 💌 Let's Connect
+### `$ ping -c 3 connections.net`
+```
+PING connections.net (127.0.0.1) 56(84) bytes of data.
+64 bytes from linkedin.com: icmp_seq=1 ttl=64 time=0.32 ms -> [LinkedIn](https://www.linkedin.com/in/soumya-ranjan-jana-414586370)
+64 bytes from instagram.com: icmp_seq=2 ttl=64 time=0.45 ms -> [Instagram](https://www.instagram.com/zenith.soumya)
+64 bytes from heart.sys: icmp_seq=3 ttl=64 time=0.01 ms -> [Coordinates: C:\Users\soumya]
 
-* **LinkedIn**: [Soumya Ranjan Jana](https://www.linkedin.com/in/soumya-ranjan-jana-414586370)
-* **Instagram**: [@zenith.soumya](https://www.instagram.com/zenith.soumya)
-* **Current Location**: `[current location]`
+--- connections.net ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 0.01/0.26/0.45/0.18 ms
+```
