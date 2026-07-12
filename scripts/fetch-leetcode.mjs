@@ -17,20 +17,20 @@ const OUT_PATH = join(__dirname, '..', 'data', 'leetcode-stats.json');
 // Default premium fallback statistics
 const DEFAULT_STATS = {
   username: USERNAME,
-  totalSolved: 245,
-  totalQuestions: 3150,
-  easySolved: 95,
-  totalEasy: 820,
-  mediumSolved: 130,
-  totalMedium: 1620,
-  hardSolved: 20,
-  totalHard: 710,
-  acceptanceRate: 64.5,
-  ranking: 125340,
-  contributionPoints: 1250,
-  reputation: 35,
-  streakCurrent: 8,
-  streakMax: 15
+  totalSolved: 23,
+  totalQuestions: 3989,
+  easySolved: 4,
+  totalEasy: 954,
+  mediumSolved: 13,
+  totalMedium: 2083,
+  hardSolved: 6,
+  totalHard: 952,
+  acceptanceRate: 92.0,
+  ranking: 4182055,
+  contributionPoints: 222,
+  reputation: 0,
+  streakCurrent: 19,
+  streakMax: 19
 };
 
 function calculateStreaks(submissionCalendar) {
@@ -92,7 +92,17 @@ async function fetchStats() {
         if (typeof data.totalSolved === 'number' && data.totalSolved > 0) {
           const totalSubmissions = data.totalSubmissions || [];
           const allSubmissions = totalSubmissions.find(x => x.difficulty === 'All')?.submissions || 1;
-          const computedAcceptance = Number(((data.totalSolved / allSubmissions) * 100).toFixed(1));
+          
+          // Try to get accepted submissions from matchedUserStats
+          const acSubmissions = data.matchedUserStats?.acSubmissionNum?.find(x => x.difficulty === 'All')?.submissions;
+          const totSubmissions = data.matchedUserStats?.totalSubmissionNum?.find(x => x.difficulty === 'All')?.submissions || allSubmissions;
+          
+          let computedAcceptance;
+          if (typeof acSubmissions === 'number' && totSubmissions > 0) {
+            computedAcceptance = Number(((acSubmissions / totSubmissions) * 100).toFixed(1));
+          } else {
+            computedAcceptance = Number(((data.totalSolved / allSubmissions) * 100).toFixed(1));
+          }
           
           const calendar = data.submissionCalendar || {};
           const { streakCurrent, streakMax } = calculateStreaks(calendar);

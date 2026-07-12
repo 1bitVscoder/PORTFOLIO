@@ -14,6 +14,15 @@ const FILES_TO_WATCH = [
 
 console.log('🚀 [Dev Watcher] Starting Next.js Dev Server and Auto-Sync Daemon...');
 
+// Refresh stats on startup to ensure they are never stale
+console.log('📊 [Dev Watcher] Fetching latest contributions and LeetCode stats...');
+try {
+  execSync('node scripts/fetch-contributions.mjs', { stdio: 'inherit', cwd: rootDir });
+  execSync('node scripts/fetch-leetcode.mjs', { stdio: 'inherit', cwd: rootDir });
+} catch (error) {
+  console.error('⚠️ [Dev Watcher] Failed to fetch latest stats on startup:', error.message);
+}
+
 // Spawn Next.js dev server
 const nextDev = spawn('npx', ['next', 'dev'], {
   stdio: 'inherit',
