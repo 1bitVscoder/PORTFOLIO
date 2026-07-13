@@ -56,11 +56,13 @@ Output only the raw JSON. Do not include markdown block markers like \`\`\`json 
     } catch (directError) {
       console.warn("Direct Gemini classification failed, attempting local FreeLLMAPI backup proxy:", directError);
 
-      const proxyResponse = await fetch('http://localhost:3001/v1/chat/completions', {
+      const proxyBase = (process.env.OPENAI_API_BASE || 'https://my-freellmapi-proxy.onrender.com/v1').replace(/\/$/, '');
+      const proxyKey = process.env.OPENAI_API_KEY || 'freellmapi-ec75ec409b980a3248a3b64f0a702afb51781feb35d3ec23';
+      const proxyResponse = await fetch(`${proxyBase}/chat/completions`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer freellmapi-9a1c00a670d3d3d1a9a7b276f24e8c60e8ad730e2e110bb6`
+          'Authorization': `Bearer ${proxyKey}`
         },
         body: JSON.stringify({
           model: model,
