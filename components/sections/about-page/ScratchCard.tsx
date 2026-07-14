@@ -126,7 +126,16 @@ export function ScratchCard({ children, onReveal }: ScratchCardProps) {
   };
 
   const draw = (e: React.MouseEvent | React.TouchEvent) => {
-    if (!isDrawingRef.current || revealed) return;
+    if (revealed) return;
+    
+    // Stop drawing if the user released the click while dragging outside the canvas
+    if ('buttons' in e && (e as any).buttons === 0) {
+      isDrawingRef.current = false;
+      lastPointRef.current = null;
+      return;
+    }
+
+    if (!isDrawingRef.current) return;
     const pt = getCoordinates(e);
     if (pt && lastPointRef.current) {
       scratch(pt.x, pt.y, lastPointRef.current.x, lastPointRef.current.y);
@@ -244,9 +253,18 @@ export function ScratchCard({ children, onReveal }: ScratchCardProps) {
         onMouseDown={startDrawing}
         onMouseMove={draw}
         onMouseUp={stopDrawing}
-        onMouseEnter={() => {
+        onMouseEnter={(e) => {
           if (!revealed && typeof window !== 'undefined') {
             window.dispatchEvent(new CustomEvent('scratchcard-hover-enter'));
+          }
+          if (e.buttons > 0 && !revealed) {
+            isDrawingRef.current = true;
+            setTextOpacity(0);
+            const pt = getCoordinates(e);
+            if (pt) {
+              lastPointRef.current = pt;
+              scratch(pt.x, pt.y);
+            }
           }
         }}
         onMouseLeave={() => {
