@@ -27,7 +27,7 @@ Output only the raw JSON. Do not include markdown block markers like \`\`\`json 
     let text = '';
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 5000);
+      const timeoutId = setTimeout(() => controller.abort(), 15000);
 
       const response = await fetch(endpoint, {
         method: 'POST',
@@ -65,7 +65,6 @@ Output only the raw JSON. Do not include markdown block markers like \`\`\`json 
           'Authorization': `Bearer ${proxyKey}`
         },
         body: JSON.stringify({
-          model: model,
           messages: [
             { role: 'system', content: systemInstruction },
             { role: 'user', content: `User Prompt: "${prompt}"` }

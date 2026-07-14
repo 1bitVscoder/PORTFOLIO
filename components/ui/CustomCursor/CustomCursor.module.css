@@ -103,3 +103,32 @@
         display: none !important;
     }
 }
+
+/* IoT Arcade Custom Cursor styles */
+.arcadeCursor {
+    width: 64px !important;
+    height: 64px !important;
+    background-color: transparent !important;
+    border-radius: 0 !important;
+}
+
+.arcadeWrapper {
+    mix-blend-mode: normal !important;
+}
+
+.pulseLed {
+    animation: ledPulse 2s ease-in-out infinite;
+    transform-origin: center;
+}
+
+@keyframes ledPulse {
+    0%, 100% {
+        opacity: 0.6;
+        fill: #0072ff;
+    }
+    50% {
+        opacity: 1;
+        fill: #00f0ff;
+    }
+}
+

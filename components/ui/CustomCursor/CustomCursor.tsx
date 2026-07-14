@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { gsap } from '@/lib/gsap';
 import { features } from '@/data';
 import { cursorBus } from '@/lib/cursorBus';
@@ -27,10 +28,50 @@ interface TrailSphere {
 }
 
 export function CustomCursor() {
+  const pathname = usePathname();
+  const isArcade = pathname?.startsWith('/arcade') || false;
+
   const cursorRef = useRef<HTMLDivElement>(null);
   const trailContainerRef = useRef<HTMLDivElement>(null);
   const trailSpheresRef = useRef<TrailSphere[]>([]);
   const [isVisible, setIsVisible] = useState(false);
+
+  // Tracks if the cursor is hovering over an interactive element
+  const isHoveringRef = useRef(false);
+
+  // Sync isArcade to a ref to avoid stale closures in event listeners
+  const isArcadeRef = useRef(isArcade);
+  useEffect(() => {
+    isArcadeRef.current = isArcade;
+  }, [isArcade]);
+
+  // Smoothly transition the alignment offset when changing sections
+  useEffect(() => {
+    const cursor = cursorRef.current;
+    if (!cursor) return;
+
+    if (isArcade) {
+      // Aligns the top-left of the 64x64 container (the tip of the pen) with coordinates
+      gsap.to(cursor, {
+        xPercent: 0,
+        yPercent: 0,
+        rotation: 0,
+        scale: 1,
+        duration: 0.4,
+        ease: 'power2.out',
+      });
+    } else {
+      // Center the 50px circle with coordinates
+      gsap.to(cursor, {
+        xPercent: -50,
+        yPercent: -50,
+        rotation: 0,
+        scale: 1,
+        duration: 0.4,
+        ease: 'power2.out',
+      });
+    }
+  }, [isArcade]);
 
   // Store mouse position
   const mousePos = useRef({ x: 0, y: 0 });
@@ -98,12 +139,14 @@ export function CustomCursor() {
       gsap.timeline()
         .to(cursor, {
           scale: 1.5,
+          transformOrigin: isArcadeRef.current ? '0% 0%' : '50% 50%',
           duration: 0.15,
           delay: 0.1,
           ease: 'power2.out',
         })
         .to(cursor, {
           scale: 1,
+          transformOrigin: isArcadeRef.current ? '0% 0%' : '50% 50%',
           duration: 0.3,
           ease: 'elastic.out(1, 0.5)',
         });
@@ -198,12 +241,40 @@ export function CustomCursor() {
       };
     });
 
-    // PERF: xPercent/yPercent never change at runtime — set once so the
-    // per-frame animate() only updates x/y via quickSetter. quickSetter is
-    // GSAP's optimized hot-path writer (~3–5× faster than gsap.set on warm
+    // Add click micro-interaction handlers
+    const handleMouseDown = () => {
+      if (isArcadeRef.current) {
+        gsap.to(cursor, {
+          scale: 0.85,
+          transformOrigin: '0% 0%',
+          duration: 0.1,
+          ease: 'power2.out',
+        });
+      }
+    };
+
+    const handleMouseUp = () => {
+      if (isArcadeRef.current) {
+        gsap.to(cursor, {
+          scale: isHoveringRef.current ? 1.15 : 1,
+          transformOrigin: '0% 0%',
+          duration: 0.2,
+          ease: 'power2.out',
+        });
+      }
+    };
+
+    window.addEventListener('pointerdown', handleMouseDown);
+    window.addEventListener('pointerup', handleMouseUp);
+
+    // PERF: xPercent/yPercent set once on mount, then managed dynamically.
+    // quickSetter is GSAP's optimized hot-path writer (~3–5× faster than gsap.set on warm
     // cache) while preserving the _gsap matrix tracking that burst, hover-
     // scale, and spotlight tweens rely on.
-    gsap.set(cursor, { xPercent: -50, yPercent: -50 });
+    gsap.set(cursor, {
+      xPercent: isArcadeRef.current ? 0 : -50,
+      yPercent: isArcadeRef.current ? 0 : -50,
+    });
     trailSpheresRef.current.forEach(sphere => {
       if (sphere.element) gsap.set(sphere.element, { xPercent: -50, yPercent: -50 });
     });
@@ -332,11 +403,22 @@ export function CustomCursor() {
 
     // Handle hover states on interactive elements
     const handleLinkHover = () => {
-      gsap.to(cursor, {
-        scale: 2,
-        duration: 0.3,
-        ease: 'power2.out',
-      });
+      if (isArcadeRef.current) {
+        gsap.to(cursor, {
+          rotation: -60,
+          scale: 1.15,
+          transformOrigin: '0% 0%',
+          duration: 0.3,
+          ease: 'power2.out',
+        });
+      } else {
+        gsap.to(cursor, {
+          scale: 2,
+          transformOrigin: '50% 50%',
+          duration: 0.3,
+          ease: 'power2.out',
+        });
+      }
 
       // Expand trail on hover
       trailSpheresRef.current.forEach((sphere, index) => {
@@ -352,11 +434,22 @@ export function CustomCursor() {
     };
 
     const handleLinkLeave = () => {
-      gsap.to(cursor, {
-        scale: 1,
-        duration: 0.3,
-        ease: 'power2.out',
-      });
+      if (isArcadeRef.current) {
+        gsap.to(cursor, {
+          rotation: 0,
+          scale: 1,
+          transformOrigin: '0% 0%',
+          duration: 0.3,
+          ease: 'power2.out',
+        });
+      } else {
+        gsap.to(cursor, {
+          scale: 1,
+          transformOrigin: '50% 50%',
+          duration: 0.3,
+          ease: 'power2.out',
+        });
+      }
 
       // Reset trail scale
       trailSpheresRef.current.forEach((sphere) => {
@@ -397,6 +490,7 @@ export function CustomCursor() {
       gsap.to(cursor, {
         scale: 1.5, // Slight scale up before disappearing for effect
         opacity: 0,
+        transformOrigin: isArcadeRef.current ? '0% 0%' : '50% 50%',
         duration: 0.2,
         ease: 'power2.out',
       });
@@ -433,6 +527,7 @@ export function CustomCursor() {
       gsap.to(cursor, {
         scale: 1,
         opacity: 1,
+        transformOrigin: isArcadeRef.current ? '0% 0%' : '50% 50%',
         duration: 0.3,
         ease: 'power2.out',
       });
@@ -443,6 +538,7 @@ export function CustomCursor() {
     const handleScratchcardEnter = () => {
       gsap.to(cursor, {
         opacity: 0,
+        transformOrigin: isArcadeRef.current ? '0% 0%' : '50% 50%',
         duration: 0.2,
         ease: 'power2.out',
       });
@@ -461,6 +557,7 @@ export function CustomCursor() {
     const handleScratchcardLeave = () => {
       gsap.to(cursor, {
         opacity: 1,
+        transformOrigin: isArcadeRef.current ? '0% 0%' : '50% 50%',
         duration: 0.3,
         ease: 'power2.out',
       });
@@ -490,6 +587,7 @@ export function CustomCursor() {
       // Suppress when moving within the same interactive element.
       const related = e.relatedTarget;
       if (related instanceof Element && related.closest(INTERACTIVE_SELECTOR) === entered) return;
+      isHoveringRef.current = true;
       handleLinkHover();
     };
 
@@ -507,6 +605,7 @@ export function CustomCursor() {
         if (relatedInteractive === left) return;
         if (relatedInteractive) return;
       }
+      isHoveringRef.current = false;
       handleLinkLeave();
     };
 
@@ -544,6 +643,9 @@ export function CustomCursor() {
       document.removeEventListener('pointerover', handleInteractiveEnter);
       document.removeEventListener('pointerout', handleInteractiveLeave);
 
+      window.removeEventListener('pointerdown', handleMouseDown);
+      window.removeEventListener('pointerup', handleMouseUp);
+
       // Remove trail elements
       trailSpheresRef.current.forEach(sphere => {
         if (sphere.element && sphere.element.parentNode) {
@@ -564,11 +666,80 @@ export function CustomCursor() {
       />
       {/* Cursor wrapper with mix-blend-mode for inversion effect */}
       <div
-        className={styles.cursorWrapper}
-        style={{ visibility: isVisible ? 'visible' : 'hidden' }}
+        className={`${styles.cursorWrapper} ${isArcade ? styles.arcadeWrapper : ''}`}
+        style={{ 
+          visibility: isVisible ? 'visible' : 'hidden',
+          mixBlendMode: isArcade ? 'normal' : undefined
+        }}
         aria-hidden="true"
       >
-        <div ref={cursorRef} className={styles.cursor} />
+        <div 
+          ref={cursorRef} 
+          className={`${styles.cursor} ${isArcade ? styles.arcadeCursor : ''}`}
+          style={isArcade ? {
+            backgroundColor: 'transparent',
+            borderRadius: '0',
+            width: '64px',
+            height: '64px'
+          } : undefined}
+        >
+          {isArcade && (
+            <svg
+              width="64"
+              height="64"
+              viewBox="0 0 64 64"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              style={{ overflow: 'visible' }}
+            >
+              <defs>
+                <linearGradient id="metallicTip" x1="0" y1="0" x2="12" y2="0" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stopColor="#3a3d40" />
+                  <stop offset="50%" stopColor="#5d6368" />
+                  <stop offset="100%" stopColor="#181a1b" />
+                </linearGradient>
+                <linearGradient id="bodyGradient" x1="15" y1="0" x2="47" y2="0" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stopColor="#222325" />
+                  <stop offset="40%" stopColor="#43484c" />
+                  <stop offset="70%" stopColor="#2d3032" />
+                  <stop offset="100%" stopColor="#111213" />
+                </linearGradient>
+                <linearGradient id="transmitterGradient" x1="47" y1="0" x2="55" y2="0" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stopColor="rgba(0, 240, 255, 0.4)" />
+                  <stop offset="100%" stopColor="rgba(189, 0, 255, 0.4)" />
+                </linearGradient>
+              </defs>
+              <g transform="rotate(45)">
+                {/* Pen Tip (Metallic base) */}
+                <path d="M 0 0 L 12 -4 L 12 4 Z" fill="url(#metallicTip)" />
+                
+                {/* Glowing laser core of the tip */}
+                <path d="M 0 0 L 10 -1 L 10 1 Z" fill="#00f0ff" />
+                
+                {/* Collar separator */}
+                <rect x="12" y="-4.5" width="3" height="9" fill="#151617" stroke="#00f0ff" strokeWidth="0.5" />
+                
+                {/* Smart graphite body */}
+                <rect x="15" y="-5" width="32" height="10" rx="1.5" fill="url(#bodyGradient)" />
+                
+                {/* Cyan tech traces */}
+                <line x1="18" y1="-2.5" x2="35" y2="-2.5" stroke="#00f0ff" strokeWidth="0.75" strokeDasharray="3,1" />
+                
+                {/* Purple tech traces */}
+                <line x1="21" y1="2.5" x2="38" y2="2.5" stroke="#bd00ff" strokeWidth="0.75" strokeDasharray="4,2" />
+                
+                {/* Glowing Pulsing status LED */}
+                <rect x="26" y="-2" width="6" height="4" rx="0.5" className={styles.pulseLed} />
+                
+                {/* Translucent glass cap */}
+                <rect x="47" y="-4" width="8" height="8" rx="2" fill="url(#transmitterGradient)" stroke="#00f0ff" strokeWidth="0.5" />
+                
+                {/* Internal magenta wire coil antenna inside the cap */}
+                <path d="M 49 0 L 51 -2 L 53 2 L 55 0" fill="none" stroke="#bd00ff" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+              </g>
+            </svg>
+          )}
+        </div>
       </div>
     </>
   );

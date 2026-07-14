@@ -14,7 +14,7 @@ export async function POST(request: Request) {
     let text = '';
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 5000);
+      const timeoutId = setTimeout(() => controller.abort(), 30000);
       
       const response = await fetch(endpoint, {
         method: 'POST',
@@ -53,7 +53,6 @@ export async function POST(request: Request) {
           'Authorization': `Bearer ${proxyKey}`
         },
         body: JSON.stringify({
-          model: model,
           messages: [
             ...(systemInstruction ? [{ role: 'system', content: systemInstruction }] : []),
             { role: 'user', content: prompt }
