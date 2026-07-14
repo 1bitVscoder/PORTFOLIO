@@ -82,7 +82,7 @@ export function AboutPageIntro() {
               >
                 <Image
                   src="/profile1.png"
-                  alt="Zenith Soumya"
+                  alt="Soumya (Asher)"
                   width={280}
                   height={280}
                   priority
@@ -92,7 +92,7 @@ export function AboutPageIntro() {
             </ScratchCard>
           </div>
           <div className={styles.cardMeta}>
-            <span className={styles.metaLabel}>SYS_OP: ZENITH</span>
+            <span className={styles.metaLabel}>SYS_OP: ASHER</span>
             <span className={styles.metaStatus}>iter-01 // ACTIVE</span>
           </div>
         </div>

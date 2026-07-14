@@ -13,7 +13,7 @@ import { AboutPageCredentials } from "./Credentials";
 const VITALS = [
   { label: "Status", primary: "Full time", secondary: "Builds independently" },
   { label: "Discipline", primary: "Full Stack", secondary: "Interface to infrastructure" },
-  { label: "Building", primary: "FURINA", secondary: "Interactive AI playground" },
+  { label: "Building", primary: "FREELLMPROXY", secondary: "Universal LLM proxy API" },
   { label: "Based in", primary: "India", secondary: "A dark room with O(1) latency" },
   { label: "Ships", primary: "Real things", secondary: "Not mockups" },
 ];
