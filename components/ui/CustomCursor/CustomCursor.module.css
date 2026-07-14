@@ -132,17 +132,3 @@
     }
 }
 
-.clickRipple {
-    position: fixed;
-    width: 30px;
-    height: 30px;
-    margin-left: -15px;
-    margin-top: -15px;
-    border: 1.5px solid rgba(255, 255, 255, 0.8);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: calc(var(--z-cursor) + 5);
-    transform: translate3d(0, 0, 0);
-    will-change: transform, opacity;
-}
-

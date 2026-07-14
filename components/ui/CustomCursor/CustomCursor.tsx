@@ -241,8 +241,7 @@ export function CustomCursor() {
       };
     });
 
-    // Add click micro-interaction handlers
-    const handleMouseDown = (e: PointerEvent) => {
+    const handleMouseDown = () => {
       if (isArcadeRef.current) {
         gsap.to(cursor, {
           scale: 0.85,
@@ -251,35 +250,6 @@ export function CustomCursor() {
           ease: 'power2.out',
         });
       }
-
-      // High-precision ring ripple click visual feedback
-      const ripple = document.createElement('div');
-      ripple.className = styles.clickRipple;
-      ripple.style.left = `${e.clientX}px`;
-      ripple.style.top = `${e.clientY}px`;
-      
-      const isArcadeMode = isArcadeRef.current;
-      ripple.style.borderColor = isArcadeMode ? '#00f0ff' : 'rgba(255, 255, 255, 0.8)';
-      
-      document.body.appendChild(ripple);
-
-      gsap.fromTo(ripple,
-        {
-          scale: 0.2,
-          opacity: 1,
-        },
-        {
-          scale: 2.2,
-          opacity: 0,
-          duration: 0.5,
-          ease: 'power2.out',
-          onComplete: () => {
-            if (ripple.parentNode) {
-              ripple.parentNode.removeChild(ripple);
-            }
-          }
-        }
-      );
     };
 
     const handleMouseUp = () => {
