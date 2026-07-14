@@ -48,11 +48,11 @@ body {
     transition: background-color var(--duration-slow) var(--ease-out-quart),
                 color var(--duration-slow) var(--ease-out-quart);
     
-    /* Disable text selection globally */
-    -webkit-user-select: none; /* Safari */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* IE10+/Edge */
-    user-select: none;
+    /* Enable text selection globally */
+    -webkit-user-select: text; /* Safari */
+    -moz-user-select: text; /* Firefox */
+    -ms-user-select: text; /* IE10+/Edge */
+    user-select: text;
 }
 
 /* Allow text selection in form inputs and textareas */
