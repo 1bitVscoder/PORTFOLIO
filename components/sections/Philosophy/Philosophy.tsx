@@ -47,12 +47,40 @@ export function Philosophy() {
       pin: sectionRef.current,
       pinSpacing: true,
       pinType: 'fixed',
+      onEnter: () => {
+        if ((window as any).lenis) {
+          (window as any).lenis.options.wheelMultiplier = 0.08;
+          (window as any).lenis.options.touchMultiplier = 0.12;
+        }
+      },
+      onLeave: () => {
+        if ((window as any).lenis) {
+          (window as any).lenis.options.wheelMultiplier = 0.28;
+          (window as any).lenis.options.touchMultiplier = 0.45;
+        }
+      },
+      onEnterBack: () => {
+        if ((window as any).lenis) {
+          (window as any).lenis.options.wheelMultiplier = 0.08;
+          (window as any).lenis.options.touchMultiplier = 0.12;
+        }
+      },
+      onLeaveBack: () => {
+        if ((window as any).lenis) {
+          (window as any).lenis.options.wheelMultiplier = 0.28;
+          (window as any).lenis.options.touchMultiplier = 0.45;
+        }
+      },
     });
 
     // PERF: Explicit cleanup to prevent memory leaks
     return () => {
       pinTrigger.kill();
       if (labelTween.scrollTrigger) labelTween.scrollTrigger.kill();
+      if ((window as any).lenis) {
+        (window as any).lenis.options.wheelMultiplier = 0.28;
+        (window as any).lenis.options.touchMultiplier = 0.45;
+      }
     };
   }, { scope: wrapperRef, dependencies: [reducedMotion] });
 
