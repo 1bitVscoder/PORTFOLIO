@@ -88,54 +88,14 @@ export function AboutPageCredentials() {
                   <span>
                     {c.institution.includes("ITER College") ? (
                       <>
-                        <span className={styles.mapLinkWrapper}>
-                          <a
-                            href="https://www.google.com/maps/place/ITER+college+Bhubaneswar/@20.2487897,85.7980818,17z/data=!3m1!4b1!4m6!3m5!1s0x3a19a74ac6d4e26d:0xb680a5c41d496a3d!8m2!3d20.2487847!4d85.8006567!16s%2Fg%2F11kr7rhvnq?entry=ttu&g_ep=EgoyMDI2MDcwOC4wIKXMDSoASAFQAw%3D%3D"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={styles.mapLink}
-                          >
-                            ITER College
-                            <span className={styles.mapTooltip}>
-                              <span className={styles.tooltipHeader}>
-                                <span className={styles.tooltipTitle}>FACULTY OF ENGINEERING (ITER)</span>
-                                <span className={styles.tooltipCoords}>20.2487° N, 85.8007° E</span>
-                              </span>
-                              <span className={styles.radarContainer}>
-                                <svg viewBox="0 0 200 100" className={styles.radarSvg}>
-                                  {/* Grid lines */}
-                                  <line x1="0" y1="50" x2="200" y2="50" stroke="rgba(0, 240, 255, 0.15)" strokeWidth="0.5" strokeDasharray="2, 2" />
-                                  <line x1="100" y1="0" x2="100" y2="100" stroke="rgba(0, 240, 255, 0.15)" strokeWidth="0.5" strokeDasharray="2, 2" />
-                                  
-                                  {/* Concentric rings */}
-                                  <circle cx="100" cy="50" r="25" fill="none" stroke="rgba(0, 240, 255, 0.15)" strokeWidth="0.5" />
-                                  <circle cx="100" cy="50" r="45" fill="none" stroke="rgba(0, 240, 255, 0.15)" strokeWidth="0.5" strokeDasharray="4, 4" />
-                                  
-                                  {/* Pulse rings */}
-                                  <circle cx="100" cy="50" r="5" fill="none" stroke="#00f0ff" strokeWidth="1" className={styles.radarPulseRing1} />
-                                  <circle cx="100" cy="50" r="5" fill="none" stroke="#00f0ff" strokeWidth="1" className={styles.radarPulseRing2} />
-                                  
-                                  {/* Glowing coordinate point */}
-                                  <circle cx="100" cy="50" r="3.5" fill="#00f0ff" />
-                                  
-                                  {/* Radar sweep */}
-                                  <line x1="100" y1="50" x2="160" y2="15" stroke="url(#sweepGrad)" strokeWidth="1.5" className={styles.radarSweep} />
-                                  
-                                  <defs>
-                                    <linearGradient id="sweepGrad" x1="0" y1="0" x2="1" y2="0">
-                                      <stop offset="0%" stopColor="rgba(0, 240, 255, 0)" />
-                                      <stop offset="100%" stopColor="rgba(0, 240, 255, 0.8)" />
-                                    </linearGradient>
-                                  </defs>
-                                </svg>
-                              </span>
-                              <span className={styles.tooltipFooter}>
-                                <span>LAUNCH RADAR NAVIGATION</span>
-                                <span>MAPS ↗</span>
-                              </span>
-                            </span>
-                          </a>
-                        </span>
+                        <a
+                          href="https://www.google.com/maps/place/ITER+college+Bhubaneswar/@20.2487897,85.7980818,17z/data=!3m1!4b1!4m6!3m5!1s0x3a19a74ac6d4e26d:0xb680a5c41d496a3d!8m2!3d20.2487847!4d85.8006567!16s%2Fg%2F11kr7rhvnq?entry=ttu&g_ep=EgoyMDI2MDcwOC4wIKXMDSoASAFQAw%3D%3D"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={styles.mapLinkTextOnly}
+                        >
+                          ITER College
+                        </a>
                         {c.institution.replace("ITER College", "")}
                       </>
                     ) : (
@@ -146,27 +106,61 @@ export function AboutPageCredentials() {
                 </p>
               </div>
 
-              <div className={styles.rowBody}>
-                {c.titles && (
-                  <ul className={styles.titles}>
-                    {c.titles.map((t) => (
-                      <li key={t.label} className={styles.title}>
-                        <span className={styles.titleArrow} aria-hidden="true">↳</span>
-                        <span className={styles.titleLabel}>{t.label}</span>
-                        <span className={styles.titleRef}>{t.ref}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
+              <div className={`${styles.rowBody} ${c.institution.includes("ITER College") ? styles.rowBodyWithMap : ""}`}>
+                <div className={styles.rowBodyContent}>
+                  {c.titles && (
+                    <ul className={styles.titles}>
+                      {c.titles.map((t) => (
+                        <li key={t.label} className={styles.title}>
+                          <span className={styles.titleArrow} aria-hidden="true">↳</span>
+                          <span className={styles.titleLabel}>{t.label}</span>
+                          <span className={styles.titleRef}>{t.ref}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
 
-                {c.points && (
-                  <ul className={styles.points}>
-                    {c.points.map((pt) => (
-                      <li key={pt} className={styles.point} data-point>
-                        <span className={styles.pointInner} data-point-inner>{pt}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  {c.points && (
+                    <ul className={styles.points}>
+                      {c.points.map((pt) => (
+                        <li key={pt} className={styles.point} data-point>
+                          <span className={styles.pointInner} data-point-inner>{pt}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+
+                {c.institution.includes("ITER College") && (
+                  <div className={styles.mapPanel}>
+                    <div className={styles.mapHeader}>
+                      <span className={styles.mapTitle}>TACTICAL NAVIGATION MAP</span>
+                      <span className={styles.mapCoords}>20.2487° N, 85.8007° E</span>
+                    </div>
+                    <div className={styles.mapFrame}>
+                      <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3743.080531580226!2d85.7980817758362!3d20.248784681216584!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a19a74ac6d4e26d%3A0xb680a5c41d496a3d!2sITER%20college%20Bhubaneswar!5e0!3m2!1sen!2sin!4v1784112345678!5m2!1sen!2sin"
+                        width="100%"
+                        height="100%"
+                        style={{ border: 0 }}
+                        allowFullScreen={false}
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                        className={styles.mapIframe}
+                      />
+                      <div className={styles.mapCrosshair} />
+                      <div className={styles.mapScanline} />
+                    </div>
+                    <a
+                      href="https://www.google.com/maps/place/ITER+college+Bhubaneswar/@20.2487897,85.7980818,17z/data=!3m1!4b1!4m6!3m5!1s0x3a19a74ac6d4e26d:0xb680a5c41d496a3d!8m2!3d20.2487847!4d85.8006567!16s%2Fg%2F11kr7rhvnq?entry=ttu&g_ep=EgoyMDI2MDcwOC4wIKXMDSoASAFQAw%3D%3D"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.mapPanelFooter}
+                    >
+                      <span>OPEN IN GOOGLE MAPS</span>
+                      <span>LAUNCH ↗</span>
+                    </a>
+                  </div>
                 )}
               </div>
             </li>
