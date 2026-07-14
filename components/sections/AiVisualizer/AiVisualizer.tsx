@@ -433,6 +433,8 @@ pub fn sort() { ... }
     } catch (e) {
       const errMsg = e instanceof Error ? e.message : 'Gemini API call failed.';
       await addLogDeferred(`[API_ERROR] ${errMsg}`, 100);
+      await addLogDeferred(`[SYSTEM] Render proxy cold start detected. Activating wake-up protocols...`, 100);
+      await addLogDeferred(`[SYSTEM] Please wait 30 seconds and resubmit your query.`, 100);
       await addLogDeferred(`[SYSTEM] Falling back to local offline simulation engine.`, 100);
       rawResponse = OFFLINE_RESPONSES[targetRoute] || OFFLINE_RESPONSES.generic;
       isFallback = true;
@@ -452,6 +454,13 @@ pub fn sort() { ... }
     } else {
       thinkingBlock = `- Categorizing prompt intent\n- Compiling solution framework\n- Streaming direct response`;
       finalResponse = rawResponse;
+    }
+
+    if (isFallback) {
+      const notice = targetRoute === 'code' || targetRoute === 'debug'
+        ? `// NOTICE: Server pipelines are waking up (Render proxy cold start in progress).\n// Running offline local simulation. Please wait 30 seconds and try again.\n\n`
+        : `[SYSTEM NOTICE: Server pipelines are waking up (Render proxy cold start in progress). Running offline local preview. Please wait 30 seconds and try again.]\n\n`;
+      finalResponse = notice + finalResponse;
     }
 
     // Typewriter streaming logic
