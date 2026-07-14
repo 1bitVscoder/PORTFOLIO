@@ -55,8 +55,8 @@ export function LenisProvider({ children }: LenisProviderProps) {
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 0.55, // Set to 0.55 to make scrolling denser, requiring more scroll turns to navigate contents
-      touchMultiplier: 0.8,  // Adjusted Touch/Trackpad multiplier to match the denser scroll feel
+      wheelMultiplier: 0.28, // Set to 0.28 to make scrolling much denser, requiring significantly more scroll turns to navigate contents
+      touchMultiplier: 0.45,  // Adjusted Touch/Trackpad multiplier to match the much denser scroll feel
     });
 
     lenisRef.current = lenis;
