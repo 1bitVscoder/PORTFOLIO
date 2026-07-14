@@ -85,65 +85,69 @@ export function AboutPageCredentials() {
                 </div>
                 <h3 className={styles.credential}>{c.credential}</h3>
                 <p className={styles.inst}>
-                  <span>
-                    {c.institution.includes("ITER College") ? (
-                      <>
-                        <span className={styles.mapLinkWrapper}>
-                          <a
-                            href="https://www.google.com/maps/place/ITER+college+Bhubaneswar/@20.2487897,85.7980818,17z/data=!3m1!4b1!4m6!3m5!1s0x3a19a74ac6d4e26d:0xb680a5c41d496a3d!8m2!3d20.2487847!4d85.8006567!16s%2Fg%2F11kr7rhvnq?entry=ttu&g_ep=EgoyMDI2MDcwOC4wIKXMDSoASAFQAw%3D%3D"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={styles.mapLink}
-                          >
-                            ITER College
-                            <span className={styles.mapTooltip}>
-                              <span className={styles.tooltipHeader}>
-                                <span className={styles.tooltipTitle}>FACULTY OF ENGINEERING (ITER)</span>
-                                <span className={styles.tooltipCoords}>20.2487° N, 85.8007° E</span>
-                              </span>
-                              <span className={styles.radarContainer}>
-                                <svg viewBox="0 0 200 100" className={styles.radarSvg}>
-                                  {/* Grid lines */}
-                                  <line x1="0" y1="50" x2="200" y2="50" stroke="rgba(0, 240, 255, 0.15)" strokeWidth="0.5" strokeDasharray="2, 2" />
-                                  <line x1="100" y1="0" x2="100" y2="100" stroke="rgba(0, 240, 255, 0.15)" strokeWidth="0.5" strokeDasharray="2, 2" />
-                                  
-                                  {/* Concentric rings */}
-                                  <circle cx="100" cy="50" r="25" fill="none" stroke="rgba(0, 240, 255, 0.15)" strokeWidth="0.5" />
-                                  <circle cx="100" cy="50" r="45" fill="none" stroke="rgba(0, 240, 255, 0.15)" strokeWidth="0.5" strokeDasharray="4, 4" />
-                                  
-                                  {/* Pulse rings */}
-                                  <circle cx="100" cy="50" r="5" fill="none" stroke="#00f0ff" strokeWidth="1" className={styles.radarPulseRing1} />
-                                  <circle cx="100" cy="50" r="5" fill="none" stroke="#00f0ff" strokeWidth="1" className={styles.radarPulseRing2} />
-                                  
-                                  {/* Glowing coordinate point */}
-                                  <circle cx="100" cy="50" r="3.5" fill="#00f0ff" />
-                                  
-                                  {/* Radar sweep */}
-                                  <line x1="100" y1="50" x2="160" y2="15" stroke="url(#sweepGrad)" strokeWidth="1.5" className={styles.radarSweep} />
-                                  
-                                  <defs>
-                                    <linearGradient id="sweepGrad" x1="0" y1="0" x2="1" y2="0">
-                                      <stop offset="0%" stopColor="rgba(0, 240, 255, 0)" />
-                                      <stop offset="100%" stopColor="rgba(0, 240, 255, 0.8)" />
-                                    </linearGradient>
-                                  </defs>
-                                </svg>
-                              </span>
-                              <span className={styles.tooltipFooter}>
-                                <span>LAUNCH RADAR NAVIGATION</span>
-                                <span>MAPS ↗</span>
-                              </span>
-                            </span>
-                          </a>
-                        </span>
-                        {c.institution.replace("ITER College", "")}
-                      </>
-                    ) : (
-                      c.institution
-                    )}
-                  </span>
+                  <span>{c.institution}</span>
                   {c.status && <span className={styles.status}>{c.status}</span>}
                 </p>
+                {c.institution.includes("ITER College") && (
+                  <a
+                    href="https://www.google.com/maps/place/ITER+college+Bhubaneswar/@20.2487897,85.7980818,17z/data=!3m1!4b1!4m6!3m5!1s0x3a19a74ac6d4e26d:0xb680a5c41d496a3d!8m2!3d20.2487847!4d85.8006567!16s%2Fg%2F11kr7rhvnq?entry=ttu&g_ep=EgoyMDI2MDcwOC4wIKXMDSoASAFQAw%3D%3D"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.mapConsoleLink}
+                  >
+                    <div className={styles.mapConsole}>
+                      <div className={styles.consoleLeft}>
+                        <div className={styles.consoleHeader}>
+                          <span className={styles.consoleLabel}>GEOSPATIAL TELEMETRY</span>
+                          <span className={styles.consoleStatus}>RADAR ACTIVE // ONLINE</span>
+                        </div>
+                        <div className={styles.consoleData}>
+                          <div className={styles.dataRow}>
+                            <span>TARGET:</span>
+                            <span>ITER CAMPUS</span>
+                          </div>
+                          <div className={styles.dataRow}>
+                            <span>COORDS:</span>
+                            <span>20.2487° N, 85.8007° E</span>
+                          </div>
+                        </div>
+                        <div className={styles.consoleFooter}>
+                          <span>LAUNCH RADAR NAVIGATION</span>
+                          <span className={styles.footerLink}>MAPS ↗</span>
+                        </div>
+                      </div>
+                      <div className={styles.consoleRadar}>
+                        <svg viewBox="0 0 100 100" className={styles.miniRadarSvg}>
+                          {/* Dotted target lines */}
+                          <line x1="0" y1="50" x2="100" y2="50" stroke="rgba(0, 240, 255, 0.15)" strokeWidth="0.5" strokeDasharray="2, 2" />
+                          <line x1="50" y1="0" x2="50" y2="100" stroke="rgba(0, 240, 255, 0.15)" strokeWidth="0.5" strokeDasharray="2, 2" />
+                          
+                          {/* Concentric rings */}
+                          <circle cx="50" cy="50" r="15" fill="none" stroke="rgba(0, 240, 255, 0.15)" strokeWidth="0.5" />
+                          <circle cx="50" cy="50" r="32" fill="none" stroke="rgba(0, 240, 255, 0.15)" strokeWidth="0.5" strokeDasharray="3, 3" />
+                          <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(0, 240, 255, 0.08)" strokeWidth="0.5" />
+                          
+                          {/* Pulsing ring */}
+                          <circle cx="50" cy="50" r="4" fill="none" stroke="#00f0ff" strokeWidth="1" className={styles.miniRadarPulse1} />
+                          <circle cx="50" cy="50" r="4" fill="none" stroke="#00f0ff" strokeWidth="1" className={styles.miniRadarPulse2} />
+                          
+                          {/* Target center */}
+                          <circle cx="50" cy="50" r="3" fill="#00f0ff" />
+                          
+                          {/* Radar sweep */}
+                          <line x1="50" y1="50" x2="80" y2="20" stroke="url(#miniSweepGrad)" strokeWidth="1.5" className={styles.miniRadarSweep} />
+                          
+                          <defs>
+                            <linearGradient id="miniSweepGrad" x1="0" y1="0" x2="1" y2="0">
+                              <stop offset="0%" stopColor="rgba(0, 240, 255, 0)" />
+                              <stop offset="100%" stopColor="rgba(0, 240, 255, 0.7)" />
+                            </linearGradient>
+                          </defs>
+                        </svg>
+                      </div>
+                    </div>
+                  </a>
+                )}
               </div>
 
               <div className={styles.rowBody}>
