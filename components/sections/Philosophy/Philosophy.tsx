@@ -55,8 +55,8 @@ export function Philosophy() {
       },
       onLeave: () => {
         if ((window as any).lenis) {
-          (window as any).lenis.options.wheelMultiplier = 0.28;
-          (window as any).lenis.options.touchMultiplier = 0.45;
+          (window as any).lenis.options.wheelMultiplier = 0.45;
+          (window as any).lenis.options.touchMultiplier = 0.65;
         }
       },
       onEnterBack: () => {
@@ -67,8 +67,8 @@ export function Philosophy() {
       },
       onLeaveBack: () => {
         if ((window as any).lenis) {
-          (window as any).lenis.options.wheelMultiplier = 0.28;
-          (window as any).lenis.options.touchMultiplier = 0.45;
+          (window as any).lenis.options.wheelMultiplier = 0.45;
+          (window as any).lenis.options.touchMultiplier = 0.65;
         }
       },
     });
@@ -78,8 +78,8 @@ export function Philosophy() {
       pinTrigger.kill();
       if (labelTween.scrollTrigger) labelTween.scrollTrigger.kill();
       if ((window as any).lenis) {
-        (window as any).lenis.options.wheelMultiplier = 0.28;
-        (window as any).lenis.options.touchMultiplier = 0.45;
+        (window as any).lenis.options.wheelMultiplier = 0.45;
+        (window as any).lenis.options.touchMultiplier = 0.65;
       }
     };
   }, { scope: wrapperRef, dependencies: [reducedMotion] });
