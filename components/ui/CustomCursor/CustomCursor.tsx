@@ -405,7 +405,7 @@ export function CustomCursor() {
     const handleLinkHover = () => {
       if (isArcadeRef.current) {
         gsap.to(cursor, {
-          rotation: -60,
+          rotation: -110,
           scale: 1.15,
           transformOrigin: '0% 0%',
           duration: 0.3,
@@ -667,14 +667,14 @@ export function CustomCursor() {
       {/* Cursor wrapper with mix-blend-mode for inversion effect */}
       <div
         className={`${styles.cursorWrapper} ${isArcade ? styles.arcadeWrapper : ''}`}
-        style={{ 
+        style={{
           visibility: isVisible ? 'visible' : 'hidden',
           mixBlendMode: isArcade ? 'normal' : undefined
         }}
         aria-hidden="true"
       >
-        <div 
-          ref={cursorRef} 
+        <div
+          ref={cursorRef}
           className={`${styles.cursor} ${isArcade ? styles.arcadeCursor : ''}`}
           style={isArcade ? {
             backgroundColor: 'transparent',
@@ -712,28 +712,28 @@ export function CustomCursor() {
               <g transform="rotate(45)">
                 {/* Pen Tip (Metallic base) */}
                 <path d="M 0 0 L 12 -4 L 12 4 Z" fill="url(#metallicTip)" />
-                
+
                 {/* Glowing laser core of the tip */}
                 <path d="M 0 0 L 10 -1 L 10 1 Z" fill="#00f0ff" />
-                
+
                 {/* Collar separator */}
                 <rect x="12" y="-4.5" width="3" height="9" fill="#151617" stroke="#00f0ff" strokeWidth="0.5" />
-                
+
                 {/* Smart graphite body */}
                 <rect x="15" y="-5" width="32" height="10" rx="1.5" fill="url(#bodyGradient)" />
-                
+
                 {/* Cyan tech traces */}
                 <line x1="18" y1="-2.5" x2="35" y2="-2.5" stroke="#00f0ff" strokeWidth="0.75" strokeDasharray="3,1" />
-                
+
                 {/* Purple tech traces */}
                 <line x1="21" y1="2.5" x2="38" y2="2.5" stroke="#bd00ff" strokeWidth="0.75" strokeDasharray="4,2" />
-                
+
                 {/* Glowing Pulsing status LED */}
                 <rect x="26" y="-2" width="6" height="4" rx="0.5" className={styles.pulseLed} />
-                
+
                 {/* Translucent glass cap */}
                 <rect x="47" y="-4" width="8" height="8" rx="2" fill="url(#transmitterGradient)" stroke="#00f0ff" strokeWidth="0.5" />
-                
+
                 {/* Internal magenta wire coil antenna inside the cap */}
                 <path d="M 49 0 L 51 -2 L 53 2 L 55 0" fill="none" stroke="#bd00ff" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
               </g>
