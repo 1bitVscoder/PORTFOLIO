@@ -405,7 +405,7 @@ export function CustomCursor() {
     const handleLinkHover = () => {
       if (isArcadeRef.current) {
         gsap.to(cursor, {
-          rotation: -110,
+          rotation: -70,
           scale: 1.15,
           transformOrigin: '0% 0%',
           duration: 0.3,
