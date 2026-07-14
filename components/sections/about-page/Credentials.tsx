@@ -85,16 +85,28 @@ export function AboutPageCredentials() {
                 </div>
                 <h3 className={styles.credential}>{c.credential}</h3>
                 <p className={styles.inst}>
-                  <span>{c.institution}</span>
-                  {c.institution.includes("ITER College") && (
+                  {c.institution.includes("ITER College") ? (
                     <a
                       href="https://www.google.com/maps/place/ITER+college+Bhubaneswar/@20.2487897,85.7980818,17z/data=!3m1!4b1!4m6!3m5!1s0x3a19a74ac6d4e26d:0xb680a5c41d496a3d!8m2!3d20.2487847!4d85.8006567!16s%2Fg%2F11kr7rhvnq?entry=ttu&g_ep=EgoyMDI2MDcwOC4wIKXMDSoASAFQAw%3D%3D"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={styles.miniMapLink}
+                      className={styles.mapTextLink}
                     >
-                      [ 20.2487° N, 85.8007° E ]
+                      <span className={styles.mapLinkLabel}>
+                        {c.institution}
+                      </span>
+                      <span className={styles.mapLinkArrow} aria-hidden="true">
+                        <svg viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path
+                            d="M1.25 17.75L17.75 1.25M17.75 1.25L17.75 17.75M17.75 1.25L1.25 1.25"
+                            stroke="currentColor"
+                            strokeWidth="2.5"
+                          />
+                        </svg>
+                      </span>
                     </a>
+                  ) : (
+                    <span>{c.institution}</span>
                   )}
                   {c.status && <span className={styles.status}>{c.status}</span>}
                 </p>
