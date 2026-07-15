@@ -46,34 +46,36 @@ export async function POST(request: Request) {
     // 2. Try Proxy Fallback (Safe fallback if direct fails/times out, or API key missing)
     if (!success) {
       try {
-        const proxyBase = (process.env.OPENAI_API_BASE || 'https://my-freellmapi-proxy.onrender.com/v1').replace(/\/$/, '');
-        const proxyKey = process.env.OPENAI_API_KEY || 'freellmapi-ec75ec409b980a3248a3b64f0a702afb51781feb35d3ec23';
+        const proxyBase = (process.env.OPENAI_API_BASE || '').replace(/\/$/, '');
+        const proxyKey = process.env.OPENAI_API_KEY;
         
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 1500); // 1.5s timeout to avoid Vercel 504 timeouts if proxy is cold
+        if (proxyBase && proxyKey) {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 1500); // 1.5s timeout to avoid Vercel 504 timeouts if proxy is cold
 
-        const proxyResponse = await fetch(`${proxyBase}/chat/completions`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${proxyKey}`
-          },
-          body: JSON.stringify({
-            messages: [
-              ...(systemInstruction ? [{ role: 'system', content: systemInstruction }] : []),
-              { role: 'user', content: prompt }
-            ],
-            temperature: 0.7,
-            max_tokens: 640
-          }),
-          signal: controller.signal
-        });
-        clearTimeout(timeoutId);
+          const proxyResponse = await fetch(`${proxyBase}/chat/completions`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${proxyKey}`
+            },
+            body: JSON.stringify({
+              messages: [
+                ...(systemInstruction ? [{ role: 'system', content: systemInstruction }] : []),
+                { role: 'user', content: prompt }
+              ],
+              temperature: 0.7,
+              max_tokens: 640
+            }),
+            signal: controller.signal
+          });
+          clearTimeout(timeoutId);
 
-        if (proxyResponse.ok) {
-          const data = await proxyResponse.json();
-          text = data.choices?.[0]?.message?.content || '';
-          if (text) success = true;
+          if (proxyResponse.ok) {
+            const data = await proxyResponse.json();
+            text = data.choices?.[0]?.message?.content || '';
+            if (text) success = true;
+          }
         }
       } catch (proxyError) {
         console.warn("Proxy fallback route-prompt failed:", proxyError);
