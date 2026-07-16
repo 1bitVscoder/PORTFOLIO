@@ -43,27 +43,23 @@ const AccentColorContext = createContext<AccentColorContextType | null>(null);
 
 // Provider component
 export function AccentColorProvider({ children }: { children: ReactNode }) {
-  // Initialize with a function to compute initial state. Reads only — the
-  // sessionStorage WRITE that marks "has loaded" happens in an effect below
-  // so that React StrictMode (dev)'s double-invocation of the initializer
-  // doesn't make first load look like a refresh in dev.
-  const [colorIndex, setColorIndex] = useState(() => {
-    if (typeof window === 'undefined') {
-      return DEFAULT_INDEX;
-    }
-    try {
-      const hasLoaded = sessionStorage.getItem(STORAGE_KEY);
-      if (!hasLoaded) return DEFAULT_INDEX;
-      return Math.floor(Math.random() * ACCENT_COLORS.length);
-    } catch {
-      return DEFAULT_INDEX;
-    }
-  });
+  // HYDRATION FIX: Always start with the deterministic DEFAULT_INDEX so SSR
+  // and client agree on the initial value. The random rotation for returning
+  // visitors is applied in the useEffect below — after hydration — so the
+  // server-rendered HTML is never stale.
+  const [colorIndex, setColorIndex] = useState(DEFAULT_INDEX);
 
-  // Mark the session as loaded exactly once, on mount. Side effect lives in
-  // an effect so it survives React StrictMode (dev) double-render.
+  // On mount: if the session key exists (returning visitor within the same
+  // tab session), pick a random accent; otherwise mark the session as loaded.
+  // Runs once, post-hydration, so it never causes a mismatch.
   useEffect(() => {
     try {
+      const hasLoaded = sessionStorage.getItem(STORAGE_KEY);
+      if (hasLoaded) {
+        // Intentional: sync state from sessionStorage (external store) post-hydration.
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setColorIndex(Math.floor(Math.random() * ACCENT_COLORS.length));
+      }
       sessionStorage.setItem(STORAGE_KEY, 'true');
     } catch {
       /* storage unavailable — treat as in-memory fallback */

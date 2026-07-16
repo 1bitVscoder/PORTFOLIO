@@ -3,6 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import styles from './MobileBlockOverlay.module.css';
 
+// Telemetry check steps
+const telemetrySteps = [
+  { pending: "Initiating hardware handshake...", done: "Hardware handshake successful." },
+  { pending: "Analyzing matrix scale...", done: "Touch scale matches human profile." },
+  { pending: "Locating desktop proxy...", done: "Proxy identified. Redirection authorized." },
+  { pending: "Executing safe navigation...", done: "Safe redirect route prepared." }
+];
+
 export function MobileBlockOverlay() {
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
@@ -10,26 +18,27 @@ export function MobileBlockOverlay() {
   const [step, setStep] = useState(0);
   const [logs, setLogs] = useState<string[]>([]);
 
-  // Telemetry check steps
-  const telemetrySteps = [
-    { pending: "Initiating hardware handshake...", done: "Hardware handshake successful." },
-    { pending: "Analyzing matrix scale...", done: "Touch scale matches human profile." },
-    { pending: "Locating desktop proxy...", done: "Proxy identified. Redirection authorized." },
-    { pending: "Executing safe navigation...", done: "Safe redirect route prepared." }
-  ];
-
   useEffect(() => {
     if (isChecked && step < telemetrySteps.length) {
       const timer = setTimeout(() => {
-        // Add the completed log
-        setLogs(prev => [...prev, `✓ ${telemetrySteps[step].done}`]);
-        setStep(prev => prev + 1);
+        // Add the completed log and push next pending log in a single callback
+        setLogs(prev => {
+          const updated = [...prev, `✓ ${telemetrySteps[step].done}`];
+          if (step + 1 < telemetrySteps.length) {
+            updated.push(`⌛ ${telemetrySteps[step + 1].pending}`);
+          }
+          return updated;
+        });
+        setStep(prev => {
+          const next = prev + 1;
+          if (next === telemetrySteps.length) {
+            setIsVerified(true);
+          }
+          return next;
+        });
       }, 950); // Paced telemetry step intervals
 
       return () => clearTimeout(timer);
-    } else if (isChecked && step === telemetrySteps.length) {
-      // All steps completed! Set isVerified to show the direct click-through action
-      setIsVerified(true);
     }
   }, [isChecked, step]);
 
@@ -38,13 +47,6 @@ export function MobileBlockOverlay() {
     setIsChecked(true);
     setLogs([`⌛ ${telemetrySteps[0].pending}`]);
   };
-
-  // When step updates, push the next pending step into logs
-  useEffect(() => {
-    if (isChecked && step > 0 && step < telemetrySteps.length) {
-      setLogs(prev => [...prev, `⌛ ${telemetrySteps[step].pending}`]);
-    }
-  }, [step, isChecked]);
 
   return (
     <div className={styles.mobileBlockOverlay} aria-hidden="false">
@@ -72,13 +74,13 @@ export function MobileBlockOverlay() {
           
           <div className={styles.consoleContent}>
             <p className={styles.warningMessage}>
-              "the lord Artificer is fu*ked up making the site responsive for mobile, please open the site on a desktop -thank you"
+              &quot;the lord Artificer is fu*ked up making the site responsive for mobile, please open the site on a desktop -thank you&quot;
             </p>
             
             <div className={styles.divider} />
             
             <p className={styles.hintMessage}>
-              If you don't have a desktop setup yet, please consider this alternative route:
+              If you don&apos;t have a desktop setup yet, please consider this alternative route:
             </p>
             
             <div className={styles.arrowGuideline}>

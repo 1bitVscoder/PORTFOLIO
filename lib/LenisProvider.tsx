@@ -60,7 +60,7 @@ export function LenisProvider({ children }: LenisProviderProps) {
 
     lenisRef.current = lenis;
     if (typeof window !== 'undefined') {
-      (window as any).lenis = lenis;
+      window.lenis = lenis;
     }
 
     // Sync Lenis scroll with ScrollTrigger
@@ -97,7 +97,7 @@ export function LenisProvider({ children }: LenisProviderProps) {
       lenis.destroy();
       lenisRef.current = null;
       if (typeof window !== 'undefined') {
-        delete (window as any).lenis;
+        window.lenis = undefined;
       }
     };
   }, []);

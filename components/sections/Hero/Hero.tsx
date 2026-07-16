@@ -28,14 +28,11 @@ export function Hero() {
   const spacerRef = useRef<HTMLDivElement>(null);
   const flyingMRef = useRef<HTMLSpanElement>(null);
   const flyingARef = useRef<HTMLSpanElement>(null);
-  // Idempotent: if welcome already completed before this mounted (HMR, route
-  // re-entry, StrictMode/Suspense remount), the one-shot event has already
-  // fired. Read the durable flag at init so we never call setState
-  // synchronously inside the effect. SSR-safe (window-guarded) and never used
-  // in render, so no hydration mismatch.
-  const [welcomeDone, setWelcomeDone] = useState(
-    () => typeof window !== 'undefined' && window.__welcomeComplete === true
-  );
+  // HYDRATION FIX: Always initialise as false so SSR and client agree.
+  // The useEffect below catches up immediately (via queueMicrotask) if the
+  // welcome already completed before this component mounted (HMR, route
+  // re-entry, StrictMode/Suspense remount).
+  const [welcomeDone, setWelcomeDone] = useState(false);
   const reducedMotion = useReducedMotion();
 
   // Listen for welcome animation completion before enabling scroll animation

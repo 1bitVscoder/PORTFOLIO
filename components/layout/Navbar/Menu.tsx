@@ -3,7 +3,7 @@
 import { useRef, useEffect, useCallback } from 'react';
 import { usePathname } from 'next/navigation';
 import { gsap } from '@/lib/gsap';
-import { navigation, content } from '@/data';
+import { navigation } from '@/data';
 import { useLenis } from '@/lib/LenisProvider';
 import { scrollToContactReveal } from '@/lib/scrollToContactReveal';
 import { scrollToProjectsReveal } from '@/lib/scrollToProjectsReveal';

@@ -48,27 +48,27 @@ export function Philosophy() {
       pinSpacing: true,
       pinType: 'fixed',
       onEnter: () => {
-        if ((window as any).lenis) {
-          (window as any).lenis.options.wheelMultiplier = 0.08;
-          (window as any).lenis.options.touchMultiplier = 0.12;
+        if (window.lenis) {
+          window.lenis.options.wheelMultiplier = 0.08;
+          window.lenis.options.touchMultiplier = 0.12;
         }
       },
       onLeave: () => {
-        if ((window as any).lenis) {
-          (window as any).lenis.options.wheelMultiplier = 0.45;
-          (window as any).lenis.options.touchMultiplier = 0.65;
+        if (window.lenis) {
+          window.lenis.options.wheelMultiplier = 0.45;
+          window.lenis.options.touchMultiplier = 0.65;
         }
       },
       onEnterBack: () => {
-        if ((window as any).lenis) {
-          (window as any).lenis.options.wheelMultiplier = 0.08;
-          (window as any).lenis.options.touchMultiplier = 0.12;
+        if (window.lenis) {
+          window.lenis.options.wheelMultiplier = 0.08;
+          window.lenis.options.touchMultiplier = 0.12;
         }
       },
       onLeaveBack: () => {
-        if ((window as any).lenis) {
-          (window as any).lenis.options.wheelMultiplier = 0.45;
-          (window as any).lenis.options.touchMultiplier = 0.65;
+        if (window.lenis) {
+          window.lenis.options.wheelMultiplier = 0.45;
+          window.lenis.options.touchMultiplier = 0.65;
         }
       },
     });
@@ -77,9 +77,9 @@ export function Philosophy() {
     return () => {
       pinTrigger.kill();
       if (labelTween.scrollTrigger) labelTween.scrollTrigger.kill();
-      if ((window as any).lenis) {
-        (window as any).lenis.options.wheelMultiplier = 0.45;
-        (window as any).lenis.options.touchMultiplier = 0.65;
+      if (window.lenis) {
+        window.lenis.options.wheelMultiplier = 0.45;
+        window.lenis.options.touchMultiplier = 0.65;
       }
     };
   }, { scope: wrapperRef, dependencies: [reducedMotion] });

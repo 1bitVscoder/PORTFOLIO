@@ -36,10 +36,20 @@ const JAVA_CODE = [
 export function MemoryVisualizer() {
   const [currentLine, setCurrentLine] = useState(0);
   const [stack, setStack] = useState<StackFrame[]>([]);
-  const [heap, setHeap] = useState<HeapBlock[]>([]);
+  const [heap, setHeap] = useState<HeapBlock[]>([
+    { address: '0x002A', name: 'ClassLoader', size: 1024, refCount: 1, isStale: false },
+    { address: '0x00F5', name: 'SystemConfig', size: 512, refCount: 1, isStale: false },
+    { address: '0x01B2', name: 'ThreadLock', size: 128, refCount: 1, isStale: false },
+  ]);
   const [stepCount, setStepCount] = useState(0);
   const [isGcRunning, setIsGcRunning] = useState(false);
-  const [logs, setLogs] = useState<string[]>([]);
+  // Initial values set directly in useState to avoid cascading re-renders
+  // from synchronous setState inside useEffect.
+  const [logs, setLogs] = useState<string[]>([
+    `[JVM] Virtual Machine initialized. Stack limit: 1024 frames.`,
+    `[JVM] Heap structure aligned. Garbage collector: ZGC.`,
+    `[SYSTEM] Code engine loaded. Click 'Step Code' to begin stack allocation.`
+  ]);
   
   const logsBodyRef = useRef<HTMLDivElement>(null);
   const stackRef = useRef<HTMLDivElement>(null);
@@ -58,22 +68,6 @@ export function MemoryVisualizer() {
       logsBodyRef.current.scrollTop = logsBodyRef.current.scrollHeight;
     }
   }, [logs]);
-
-  // Initial setup
-  useEffect(() => {
-    setLogs([
-      `[JVM] Virtual Machine initialized. Stack limit: 1024 frames.`,
-      `[JVM] Heap structure aligned. Garbage collector: ZGC.`,
-      `[SYSTEM] Code engine loaded. Click 'Step Code' to begin stack allocation.`
-    ]);
-    
-    // Seed heap with static reference items (to make it look active)
-    setHeap([
-      { address: '0x002A', name: 'ClassLoader', size: 1024, refCount: 1, isStale: false },
-      { address: '0x00F5', name: 'SystemConfig', size: 512, refCount: 1, isStale: false },
-      { address: '0x01B2', name: 'ThreadLock', size: 128, refCount: 1, isStale: false },
-    ]);
-  }, []);
 
   const handleStep = () => {
     playClick();

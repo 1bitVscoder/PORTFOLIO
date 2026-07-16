@@ -49,7 +49,16 @@ export function IotVisualizer() {
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [logs, setLogs] = useState<string[]>([]);
+  // Initial boot logs are set directly in useState to avoid a cascading
+  // re-render from synchronous setState inside useEffect.
+  const [logs, setLogs] = useState<string[]>([
+    `[SYSTEM] Booting IoT Telemetry Subsystem...`,
+    `[ESP32] Core 0 initialized. Clock speed: 240MHz.`,
+    `[ESP32] Core 1 initialized. RTOS scheduler active.`,
+    `[ADC] Calibrating channel ADC1_CH0 (Pin 36)...`,
+    `[WIFI] Connected to local gateway (RSSI: -52dBm).`,
+    `[SYSTEM] Telemetry streams established.`
+  ]);
   const logsBodyRef = useRef<HTMLDivElement>(null);
 
   useDynamicLenisPrevent(logsBodyRef);
@@ -66,18 +75,6 @@ export function IotVisualizer() {
     }
   }, [logs]);
 
-  // Initial boot logs
-  useEffect(() => {
-    setLogs([
-      `[SYSTEM] Booting IoT Telemetry Subsystem...`,
-      `[ESP32] Core 0 initialized. Clock speed: 240MHz.`,
-      `[ESP32] Core 1 initialized. RTOS scheduler active.`,
-      `[ADC] Calibrating channel ADC1_CH0 (Pin 36)...`,
-      `[WIFI] Connected to local gateway (RSSI: -52dBm).`,
-      `[SYSTEM] Telemetry streams established.`
-    ]);
-  }, []);
-
   // Simulate WIFI signal variation and CPU temperature changes
   useEffect(() => {
     if (resetting) return;
@@ -88,7 +85,7 @@ export function IotVisualizer() {
         return next;
       });
 
-      setCpuTemp((prev) => {
+      setCpuTemp(() => {
         const baseTemp = 33 + (temperature * 0.22) + (ledActive ? 3.5 : 0);
         const jitter = (Math.random() * 0.8) - 0.4;
         return parseFloat((baseTemp + jitter).toFixed(1));

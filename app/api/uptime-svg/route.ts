@@ -1,11 +1,7 @@
-import { NextResponse } from 'next/server';
-
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export async function GET() {
-  // Start date: April 7, 2007 00:00:00 IST (UTC +5:30)
-  const startEpoch = new Date('2007-04-07T00:00:00+05:30').getTime();
   
   // Current time in IST (offset: UTC +5.5 hours)
   const now = new Date();

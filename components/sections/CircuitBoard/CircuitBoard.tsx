@@ -36,6 +36,10 @@ export function CircuitBoard() {
 
   const workbenchRef = useRef<HTMLDivElement>(null);
   const logsBodyRef = useRef<HTMLDivElement>(null);
+  // Stable ID counter — replaces Date.now() in render, which is impure and
+  // can produce non-deterministic IDs across concurrent renders.
+  const idCounterRef = useRef(0);
+  const nextId = (prefix: string) => `${prefix}-${++idCounterRef.current}`;
 
   useDynamicLenisPrevent(logsBodyRef);
 
@@ -51,7 +55,61 @@ export function CircuitBoard() {
     }
   }, [logs]);
 
-  // Initial Logs
+  // Presets seeding — declared before the mount useEffect that calls
+  // loadHalfAdderPreset, so the function is defined when the effect runs.
+  const loadHalfAdderPreset = () => {
+    playSweep();
+    const adderNodes: ComponentNode[] = [
+      { id: 'sw-a', type: 'switch', label: 'SWITCH_A', x: 80, y: 100, inputs: [], output: false },
+      { id: 'sw-b', type: 'switch', label: 'SWITCH_B', x: 80, y: 220, inputs: [], output: false },
+      { id: 'xor-sum', type: 'xor', label: 'XOR_SUM', x: 260, y: 90, inputs: [false, false], output: false },
+      { id: 'and-carry', type: 'and', label: 'AND_CARRY', x: 260, y: 230, inputs: [false, false], output: false },
+      { id: 'led-sum', type: 'led', label: 'LED_SUM', x: 440, y: 90, inputs: [false], output: false },
+      { id: 'led-carry', type: 'led', label: 'LED_CARRY', x: 440, y: 230, inputs: [false], output: false },
+    ];
+
+    const adderWires: Wire[] = [
+      { id: 'w1', fromNodeId: 'sw-a', fromPin: 0, toNodeId: 'xor-sum', toPin: 0 },
+      { id: 'w2', fromNodeId: 'sw-b', fromPin: 0, toNodeId: 'xor-sum', toPin: 1 },
+      { id: 'w3', fromNodeId: 'sw-a', fromPin: 0, toNodeId: 'and-carry', toPin: 0 },
+      { id: 'w4', fromNodeId: 'sw-b', fromPin: 0, toNodeId: 'and-carry', toPin: 1 },
+      { id: 'w5', fromNodeId: 'xor-sum', fromPin: 0, toNodeId: 'led-sum', toPin: 0 },
+      { id: 'w6', fromNodeId: 'and-carry', fromPin: 0, toNodeId: 'led-carry', toPin: 0 },
+    ];
+
+    setNodes(adderNodes);
+    setWires(adderWires);
+    setSelectedNodeId(null);
+    addLog(`[SYSTEM] Loaded Half Adder Preset.`);
+  };
+
+  const loadSrLatchPreset = () => {
+    playSweep();
+    const latchNodes: ComponentNode[] = [
+      { id: 'sw-s', type: 'switch', label: 'SWITCH_SET', x: 80, y: 80, inputs: [], output: false },
+      { id: 'sw-r', type: 'switch', label: 'SWITCH_RESET', x: 80, y: 240, inputs: [], output: false },
+      { id: 'nor-q', type: 'nor', label: 'NOR_Q', x: 260, y: 90, inputs: [false, false], output: true },
+      { id: 'nor-qb', type: 'nor', label: 'NOR_Q_BAR', x: 260, y: 230, inputs: [false, false], output: false },
+      { id: 'led-q', type: 'led', label: 'LED_Q', x: 440, y: 90, inputs: [false], output: true },
+      { id: 'led-qb', type: 'led', label: 'LED_Q_BAR', x: 440, y: 230, inputs: [false], output: false },
+    ];
+
+    const latchWires: Wire[] = [
+      { id: 'lw1', fromNodeId: 'sw-s', fromPin: 0, toNodeId: 'nor-q', toPin: 0 },
+      { id: 'lw2', fromNodeId: 'sw-r', fromPin: 0, toNodeId: 'nor-qb', toPin: 1 },
+      { id: 'lw3', fromNodeId: 'nor-q', fromPin: 0, toNodeId: 'nor-qb', toPin: 0 },
+      { id: 'lw4', fromNodeId: 'nor-qb', fromPin: 0, toNodeId: 'nor-q', toPin: 1 },
+      { id: 'lw5', fromNodeId: 'nor-q', fromPin: 0, toNodeId: 'led-q', toPin: 0 },
+      { id: 'lw6', fromNodeId: 'nor-qb', fromPin: 0, toNodeId: 'led-qb', toPin: 0 },
+    ];
+
+    setNodes(latchNodes);
+    setWires(latchWires);
+    setSelectedNodeId(null);
+    addLog(`[SYSTEM] Loaded SR Latch Memory Preset.`);
+  };
+
+  // Initial Logs + default preset seed
   useEffect(() => {
     setMounted(true);
     setLogs([
@@ -64,13 +122,14 @@ export function CircuitBoard() {
     return () => {
       window.dispatchEvent(new CustomEvent('canvas-hover-leave'));
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Real-Time Propagation Loop
   useEffect(() => {
     if (nodes.length === 0) return;
 
-    let currentNodes = JSON.parse(JSON.stringify(nodes)) as ComponentNode[];
+    const currentNodes = JSON.parse(JSON.stringify(nodes)) as ComponentNode[];
     let changed = true;
     let iterations = 0;
     const maxIterations = 35;
@@ -162,7 +221,7 @@ export function CircuitBoard() {
   // Create component node helper
   const addComponent = (type: ComponentNode['type']) => {
     playClick();
-    const id = `node-${Date.now()}`;
+    const id = nextId('node');
     const x = 120 + Math.random() * 80;
     const y = 120 + Math.random() * 80;
     let inputCount = 2;
@@ -233,7 +292,7 @@ export function CircuitBoard() {
       }
 
       const newWire: Wire = {
-        id: `wire-${Date.now()}`,
+        id: nextId('wire'),
         fromNodeId: activePin.nodeId,
         fromPin: activePin.pinIndex,
         toNodeId: nodeId,
@@ -309,58 +368,7 @@ export function CircuitBoard() {
     addLog(`[SYSTEM] Workbench cleared.`);
   };
 
-  // Presets seeding
-  const loadHalfAdderPreset = () => {
-    playSweep();
-    const adderNodes: ComponentNode[] = [
-      { id: 'sw-a', type: 'switch', label: 'SWITCH_A', x: 80, y: 100, inputs: [], output: false },
-      { id: 'sw-b', type: 'switch', label: 'SWITCH_B', x: 80, y: 220, inputs: [], output: false },
-      { id: 'xor-sum', type: 'xor', label: 'XOR_SUM', x: 260, y: 90, inputs: [false, false], output: false },
-      { id: 'and-carry', type: 'and', label: 'AND_CARRY', x: 260, y: 230, inputs: [false, false], output: false },
-      { id: 'led-sum', type: 'led', label: 'LED_SUM', x: 440, y: 90, inputs: [false], output: false },
-      { id: 'led-carry', type: 'led', label: 'LED_CARRY', x: 440, y: 230, inputs: [false], output: false },
-    ];
-
-    const adderWires: Wire[] = [
-      { id: 'w1', fromNodeId: 'sw-a', fromPin: 0, toNodeId: 'xor-sum', toPin: 0 },
-      { id: 'w2', fromNodeId: 'sw-b', fromPin: 0, toNodeId: 'xor-sum', toPin: 1 },
-      { id: 'w3', fromNodeId: 'sw-a', fromPin: 0, toNodeId: 'and-carry', toPin: 0 },
-      { id: 'w4', fromNodeId: 'sw-b', fromPin: 0, toNodeId: 'and-carry', toPin: 1 },
-      { id: 'w5', fromNodeId: 'xor-sum', fromPin: 0, toNodeId: 'led-sum', toPin: 0 },
-      { id: 'w6', fromNodeId: 'and-carry', fromPin: 0, toNodeId: 'led-carry', toPin: 0 },
-    ];
-
-    setNodes(adderNodes);
-    setWires(adderWires);
-    setSelectedNodeId(null);
-    addLog(`[SYSTEM] Loaded Half Adder Preset.`);
-  };
-
-  const loadSrLatchPreset = () => {
-    playSweep();
-    const latchNodes: ComponentNode[] = [
-      { id: 'sw-s', type: 'switch', label: 'SWITCH_SET', x: 80, y: 80, inputs: [], output: false },
-      { id: 'sw-r', type: 'switch', label: 'SWITCH_RESET', x: 80, y: 240, inputs: [], output: false },
-      { id: 'nor-q', type: 'nor', label: 'NOR_Q', x: 260, y: 90, inputs: [false, false], output: true },
-      { id: 'nor-qb', type: 'nor', label: 'NOR_Q_BAR', x: 260, y: 230, inputs: [false, false], output: false },
-      { id: 'led-q', type: 'led', label: 'LED_Q', x: 440, y: 90, inputs: [false], output: true },
-      { id: 'led-qb', type: 'led', label: 'LED_Q_BAR', x: 440, y: 230, inputs: [false], output: false },
-    ];
-
-    const latchWires: Wire[] = [
-      { id: 'lw1', fromNodeId: 'sw-s', fromPin: 0, toNodeId: 'nor-q', toPin: 0 },
-      { id: 'lw2', fromNodeId: 'sw-r', fromPin: 0, toNodeId: 'nor-qb', toPin: 1 },
-      { id: 'lw3', fromNodeId: 'nor-q', fromPin: 0, toNodeId: 'nor-qb', toPin: 0 },
-      { id: 'lw4', fromNodeId: 'nor-qb', fromPin: 0, toNodeId: 'nor-q', toPin: 1 },
-      { id: 'lw5', fromNodeId: 'nor-q', fromPin: 0, toNodeId: 'led-q', toPin: 0 },
-      { id: 'lw6', fromNodeId: 'nor-qb', fromPin: 0, toNodeId: 'led-qb', toPin: 0 },
-    ];
-
-    setNodes(latchNodes);
-    setWires(latchWires);
-    setSelectedNodeId(null);
-    addLog(`[SYSTEM] Loaded SR Latch Memory Preset.`);
-  };
+  // Presets are now declared above the mount useEffect (see lines above).
 
   return (
     <main className={styles.boardContainer}>

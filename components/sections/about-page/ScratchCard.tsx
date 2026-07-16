@@ -69,7 +69,7 @@ export function ScratchCard({ children, onReveal }: ScratchCardProps) {
 
     const resizeObserver = new ResizeObserver((entries) => {
       if (revealedRef.current) return;
-      for (let entry of entries) {
+      for (const entry of entries) {
         const { width, height } = entry.contentRect;
         if (width === 0 || height === 0) continue;
         
@@ -129,7 +129,7 @@ export function ScratchCard({ children, onReveal }: ScratchCardProps) {
     if (revealed) return;
     
     // Stop drawing if the user released the click while dragging outside the canvas
-    if ('buttons' in e && (e as any).buttons === 0) {
+    if ('buttons' in e && (e as React.MouseEvent).buttons === 0) {
       isDrawingRef.current = false;
       lastPointRef.current = null;
       return;
