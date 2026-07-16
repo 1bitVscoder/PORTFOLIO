@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 /* ABOUT PAGE Â· Current Project
    A single-project spotlight for the work in progress (TASKTROX), rendered with
@@ -150,6 +150,7 @@ export function AboutPageCurrentProject() {
             fill
             style={{ objectFit: 'cover', objectPosition: 'top' }}
             sizes="(max-width: 768px) 100vw, 80vw"
+            unoptimized
           />
         </div>
       </div>

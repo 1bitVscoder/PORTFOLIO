@@ -641,6 +641,7 @@ export function Hero({
               height={1500}
               sizes="(min-width: 1512px) 1400px, 90vw"
               priority
+              unoptimized
             />
           </div>
           {badge && (

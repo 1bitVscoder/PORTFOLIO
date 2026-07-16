@@ -220,6 +220,7 @@ export const Toggle = ({ label, titleLine1, titleAccent, screens }: ToggleConten
                     width={2400}
                     height={1500}
                     sizes="(min-width: 1024px) 33vw, 100vw"
+                    unoptimized
                   />
                 </div>
                 <figcaption className={styles.caption}>
@@ -274,7 +275,7 @@ export const Toggle = ({ label, titleLine1, titleAccent, screens }: ToggleConten
               className={styles.previewCard}
               style={{ background: s.color }}
             >
-              <Image src={s.image} alt="" width={560} height={400} sizes="360px" />
+              <Image src={s.image} alt="" width={560} height={400} sizes="360px" unoptimized />
             </div>
           ))}
         </div>

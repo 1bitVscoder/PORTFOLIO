@@ -301,6 +301,7 @@ export const Projects = () => {
                                     fill
                                     style={{ objectFit: 'cover', objectPosition: 'top' }}
                                     sizes="(max-width: 768px) 100vw, 80vw"
+                                    unoptimized
                                  />
                             </div>
                        </div>

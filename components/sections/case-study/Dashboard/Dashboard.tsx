@@ -195,6 +195,7 @@ export const Dashboard = ({ badge, figcaption, image, alt }: DashboardContent) =
           width={2400}
           height={1500}
           sizes="(min-width: 1512px) 1440px, 100vw"
+          unoptimized
         />
         {badge && (
           <span ref={badgeRef} className={styles.badge} aria-hidden>
