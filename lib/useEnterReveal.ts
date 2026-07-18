@@ -167,6 +167,14 @@ export function useEnterReveal(
         return () => {
           observers.forEach((o) => o.disconnect());
           tweens.forEach((t) => t.kill());
+          specs.forEach(({ selector, innerSelector }) => {
+            const els = gsap.utils.toArray<HTMLElement>(selector, root);
+            if (els.length) gsap.set(els, { clearProps: "all" });
+            if (innerSelector) {
+              const inners = els.map((el) => el.querySelector<HTMLElement>(innerSelector)).filter(Boolean);
+              if (inners.length) gsap.set(inners, { clearProps: "all" });
+            }
+          });
         };
       });
 

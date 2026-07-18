@@ -163,6 +163,9 @@ export function AboutPageHeroEcho() {
           intro.kill();
           merge.scrollTrigger?.kill();
           merge.kill();
+          gsap.set("[data-reveal]", { clearProps: "all" });
+          gsap.set("[data-solid]", { clearProps: "all" });
+          gsap.set(cells, { clearProps: "all" });
         };
       });
     },
