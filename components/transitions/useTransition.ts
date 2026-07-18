@@ -16,5 +16,10 @@ export function useTransition(): TransitionContextValue {
   }
   // Expose only the public surface; provider-internal fields (state,
   // onPhaseComplete) stay encapsulated.
-  return { isTransitioning: ctx.isTransitioning, triggerTransition: ctx.triggerTransition };
+  return {
+    isTransitioning: ctx.isTransitioning,
+    triggerTransition: ctx.triggerTransition,
+    markPageReady: ctx.markPageReady,
+    isPageReady: ctx.isPageReady,
+  };
 }

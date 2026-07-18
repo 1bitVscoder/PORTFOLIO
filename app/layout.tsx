@@ -12,6 +12,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import {
   TransitionProvider,
   TransitionStage,
+  PageReadyNotifier,
 } from "@/components/transitions";
 import { siteMetadata } from "@/data";
 
@@ -145,7 +146,9 @@ export default function RootLayout({
               <BackToTop />
               <ThemeToggle />
               <MobileBlockOverlay />
-              {children}
+              <PageReadyNotifier>
+                {children}
+              </PageReadyNotifier>
               <TransitionStage />
             </TransitionProvider>
           </AccentColorProvider>

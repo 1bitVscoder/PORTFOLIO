@@ -35,9 +35,9 @@ export function TransitionStage() {
 
   // Phase derivation:
   //  - 'exit' state: render exit
-  //  - 'pending' state: render exit until pathname catches up, then enter
+  //  - 'pending' state: render exit until pathname catches up AND page is ready, then enter
   const phase: TransitionPhase =
-    kind === 'pending' && pathname === target ? 'enter' : 'exit';
+    kind === 'pending' && pathname === target && ctx.isPageReady ? 'enter' : 'exit';
 
   const Effect = TRANSITION_EFFECTS[effect];
   if (!Effect) return null;

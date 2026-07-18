@@ -123,6 +123,7 @@ const normalizePath = (href: string): string => {
 
 export function TransitionProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<State>({ kind: 'idle' });
+  const [isPageReady, setIsPageReady] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   // Same persistent Lenis instance the rest of the app uses (LenisProvider sits
@@ -159,6 +160,7 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
     if (state.kind === 'idle') return;
     const t = setTimeout(() => {
       ScrollTrigger.refresh();
+      setIsPageReady(false);
       setState({ kind: 'idle' });
     }, 6000);
     return () => clearTimeout(t);
@@ -220,6 +222,7 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
         }
       }
 
+      setIsPageReady(false);
       setState({
         kind: 'exit',
         effect: resolved,
@@ -231,6 +234,13 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
     },
     [state.kind, router]
   );
+
+  const markPageReady = useCallback((path: string) => {
+    const s = stateRef.current;
+    if (s.kind !== 'idle' && normalizePath(path) === s.target) {
+      setIsPageReady(true);
+    }
+  }, []);
 
   // ----- effect-driven phase advancement -----
   //
@@ -312,6 +322,7 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
           /* malformed href — skip hash scroll */
         }
 
+        setIsPageReady(false);
         setState({ kind: 'idle' });
       }
     },
@@ -392,10 +403,12 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
     () => ({
       isTransitioning: state.kind !== 'idle',
       triggerTransition,
+      markPageReady,
+      isPageReady,
       state,
       onPhaseComplete,
     }),
-    [state, triggerTransition, onPhaseComplete]
+    [state, triggerTransition, markPageReady, isPageReady, onPhaseComplete]
   );
 
   return (

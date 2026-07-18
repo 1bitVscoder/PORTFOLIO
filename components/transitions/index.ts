@@ -2,6 +2,7 @@ export { TransitionProvider } from './TransitionProvider';
 export { TransitionStage } from './TransitionStage';
 export { TransitionLink } from './TransitionLink';
 export { useTransition } from './useTransition';
+export { PageReadyNotifier } from './PageReadyNotifier';
 export type {
   TransitionEffect,
   TransitionEffectProps,
