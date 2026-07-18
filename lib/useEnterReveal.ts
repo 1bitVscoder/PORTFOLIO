@@ -62,12 +62,17 @@ function restFor(from: gsap.TweenVars): gsap.TweenVars {
 // `overflow: hidden`, which would give IntersectionObserver zero area to detect.
 // So we observe the un-clipped parent (the point row) and, from that one
 // intersection, animate both the parent and its masked child together.
+import { useTransition } from "@/components/transitions";
+
 export function useEnterReveal(
   scope: RefObject<HTMLElement | null>,
   specs: RevealSpec[],
 ) {
+  const { hasEntered } = useTransition();
+
   useGSAP(
     () => {
+      if (!hasEntered) return;
       const root = scope.current;
       if (!root) return;
 
@@ -169,6 +174,6 @@ export function useEnterReveal(
         mm.revert();
       };
     },
-    { scope },
+    { scope, dependencies: [hasEntered, specs] },
   );
 }

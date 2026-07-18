@@ -15,7 +15,7 @@
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "@/lib/gsap";
-import { TransitionLink } from "@/components/transitions";
+import { TransitionLink, useTransition } from "@/components/transitions";
 import { useAccentColor } from "@/lib/AccentColorContext";
 import styles from "./Echo.module.css";
 
@@ -29,10 +29,12 @@ const BOTTOM_ROWS = ["ink", "accent", "ink"] as const;
 
 export function AboutPageHeroEcho() {
   const { color: currentAccent } = useAccentColor();
+  const { hasEntered } = useTransition();
   const sectionRef = useRef<HTMLElement>(null);
 
   useGSAP(
     () => {
+      if (!hasEntered) return;
       const section = sectionRef.current;
       if (!section) return;
 
@@ -164,7 +166,7 @@ export function AboutPageHeroEcho() {
         };
       });
     },
-    { scope: sectionRef },
+    { scope: sectionRef, dependencies: [hasEntered] },
   );
 
   return (

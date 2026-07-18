@@ -21,5 +21,6 @@ export function useTransition(): TransitionContextValue {
     triggerTransition: ctx.triggerTransition,
     markPageReady: ctx.markPageReady,
     isPageReady: ctx.isPageReady,
+    hasEntered: ctx.hasEntered,
   };
 }

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Fragment, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
-import { TransitionLink } from "@/components/transitions";
+import { TransitionLink, useTransition } from "@/components/transitions";
 import { useAccentColor } from "@/lib/AccentColorContext";
 import type { CaseStudyHeroContent } from "@/data";
 import styles from "./Hero.module.css";
@@ -56,6 +56,8 @@ export function Hero({
   const ledeRef = useRef<HTMLParagraphElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
 
+  const { hasEntered } = useTransition();
+
   // ── ON-LOAD entrance ──
   // (a) Title — each letter sits inside its own overflow:hidden
   //     mask; the inner span starts pushed 110% along a random cardinal
@@ -69,6 +71,7 @@ export function Hero({
   //     text rises from its own baseline.
   useGSAP(
     () => {
+      if (!hasEntered) return;
       const title = titleRef.current;
       const lede = ledeRef.current;
       if (!title) return;
@@ -200,7 +203,7 @@ export function Hero({
         };
       });
     },
-    { scope: sectionRef }
+    { scope: sectionRef, dependencies: [hasEntered] }
   );
 
   // ── IDLE PARALLAX ── Subtle viewport-driven mouse follow on the

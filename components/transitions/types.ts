@@ -63,4 +63,5 @@ export interface TransitionContextValue {
   triggerTransition: (args: TriggerTransitionArgs) => void;
   markPageReady: (path: string) => void;
   isPageReady: boolean;
+  hasEntered: boolean;
 }
