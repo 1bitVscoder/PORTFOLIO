@@ -1,7 +1,6 @@
 
 
 import { Ledger } from "@/components/sections/case-study/Ledger";
-import { Contact } from "@/components/sections/Contact";
 import { AboutPageHeroEcho } from "./Echo";
 import { AboutPageIntro } from "./Intro";
 import { AboutPageExperience } from "./Experience";
@@ -29,7 +28,6 @@ export function AboutPageView() {
       <AboutPageContributions />
       <AboutPageLeetCodeStats />
       <AboutPageCredentials />
-      <Contact />
     </main>
   );
 }
