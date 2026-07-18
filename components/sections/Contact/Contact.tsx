@@ -114,13 +114,13 @@ export function Contact() {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: panel,
-        start: 'top 85%',
         // Last section. The scrubbed reveal is spread across this whole pin
         // distance, and pinSpacing adds it to the document, so an over-long pin
         // means the page keeps scrolling on a fully-revealed panel before it
-        // ends. 100% (≈1 screen) reveals all four rows + submit at a brisk,
+        // ends. 150% (≈1.5 screens) reveals all four rows + submit at a brisk,
         // legible pace and lets the page bottom out right as the form completes.
-        end: '+=100%',
+        // Tunable — raise for a slower reveal, lower for a tighter ending.
+        end: '+=150%',
         pin: panel,
         pinSpacing: true,
         scrub: 1,
@@ -179,30 +179,9 @@ export function Contact() {
       tl.to(submit, { opacity: 1, y: 0, duration: TIMING.SUBMIT_DURATION }, rows.length);
     }
 
-    // Fail-safe: IntersectionObserver observes real browser viewport geometry.
-    // If ScrollTrigger scrub is interrupted or pin spacing differs on cold load,
-    // IntersectionObserver guarantees the contact form reveals smoothly when scrolled into view.
-    let io: IntersectionObserver | null = null;
-    if (typeof IntersectionObserver !== "undefined") {
-      io = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              gsap.to(chars, { opacity: 1, duration: 0.4, overwrite: "auto" });
-              gsap.to(revealItems, { opacity: 1, y: 0, duration: 0.4, overwrite: "auto" });
-              gsap.to(inputBorders, { width: "100%", duration: 0.5, overwrite: "auto" });
-              if (submit) gsap.to(submit, { opacity: 1, y: 0, duration: 0.4, overwrite: "auto" });
-            }
-          });
-        },
-        { rootMargin: "0px 0px -5% 0px", threshold: 0 }
-      );
-      io.observe(panel);
-    }
-
-    return () => {
-      if (io) io.disconnect();
-    };
+    // No explicit cleanup — useGSAP's scope handles timeline.kill() (which
+    // internally kills attached ScrollTriggers) and reverts pin layout on
+    // unmount/Fast Refresh.
   }, { scope: sectionRef, dependencies: [reducedMotion] });
 
   function handleSubmit(e: FormEvent) {
