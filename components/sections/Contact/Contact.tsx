@@ -179,9 +179,33 @@ export function Contact() {
       tl.to(submit, { opacity: 1, y: 0, duration: TIMING.SUBMIT_DURATION }, rows.length);
     }
 
-    // No explicit cleanup — useGSAP's scope handles timeline.kill() (which
-    // internally kills attached ScrollTriggers) and reverts pin layout on
-    // unmount/Fast Refresh.
+    // Fail-safe: IntersectionObserver observes real browser viewport geometry.
+    // If ScrollTrigger cached a stale position or pin spacer offset, IntersectionObserver
+    // guarantees that when the panel physically enters the viewport, elements are revealed
+    // so the contact form is never trapped hidden at opacity: 0.
+    let io: IntersectionObserver | null = null;
+    if (typeof IntersectionObserver !== "undefined") {
+      io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              if (tl.progress() < 0.1) {
+                gsap.to(chars, { opacity: 1, duration: 0.4 });
+                gsap.to(revealItems, { opacity: 1, y: 0, duration: 0.4, stagger: 0.05 });
+                gsap.to(inputBorders, { width: "100%", duration: 0.5 });
+                if (submit) gsap.to(submit, { opacity: 1, y: 0, duration: 0.4 });
+              }
+            }
+          });
+        },
+        { rootMargin: "0px 0px -5% 0px", threshold: 0 }
+      );
+      io.observe(panel);
+    }
+
+    return () => {
+      if (io) io.disconnect();
+    };
   }, { scope: sectionRef, dependencies: [reducedMotion] });
 
   function handleSubmit(e: FormEvent) {
