@@ -399,9 +399,7 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener('popstate', onPopState);
   }, [pathname]);
 
-  const hasEntered =
-    state.kind === 'idle' ||
-    (state.kind === 'pending' && normalizePath(pathname ?? '/') === state.target && isPageReady);
+  const hasEntered = state.kind === 'idle';
 
   const value = useMemo<InternalContextValue>(
     () => ({
