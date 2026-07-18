@@ -421,7 +421,7 @@
 
 .submit:hover .submitArrow,
 .submit:focus-visible .submitArrow {
-    transform: translate(2px, -2px);
+    transform: translate(10px, -10px);
 }
 
 .submit:focus-visible {
