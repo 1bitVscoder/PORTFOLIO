@@ -109,6 +109,12 @@ export function useWordLineReveal(
             onEnter: () => tl?.play(),
           });
 
+          // If the element is ALREADY in view or past `start` when async font setup completes,
+          // `onEnter` won't fire. Play the timeline immediately so words are never stuck hidden.
+          if (trigger.progress > 0 || trigger.isActive) {
+            tl?.play();
+          }
+
           // The async font load shifted layout after other triggers cached
           // their positions; re-measure start/end against the new layout.
           ScrollTrigger.refresh();

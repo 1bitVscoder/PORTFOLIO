@@ -47,7 +47,7 @@ export function AboutPageLeetCodeStats() {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top 85%",
-          toggleActions: "play none none none",
+          once: true,
         }
       }
     );
@@ -66,7 +66,7 @@ export function AboutPageLeetCodeStats() {
           scrollTrigger: {
             trigger: sectionRef.current,
             start: "top 85%",
-            toggleActions: "play none none none",
+            once: true,
           }
         }
       );
@@ -88,7 +88,7 @@ export function AboutPageLeetCodeStats() {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top 85%",
-          toggleActions: "play none none none",
+          once: true,
         }
       }
     );
@@ -113,7 +113,7 @@ export function AboutPageLeetCodeStats() {
       scrollTrigger: {
         trigger: sectionRef.current,
         start: "top 85%",
-        toggleActions: "play none none none",
+        once: true,
       },
       onUpdate: () => {
         const solvedEl = sectionRef.current?.querySelector(`.${styles.radialNumber}`);
