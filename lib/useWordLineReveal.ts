@@ -6,6 +6,7 @@ import {
   groupWordsByLine,
   type SplitResult,
 } from "@/lib/splitTextIntoWords";
+import { useTransition } from "@/components/transitions";
 import staggerStyles from "./staggerText.module.css";
 
 // Default word/line reveal tuning (overridable via RevealOptions).
@@ -41,8 +42,11 @@ export function useWordLineReveal(
     exclude,
   } = options;
 
+  const { hasEntered } = useTransition();
+
   useGSAP(
     () => {
+      if (!hasEntered) return;
       const root = target.current;
       if (!root) return;
 
@@ -53,7 +57,6 @@ export function useWordLineReveal(
         let tl: gsap.core.Timeline | null = null;
         let trigger: ScrollTrigger | null = null;
         let resizeObserver: ResizeObserver | null = null;
-        let io: IntersectionObserver | null = null;
         let cancelled = false;
 
         const buildTimeline = () => {
@@ -129,25 +132,6 @@ export function useWordLineReveal(
           // their positions; re-measure start/end against the new layout.
           ScrollTrigger.refresh();
 
-          // Fail-safe: IntersectionObserver observes real browser viewport geometry.
-          // If ScrollTrigger cached a stale position (e.g. during cold load while pinned
-          // hero sections settle), IntersectionObserver guarantees tl.play() runs
-          // as soon as the element physically enters the viewport.
-          if (typeof IntersectionObserver !== "undefined") {
-            io = new IntersectionObserver(
-              (entries) => {
-                entries.forEach((entry) => {
-                  if (entry.isIntersecting) {
-                    if (tl) tl.play();
-                    io?.disconnect();
-                  }
-                });
-              },
-              { rootMargin: "0px 0px -10% 0px", threshold: 0 }
-            );
-            io.observe(root);
-          }
-
           // Recompute groups on resize. ResizeObserver fires for every
           // layout change of the root — exactly when wrap behaviour can
           // shift. Wrapped in rAF so we read after the new layout settles.
@@ -171,7 +155,6 @@ export function useWordLineReveal(
 
         return () => {
           cancelled = true;
-          if (io) io.disconnect();
           if (resizeObserver) resizeObserver.disconnect();
           if (trigger) trigger.kill();
           if (tl) tl.kill();
@@ -189,6 +172,9 @@ export function useWordLineReveal(
         mm.revert();
       };
     },
-    scope ? { scope } : { scope: target }
+    scope
+      ? { scope, dependencies: [hasEntered] }
+      : { scope: target, dependencies: [hasEntered] }
   );
 }
+

@@ -6,6 +6,7 @@ import { gsap } from "@/lib/gsap";
 import { leetcodeStats } from "@/data";
 import { SectionLabel } from "@/components/sections/case-study/SectionLabel";
 import { useReducedMotion } from "@/lib/useReducedMotion";
+import { useTransition } from "@/components/transitions";
 import { playSweep } from "@/lib/audio";
 import styles from "./LeetCodeStats.module.css";
 
@@ -26,6 +27,7 @@ export function AboutPageLeetCodeStats() {
 
   const sectionRef = useRef<HTMLElement>(null);
   const reducedMotion = useReducedMotion();
+  const { hasEntered } = useTransition();
 
   // Math for SVG circle path
   const solvedPercent = (totalSolved / totalQuestions) * 100;
@@ -34,6 +36,7 @@ export function AboutPageLeetCodeStats() {
   const strokeDashoffset = circumference - (solvedPercent / 100) * circumference;
 
   useGSAP(() => {
+    if (!hasEntered) return;
     if (!sectionRef.current) return;
 
     // 1. Animate radial progress ring
@@ -143,27 +146,6 @@ export function AboutPageLeetCodeStats() {
       }
     });
 
-    // Fail-safe: IntersectionObserver guarantees cards fade in if ScrollTrigger misses due to layout shifts
-    const cardsToReveal = [
-      sectionRef.current.querySelector<HTMLElement>(`.${styles.cardMain}`),
-      sectionRef.current.querySelector<HTMLElement>(`.${styles.cardBars}`)
-    ].filter((c): c is HTMLElement => !!c);
-
-    let io: IntersectionObserver | null = null;
-    if (typeof IntersectionObserver !== "undefined" && cardsToReveal.length) {
-      io = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              gsap.to(cardsToReveal, { opacity: 1, y: 0, duration: 0.8, stagger: 0.15, ease: "power2.out" });
-              io?.disconnect();
-            }
-          });
-        },
-        { rootMargin: "0px 0px -10% 0px", threshold: 0 }
-      );
-      io.observe(sectionRef.current);
-    }
 
     // 5. 3D Tilt Hover effect on cardMain and cardBars
     const listeners: { element: HTMLElement; type: string; fn: EventListenerOrEventListenerObject }[] = [];
@@ -229,12 +211,11 @@ export function AboutPageLeetCodeStats() {
     }
 
     return () => {
-      if (io) io.disconnect();
       listeners.forEach(({ element, type, fn }) => {
         element.removeEventListener(type, fn);
       });
     };
-  }, { scope: sectionRef, dependencies: [reducedMotion] });
+  }, { scope: sectionRef, dependencies: [reducedMotion, hasEntered] });
 
   return (
     <section

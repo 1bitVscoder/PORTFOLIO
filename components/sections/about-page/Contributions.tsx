@@ -18,6 +18,7 @@ import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { useReducedMotion } from "@/lib/useReducedMotion";
+import { useTransition } from "@/components/transitions";
 import { githubContributions, navigation } from "@/data";
 import { SectionLabel } from "@/components/sections/case-study/SectionLabel";
 import { playSweep } from "@/lib/audio";
@@ -67,6 +68,7 @@ export function AboutPageContributions() {
   const totalLabel = total.toLocaleString("en-US");
 
   const sectionRef = useRef<HTMLElement>(null);
+  const { hasEntered } = useTransition();
 
   const cols = weeks.length;
   const width = cols * STEP - GAP;
@@ -75,7 +77,7 @@ export function AboutPageContributions() {
   useGSAP(
     () => {
       const section = sectionRef.current;
-      if (!section || reduced) return;
+      if (!section || reduced || !hasEntered) return;
 
       const segs = gsap.utils.toArray<SVGRectElement>("[data-seg]", section);
       const cells = gsap.utils.toArray<SVGRectElement>("[data-cell]", section);
@@ -252,29 +254,7 @@ export function AboutPageContributions() {
         },
       });
 
-      // Fail-safe: IntersectionObserver observes real browser viewport geometry.
-      // If ScrollTrigger cached a stale position (e.g. during cold load while pinned
-      // hero sections settle), IntersectionObserver guarantees snake animation runs
-      // as soon as the section physically enters the viewport.
-      let io: IntersectionObserver | null = null;
-      if (typeof IntersectionObserver !== "undefined") {
-        io = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                if (!running) {
-                  running = true;
-                  runCycle();
-                }
-              } else {
-                stop();
-              }
-            });
-          },
-          { rootMargin: "0px 0px -10% 0px", threshold: 0 }
-        );
-        io.observe(section);
-      }
+
 
       // 3D Tilt Hover effect on the grid wrap container
       const gridWrap = section.querySelector<HTMLElement>(`.${styles.gridWrap}`);
@@ -334,7 +314,6 @@ export function AboutPageContributions() {
       }
 
       return () => {
-        if (io) io.disconnect();
         trigger.kill();
         if (tl) tl.kill();
         if (pending) pending.kill();
@@ -343,7 +322,7 @@ export function AboutPageContributions() {
         });
       };
     },
-    { scope: sectionRef, dependencies: [reduced] },
+    { scope: sectionRef, dependencies: [reduced, hasEntered] },
   );
 
   return (

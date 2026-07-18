@@ -1,6 +1,7 @@
 import { useGSAP } from "@gsap/react";
 import { type RefObject } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { useTransition } from "@/components/transitions";
 
 // Default block-fade tuning (overridable per-group via BlockFadeGroup).
 const FADE_Y = 24;
@@ -25,8 +26,11 @@ export function useBlockFadeIn(
   scopeRef: RefObject<HTMLElement | null>,
   { start = FADE_START, groups }: UseBlockFadeInOptions
 ) {
+  const { hasEntered } = useTransition();
+
   useGSAP(
     () => {
+      if (!hasEntered) return;
       const section = scopeRef.current;
       if (!section) return;
 
@@ -85,25 +89,7 @@ export function useBlockFadeIn(
           playFadeIn();
         }
 
-        // Fail-safe: IntersectionObserver observes real browser viewport geometry.
-        // If ScrollTrigger cached a stale position (e.g. during cold load while pinned
-        // hero sections settle), IntersectionObserver guarantees playFadeIn() runs
-        // as soon as the section physically enters the viewport.
-        const io = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                playFadeIn();
-                io.disconnect();
-              }
-            });
-          },
-          { rootMargin: "0px 0px -10% 0px", threshold: 0 }
-        );
-        io.observe(section);
-
         return () => {
-          io.disconnect();
           trigger.kill();
           activeTweens.forEach((t) => t.kill());
           const allEls = resolved.flatMap((g) => g.els);
@@ -117,6 +103,6 @@ export function useBlockFadeIn(
         mm.revert();
       };
     },
-    { scope: scopeRef }
+    { scope: scopeRef, dependencies: [hasEntered] }
   );
 }
