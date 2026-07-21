@@ -223,7 +223,7 @@
 .footer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   flex-wrap: wrap;
   gap: 16px;
   margin-top: clamp(20px, 3vh, 32px);

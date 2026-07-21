@@ -324,7 +324,6 @@ export function AboutPageLeetCodeStats() {
         </div>
 
         <div className={styles.footer}>
-          <span className={styles.legend}>Data synced automatically</span>
           <a
             href={`https://leetcode.com/u/${username}`}
             target="_blank"
