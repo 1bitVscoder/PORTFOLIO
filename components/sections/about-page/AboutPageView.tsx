@@ -9,6 +9,8 @@ import { AboutPageContributions } from "./Contributions";
 import { AboutPageLeetCodeStats } from "./LeetCodeStats";
 import { AboutPageCredentials } from "./Credentials";
 
+import { Footer } from "@/components/layout/Footer";
+
 const VITALS = [
   { label: "Status", primary: "Full time", secondary: "Builds independently" },
   { label: "Discipline", primary: "Full Stack", secondary: "Interface to infrastructure" },
@@ -28,6 +30,7 @@ export function AboutPageView() {
       <AboutPageContributions />
       <AboutPageLeetCodeStats />
       <AboutPageCredentials />
+      <Footer />
     </main>
   );
 }
