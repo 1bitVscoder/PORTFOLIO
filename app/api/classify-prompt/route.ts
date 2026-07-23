@@ -59,7 +59,10 @@ Output only the raw JSON. Do not include markdown block markers like \`\`\`json 
     if (!success) {
       try {
         const proxyBase = (process.env.OPENAI_API_BASE || 'https://my-freellmapi-proxy.onrender.com/v1').replace(/\/$/, '');
-        const proxyKey = process.env.OPENAI_API_KEY || 'freellmapi-14d91a0aefa1116e137183b061b0d29df743a98815abcfbe';
+        const proxyKey = process.env.OPENAI_API_KEY;
+        if (!proxyKey) {
+          throw new Error('Proxy API key not configured in environment variables');
+        }
         
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 2000); // 2s timeout to avoid Vercel 504 timeouts if proxy is cold

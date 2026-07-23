@@ -199,11 +199,11 @@ export function AiVisualizer() {
   };
 
   // Triggers API Call via Server Proxy
-  const fetchModelResponse = async (model: string, prompt: string, instruction: string): Promise<string> => {
+  const fetchModelResponse = async (model: string, prompt: string, isLordArtificer: boolean): Promise<string> => {
     const response = await fetch('/api/route-prompt', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt, model, systemInstruction: instruction })
+      body: JSON.stringify({ prompt, model, isLordArtificer })
     });
 
     if (!response.ok) {
@@ -429,7 +429,7 @@ pub fn sort() { ... }
     try {
       await addLogDeferred(`[API] Establishing secure stream to Gemini network...`, 100);
       await addLogDeferred(`[API] Handshake successful. Initiating secure session...`, 100);
-      rawResponse = await fetchModelResponse(modelName, processedQuery, systemInstruction);
+      rawResponse = await fetchModelResponse(modelName, processedQuery, isLordArtificer);
     } catch (e) {
       const errMsg = e instanceof Error ? e.message : 'Gemini API call failed.';
       await addLogDeferred(`[API_ERROR] ${errMsg}`, 100);
